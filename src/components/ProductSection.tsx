@@ -338,7 +338,7 @@ const ProductSection = () => {
                   <CurrentPrice>{product.price.toLocaleString()} ₽</CurrentPrice>
                 </ProductPricing>
                 <AddToCartButton type="primary" icon={<ShoppingCartOutlined />}>
-                  В корзину
+                  Хочу!
                 </AddToCartButton>
               </ProductInfo>
             </ProductCard>
@@ -363,7 +363,7 @@ const ProductSection = () => {
             <ProductPricing>
               <CurrentPrice>{product.price.toLocaleString()} ₽</CurrentPrice>
             </ProductPricing>
-            <AddToCartButton type="primary" icon={<ShoppingCartOutlined />}>В корзину</AddToCartButton>
+            <AddToCartButton type="primary">Хочу!</AddToCartButton>
           </ProductInfo>
         </ProductCard>
       ))}</ProductsGrid>,
@@ -387,7 +387,7 @@ const ProductSection = () => {
               <OldPrice>{product.oldPrice?.toLocaleString()} ₽</OldPrice>
               <CurrentPrice>{product.price.toLocaleString()} ₽</CurrentPrice>
             </ProductPricing>
-            <AddToCartButton type="primary" icon={<ShoppingCartOutlined />}>В корзину</AddToCartButton>
+            <AddToCartButton type="primary">Хочу!</AddToCartButton>
           </ProductInfo>
         </ProductCard>
       ))}</ProductsGrid>,

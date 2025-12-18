@@ -54,7 +54,6 @@ const ProductImageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 500px;
   position: relative;
 `;
 
@@ -474,7 +473,7 @@ const WineDetailPage = () => {
                 items={[
                   { title: <Link to="/">Главная</Link> },
                   { title: <Link to="/wines">Каталог</Link> },
-                  { title: product.name },
+                  { title: '...' },
                 ]}
               />
             </BreadcrumbWrapper>
@@ -484,7 +483,7 @@ const WineDetailPage = () => {
                 <ProductImageWrapper>
                   {product.badge && (
                     <ProductBadge $type={product.badge}>
-                      {product.badge === 'discount' ? '-17%' : product.badge === 'new' ? 'Новинка' : 'Топ'}
+                      {'Топ'}
                     </ProductBadge>
                   )}
                   <ActionButtons>
@@ -505,39 +504,11 @@ const WineDetailPage = () => {
                 
                 <RatingSection>
                   <Rate disabled defaultValue={product.rating} allowHalf />
-                  <RatingText>{product.rating} ({product.reviews} отзывов)</RatingText>
                 </RatingSection>
-
-                <PricingSection>
-                  {product.oldPrice && <OldPrice>{product.oldPrice.toLocaleString()} ₽</OldPrice>}
-                  <CurrentPrice>{product.price.toLocaleString()} ₽</CurrentPrice>
-                  {product.oldPrice && (
-                    <DiscountBadge>
-                      -{Math.round((1 - product.price / product.oldPrice) * 100)}%
-                    </DiscountBadge>
-                  )}
-                </PricingSection>
-
-                <QuantitySection>
-                  <QuantityLabel>Количество:</QuantityLabel>
-                  <QuantityControls>
-                    <QuantityButton onClick={() => setQuantity(Math.max(1, quantity - 1))}>
-                      <MinusOutlined />
-                    </QuantityButton>
-                    <QuantityInput 
-                      type="number" 
-                      value={quantity} 
-                      onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                    />
-                    <QuantityButton onClick={() => setQuantity(quantity + 1)}>
-                      <PlusOutlined />
-                    </QuantityButton>
-                  </QuantityControls>
-                </QuantitySection>
 
                 <ButtonsSection>
                   <AddToCartButton type="primary" icon={<ShoppingCartOutlined />}>
-                    Добавить в корзину
+                    Хочу!
                   </AddToCartButton>
                   <FavoriteButton icon={<HeartOutlined />} />
                 </ButtonsSection>

@@ -234,23 +234,7 @@ const AddToCartButton = styled(Button)`
 `;
 
 const categoryNames: Record<string, string> = {
-  'white-wine': 'Белое вино',
-  'red-wine': 'Красное вино',
-  'champagne': 'Шампанское и игристое',
-  'whisky': 'Виски',
-  'cognac': 'Коньяк',
-  'wine': 'Вино',
-  'spirits': 'Крепкие напитки',
-  'water': 'Вода',
-  'glasses': 'Бокалы',
-  'accessories': 'Аксессуары',
-  'rare': 'Fine & Rare',
-  'gift': 'В подарок',
-  'sale': 'Акции',
-  'top-rating': 'Топ рейтинг',
-  'onegin': 'Онегин',
-  'russian-wine': 'Большое Русское Вино',
-  'certificates': 'Подарочные сертификаты',
+  'white-wine': 'Коллекция вин',
 };
 
 const WinesPage = () => {
@@ -288,7 +272,7 @@ const WinesPage = () => {
               <Breadcrumb
                 items={[
                   { title: <Link to="/">Главная</Link> },
-                  { title: categoryTitle },
+                  { title: 'Коллекция вин' },
                 ]}
               />
             </BreadcrumbWrapper>
@@ -296,22 +280,8 @@ const WinesPage = () => {
             <PageHeader>
               <div>
                 <PageTitle>{categoryTitle}</PageTitle>
-                <ResultsCount>{allProducts.length} товаров</ResultsCount>
+                <ResultsCount>{allProducts.length} позиций</ResultsCount>
               </div>
-              
-              <FiltersRow>
-                <FilterButton icon={<FilterOutlined />}>Фильтры</FilterButton>
-                <SortSelect
-                  defaultValue="popular"
-                  options={[
-                    { value: 'popular', label: 'По популярности' },
-                    { value: 'price-asc', label: 'Сначала дешевле' },
-                    { value: 'price-desc', label: 'Сначала дороже' },
-                    { value: 'rating', label: 'По рейтингу' },
-                    { value: 'new', label: 'Новинки' },
-                  ]}
-                />
-              </FiltersRow>
             </PageHeader>
 
             <ProductsGrid>
@@ -333,14 +303,13 @@ const WinesPage = () => {
                     <ProductMeta>{product.region} • {product.volume}</ProductMeta>
                     <ProductRating>
                       <Rate disabled defaultValue={product.rating} allowHalf />
-                      <RatingScore>{product.rating} ({product.reviews})</RatingScore>
                     </ProductRating>
                     <ProductPricing>
                       {product.oldPrice && <OldPrice>{product.oldPrice.toLocaleString()} ₽</OldPrice>}
                       <CurrentPrice>{product.price.toLocaleString()} ₽</CurrentPrice>
                     </ProductPricing>
                     <AddToCartButton type="primary" icon={<ShoppingCartOutlined />} onClick={handleAddToCart}>
-                      В корзину
+                      Хочу!
                     </AddToCartButton>
                   </ProductInfo>
                 </ProductCard>

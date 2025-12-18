@@ -24,12 +24,10 @@ const Index = () => {
       }}
     >
       <PageWrapper>
-        <AgeVerificationModal />
+        {/*<AgeVerificationModal />*/}
         <Header />
         <main>
           <HeroCarousel />
-          <Categories />
-          <ProductSection />
         </main>
         <Footer />
       </PageWrapper>

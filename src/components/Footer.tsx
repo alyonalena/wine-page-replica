@@ -186,62 +186,7 @@ const Footer = () => {
   return (
     <FooterWrapper>
       <FooterContainer>
-        <FooterGrid>
-          <FooterColumn>
-            <FooterLogo>
-              simple<span>wine</span>
-            </FooterLogo>
-            <FooterText>
-              Крупнейшая сеть винотек премиум-класса в России. Более 10 000 наименований вин и крепких напитков.
-            </FooterText>
-            <ContactItem>
-              <PhoneOutlined />
-              <span>8 (800) 555-77-99</span>
-            </ContactItem>
-            <ContactItem>
-              <MailOutlined />
-              <span>info@simplewine.ru</span>
-            </ContactItem>
-            <ContactItem>
-              <EnvironmentOutlined />
-              <span>Москва, 50+ винотек</span>
-            </ContactItem>
-          </FooterColumn>
-          
-          <FooterColumn>
-            <FooterTitle>Каталог</FooterTitle>
-            <FooterLinks>
-              <FooterLink><a href="#">Вино</a></FooterLink>
-              <FooterLink><a href="#">Шампанское</a></FooterLink>
-              <FooterLink><a href="#">Виски</a></FooterLink>
-              <FooterLink><a href="#">Коньяк</a></FooterLink>
-              <FooterLink><a href="#">Крепкие напитки</a></FooterLink>
-              <FooterLink><a href="#">Аксессуары</a></FooterLink>
-            </FooterLinks>
-          </FooterColumn>
-          
-          <FooterColumn>
-            <FooterTitle>Покупателям</FooterTitle>
-            <FooterLinks>
-              <FooterLink><a href="#">Доставка и оплата</a></FooterLink>
-              <FooterLink><a href="#">Бонусная программа</a></FooterLink>
-              <FooterLink><a href="#">Подарочные сертификаты</a></FooterLink>
-              <FooterLink><a href="#">Акции и скидки</a></FooterLink>
-              <FooterLink><a href="#">Адреса винотек</a></FooterLink>
-            </FooterLinks>
-          </FooterColumn>
-          
-          <FooterColumn>
-            <FooterTitle>Компания</FooterTitle>
-            <FooterLinks>
-              <FooterLink><a href="#">О нас</a></FooterLink>
-              <FooterLink><a href="#">Блог</a></FooterLink>
-              <FooterLink><a href="#">Дегустации</a></FooterLink>
-              <FooterLink><a href="#">Корпоративным клиентам</a></FooterLink>
-              <FooterLink><a href="#">Контакты</a></FooterLink>
-            </FooterLinks>
-          </FooterColumn>
-          
+        <FooterGrid>   
           <FooterColumn>
             <FooterTitle>Подписка на новости</FooterTitle>
             <FooterText>
@@ -253,14 +198,11 @@ const Footer = () => {
             </NewsletterForm>
             <SocialLinks>
               <SocialIcon href="#"><InstagramOutlined /></SocialIcon>
-              <SocialIcon href="#"><FacebookOutlined /></SocialIcon>
-              <SocialIcon href="#"><YoutubeOutlined /></SocialIcon>
             </SocialLinks>
           </FooterColumn>
         </FooterGrid>
         
         <FooterBottom>
-          <Copyright>© 2024 SimpleWine. Все права защищены.</Copyright>
           <FooterBottomLinks>
             <a href="#">Политика конфиденциальности</a>
             <a href="#">Пользовательское соглашение</a>

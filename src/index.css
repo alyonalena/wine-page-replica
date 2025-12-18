@@ -2,8 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* SimpleWine inspired design system */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Drugs';
+  src: url('/fonts/Drugs.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
 
 @layer base {
   :root {
@@ -79,25 +85,34 @@
 
 /* Ant Design theme overrides */
 .ant-btn-primary {
-  background-color: hsl(345, 76%, 32%) !important;
-  border-color: hsl(345, 76%, 32%) !important;
+  background-color: #E7014C !important;
+  border-color: #E7014C !important;
 }
 
 .ant-btn-primary:hover {
-  background-color: hsl(345, 76%, 28%) !important;
-  border-color: hsl(345, 76%, 28%) !important;
+  background-color: #E7014C !important;
+  border-color: #E7014C !important;
 }
 
 .ant-input:focus,
 .ant-input-focused {
-  border-color: hsl(345, 76%, 32%) !important;
+  border-color: #E7014C !important;
   box-shadow: 0 0 0 2px hsla(345, 76%, 32%, 0.1) !important;
 }
 
 .ant-carousel .slick-dots li.slick-active button {
-  background: hsl(345, 76%, 32%) !important;
+  background: #E7014C !important;
 }
 
 .ant-carousel .slick-dots li button {
   background: hsl(0, 0%, 80%) !important;
+}
+
+.ant-typography h3,
+.ant-typography h4,
+.ant-typography h5,
+.ant-typography h6,
+.ant-typography p,
+.ant-typography span {
+  font-family: 'Drugs', sans-serif !important;
 }

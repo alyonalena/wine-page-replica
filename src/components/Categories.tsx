@@ -96,7 +96,7 @@ const Categories = () => {
       <SectionTitle>Популярные категории</SectionTitle>
       <CategoriesGrid>
         {categories.map((category) => (
-          <CategoryCard key={category.name} to={`/wines?category=${category.slug}`}>
+          <CategoryCard key={category.name} to={`/wines?category=white-wine`}>
             <CategoryInfo>
               <CategoryName>{category.name}</CategoryName>
             </CategoryInfo>
