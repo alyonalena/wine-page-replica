@@ -1,13 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { ConfigProvider } from 'antd';
+import styled from 'styled-components';
+import Header from '../components/Header';
+import HeroCarousel from '../components/HeroCarousel';
+import Categories from '../components/Categories';
+import ProductSection from '../components/ProductSection';
+import Footer from '../components/Footer';
+import AgeVerificationModal from '../components/AgeVerificationModal';
+
+const PageWrapper = styled.div`
+  min-height: 100vh;
+  background: #ffffff;
+`;
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#8B1538',
+          borderRadius: 8,
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+        },
+      }}
+    >
+      <PageWrapper>
+        <AgeVerificationModal />
+        <Header />
+        <main>
+          <HeroCarousel />
+          <Categories />
+          <ProductSection />
+        </main>
+        <Footer />
+      </PageWrapper>
+    </ConfigProvider>
   );
 };
 
