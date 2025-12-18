@@ -1,10 +1,11 @@
-import { ConfigProvider, Breadcrumb, Select, Rate, Button, Badge } from 'antd';
+import { ConfigProvider, Breadcrumb, Select, Rate, Button } from 'antd';
 import { useSearchParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeartOutlined, ShoppingCartOutlined, FilterOutlined } from '@ant-design/icons';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { theme } from '../styles/theme';
+import { allProducts } from '../data/products';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -93,13 +94,15 @@ const ProductsGrid = styled.div`
   }
 `;
 
-const ProductCard = styled.div`
+const ProductCard = styled(Link)`
   background: ${theme.colors.background};
   border-radius: 12px;
   padding: 16px;
   transition: ${theme.transitions.default};
   position: relative;
   border: 1px solid ${theme.colors.border};
+  text-decoration: none;
+  display: block;
   
   &:hover {
     box-shadow: ${theme.shadows.cardHover};
@@ -255,138 +258,17 @@ const WinesPage = () => {
   const category = searchParams.get('category') || 'wine';
   const categoryTitle = categoryNames[category] || 'Каталог вин';
 
-  const products = [
-    {
-      id: 1,
-      name: 'Prosecco DOC Extra Dry Villa Sandi',
-      region: 'Венето, Италия',
-      volume: '0.75 л',
-      rating: 4.5,
-      reviews: 128,
-      price: 1890,
-      oldPrice: 2290,
-      badge: 'discount' as const,
-      emoji: '🍾',
-    },
-    {
-      id: 2,
-      name: 'Chianti Classico DOCG Castello Banfi',
-      region: 'Тоскана, Италия',
-      volume: '0.75 л',
-      rating: 4.8,
-      reviews: 256,
-      price: 3490,
-      badge: 'top' as const,
-      emoji: '🍷',
-    },
-    {
-      id: 3,
-      name: 'Champagne Brut Reserve Taittinger',
-      region: 'Шампань, Франция',
-      volume: '0.75 л',
-      rating: 4.9,
-      reviews: 89,
-      price: 6990,
-      emoji: '🥂',
-    },
-    {
-      id: 4,
-      name: 'Pinot Grigio DOC Santa Margherita',
-      region: 'Альто Адидже, Италия',
-      volume: '0.75 л',
-      rating: 4.6,
-      reviews: 167,
-      price: 2590,
-      oldPrice: 2990,
-      badge: 'discount' as const,
-      emoji: '🍾',
-    },
-    {
-      id: 5,
-      name: 'Amarone della Valpolicella Bertani',
-      region: 'Венето, Италия',
-      volume: '0.75 л',
-      rating: 4.7,
-      reviews: 45,
-      price: 8990,
-      badge: 'new' as const,
-      emoji: '🍷',
-    },
-    {
-      id: 6,
-      name: 'Sauvignon Blanc Cloudy Bay',
-      region: 'Мальборо, Новая Зеландия',
-      volume: '0.75 л',
-      rating: 4.5,
-      reviews: 203,
-      price: 4290,
-      emoji: '🍾',
-    },
-    {
-      id: 7,
-      name: 'Barolo DOCG Marchesi di Barolo',
-      region: 'Пьемонт, Италия',
-      volume: '0.75 л',
-      rating: 4.8,
-      reviews: 78,
-      price: 5990,
-      emoji: '🍷',
-    },
-    {
-      id: 8,
-      name: 'Moët & Chandon Impérial Brut',
-      region: 'Шампань, Франция',
-      volume: '0.75 л',
-      rating: 4.7,
-      reviews: 312,
-      price: 7490,
-      badge: 'top' as const,
-      emoji: '🥂',
-    },
-    {
-      id: 9,
-      name: 'Rioja Reserva Marqués de Riscal',
-      region: 'Риоха, Испания',
-      volume: '0.75 л',
-      rating: 4.6,
-      reviews: 156,
-      price: 3290,
-      oldPrice: 3890,
-      badge: 'discount' as const,
-      emoji: '🍷',
-    },
-    {
-      id: 10,
-      name: 'Chablis Premier Cru William Fèvre',
-      region: 'Бургундия, Франция',
-      volume: '0.75 л',
-      rating: 4.9,
-      reviews: 67,
-      price: 5490,
-      emoji: '🍾',
-    },
-    {
-      id: 11,
-      name: 'Gewürztraminer Grand Cru Trimbach',
-      region: 'Эльзас, Франция',
-      volume: '0.75 л',
-      rating: 4.6,
-      reviews: 42,
-      price: 4890,
-      emoji: '🍾',
-    },
-    {
-      id: 12,
-      name: 'Brunello di Montalcino Banfi',
-      region: 'Тоскана, Италия',
-      volume: '0.75 л',
-      rating: 4.8,
-      reviews: 189,
-      price: 7290,
-      badge: 'top' as const,
-      emoji: '🍷',
-    },
-  ];
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Add to cart logic
+  };
+
+  const handleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Favorite logic
+  };
 
   return (
     <ConfigProvider
@@ -414,7 +296,7 @@ const WinesPage = () => {
             <PageHeader>
               <div>
                 <PageTitle>{categoryTitle}</PageTitle>
-                <ResultsCount>{products.length} товаров</ResultsCount>
+                <ResultsCount>{allProducts.length} товаров</ResultsCount>
               </div>
               
               <FiltersRow>
@@ -433,14 +315,14 @@ const WinesPage = () => {
             </PageHeader>
 
             <ProductsGrid>
-              {products.map((product) => (
-                <ProductCard key={product.id}>
+              {allProducts.map((product) => (
+                <ProductCard key={product.id} to={`/wine/${product.id}`}>
                   {product.badge && (
                     <ProductBadge $type={product.badge}>
                       {product.badge === 'discount' ? '-17%' : product.badge === 'new' ? 'Новинка' : 'Топ'}
                     </ProductBadge>
                   )}
-                  <FavoriteButton>
+                  <FavoriteButton onClick={handleFavorite}>
                     <HeartOutlined />
                   </FavoriteButton>
                   <ProductImageWrapper>
@@ -457,7 +339,7 @@ const WinesPage = () => {
                       {product.oldPrice && <OldPrice>{product.oldPrice.toLocaleString()} ₽</OldPrice>}
                       <CurrentPrice>{product.price.toLocaleString()} ₽</CurrentPrice>
                     </ProductPricing>
-                    <AddToCartButton type="primary" icon={<ShoppingCartOutlined />}>
+                    <AddToCartButton type="primary" icon={<ShoppingCartOutlined />} onClick={handleAddToCart}>
                       В корзину
                     </AddToCartButton>
                   </ProductInfo>
