@@ -1,13 +1,15 @@
 import styled from 'styled-components';
-import { Input, Button, Badge, Dropdown } from 'antd';
+import { Button, Badge, Drawer } from 'antd';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  SearchOutlined,
   HeartOutlined,
   ShoppingCartOutlined,
   UserOutlined,
   MenuOutlined,
   EnvironmentOutlined,
   GiftOutlined,
+  CloseOutlined,
 } from '@ant-design/icons';
 import { theme } from '../styles/theme';
 
@@ -24,6 +26,10 @@ const TopBar = styled.div`
   padding: 8px 0;
   font-size: 13px;
   color: ${theme.colors.muted};
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    display: none;
+  }
 `;
 
 const TopBarContainer = styled.div`
@@ -67,24 +73,31 @@ const MainHeader = styled.div`
   padding: 16px 20px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 24px;
 `;
 
-const Logo = styled.div`
+const LeftSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+
+const Logo = styled(Link)`
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 24px;
   font-weight: 700;
   color: ${theme.colors.primary};
-  cursor: pointer;
+  text-decoration: none;
   
   span {
     color: ${theme.colors.foreground};
   }
 `;
 
-const CatalogButton = styled(Button)`
+const MenuButton = styled(Button)`
   height: 44px;
   padding: 0 20px;
   background: ${theme.colors.lightBg} !important;
@@ -96,28 +109,6 @@ const CatalogButton = styled(Button)`
   
   &:hover {
     background: ${theme.colors.border} !important;
-  }
-`;
-
-const SearchWrapper = styled.div`
-  flex: 1;
-  max-width: 500px;
-  
-  .ant-input-group-wrapper {
-    .ant-input {
-      height: 44px;
-      border-radius: 8px 0 0 8px;
-      border-color: ${theme.colors.border};
-    }
-    
-    .ant-input-group-addon {
-      .ant-btn {
-        height: 44px;
-        border-radius: 0 8px 8px 0;
-        background: ${theme.colors.primary} !important;
-        border-color: ${theme.colors.primary} !important;
-      }
-    }
   }
 `;
 
@@ -143,6 +134,12 @@ const ActionItem = styled.div`
   &:hover {
     color: ${theme.colors.primary};
   }
+  
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    span {
+      display: none;
+    }
+  }
 `;
 
 const Navigation = styled.nav`
@@ -150,6 +147,10 @@ const Navigation = styled.nav`
   margin: 0 auto;
   padding: 0 20px;
   border-top: 1px solid ${theme.colors.border};
+  
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    display: none;
+  }
 `;
 
 const NavList = styled.ul`
@@ -208,21 +209,94 @@ const GiftBadge = styled.span`
   margin-left: 6px;
 `;
 
+const DrawerContent = styled.div`
+  padding: 0;
+`;
+
+const DrawerHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid ${theme.colors.border};
+`;
+
+const DrawerLogo = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+  color: ${theme.colors.primary};
+  
+  span {
+    color: ${theme.colors.foreground};
+  }
+`;
+
+const CloseButton = styled(Button)`
+  border: none;
+  box-shadow: none;
+`;
+
+const DrawerNav = styled.nav`
+  padding: 16px 0;
+`;
+
+const DrawerNavItem = styled(Link)<{ $isSpecial?: boolean }>`
+  display: block;
+  padding: 14px 24px;
+  color: ${props => props.$isSpecial ? theme.colors.accent : theme.colors.foreground};
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: ${theme.transitions.default};
+  
+  &:hover {
+    background: ${theme.colors.lightBg};
+    color: ${theme.colors.primary};
+  }
+`;
+
+const DrawerSection = styled.div`
+  padding: 16px 24px;
+  border-top: 1px solid ${theme.colors.border};
+`;
+
+const DrawerSectionTitle = styled.h4`
+  font-size: 12px;
+  text-transform: uppercase;
+  color: ${theme.colors.muted};
+  margin: 0 0 12px;
+  letter-spacing: 0.5px;
+`;
+
+const DrawerLink = styled.a`
+  display: block;
+  padding: 8px 0;
+  color: ${theme.colors.foreground};
+  text-decoration: none;
+  font-size: 14px;
+  
+  &:hover {
+    color: ${theme.colors.primary};
+  }
+`;
+
 const Header = () => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const navItems = [
-    { label: 'В подарок', href: '#', badge: true },
-    { label: 'Вино', href: '#' },
-    { label: 'Шампанское и игристое', href: '#' },
-    { label: 'Виски', href: '#' },
-    { label: 'Коньяк', href: '#' },
-    { label: 'Крепкие напитки', href: '#' },
-    { label: 'Вода', href: '#' },
-    { label: 'Бокалы', href: '#' },
-    { label: 'Аксессуары', href: '#' },
-    { label: 'Fine & Rare', href: '#' },
+    { label: 'В подарок', href: '/wines?category=gift', badge: true },
+    { label: 'Вино', href: '/wines?category=wine' },
+    { label: 'Шампанское и игристое', href: '/wines?category=champagne' },
+    { label: 'Виски', href: '/wines?category=whisky' },
+    { label: 'Коньяк', href: '/wines?category=cognac' },
+    { label: 'Крепкие напитки', href: '/wines?category=spirits' },
+    { label: 'Вода', href: '/wines?category=water' },
+    { label: 'Бокалы', href: '/wines?category=glasses' },
+    { label: 'Аксессуары', href: '/wines?category=accessories' },
+    { label: 'Fine & Rare', href: '/wines?category=rare' },
     { label: 'Блог', href: '#' },
     { label: 'Дегустации', href: '#' },
-    { label: 'Акции %', href: '#', isSpecial: true },
+    { label: 'Акции %', href: '/wines?category=sale', isSpecial: true },
   ];
 
   return (
@@ -248,22 +322,16 @@ const Header = () => {
       </TopBar>
       
       <MainHeader>
-        <Logo>
-          simple<span>wine</span>
-        </Logo>
-        
-        <CatalogButton>
-          <MenuOutlined />
-          КАТАЛОГ
-        </CatalogButton>
-        
-        <SearchWrapper>
-          <Input.Search
-            placeholder="подарочный сертификат"
-            enterButton={<SearchOutlined />}
-            size="large"
-          />
-        </SearchWrapper>
+        <LeftSection>
+          <Logo to="/">
+            simple<span>wine</span>
+          </Logo>
+          
+          <MenuButton onClick={() => setDrawerOpen(true)}>
+            <MenuOutlined />
+            МЕНЮ
+          </MenuButton>
+        </LeftSection>
         
         <HeaderActions>
           <ActionItem>
@@ -291,14 +359,56 @@ const Header = () => {
         <NavList>
           {navItems.map((item) => (
             <NavItem key={item.label} $isSpecial={item.isSpecial}>
-              <a href={item.href}>
+              <Link to={item.href}>
                 {item.label}
                 {item.badge && <GiftBadge>●</GiftBadge>}
-              </a>
+              </Link>
             </NavItem>
           ))}
         </NavList>
       </Navigation>
+
+      <Drawer
+        placement="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        width={320}
+        closable={false}
+        styles={{ body: { padding: 0 } }}
+      >
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerLogo>simple<span>wine</span></DrawerLogo>
+            <CloseButton icon={<CloseOutlined />} onClick={() => setDrawerOpen(false)} />
+          </DrawerHeader>
+          
+          <DrawerNav>
+            {navItems.map((item) => (
+              <DrawerNavItem 
+                key={item.label} 
+                to={item.href} 
+                $isSpecial={item.isSpecial}
+                onClick={() => setDrawerOpen(false)}
+              >
+                {item.label}
+              </DrawerNavItem>
+            ))}
+          </DrawerNav>
+          
+          <DrawerSection>
+            <DrawerSectionTitle>Информация</DrawerSectionTitle>
+            <DrawerLink href="#">Доставка и оплата</DrawerLink>
+            <DrawerLink href="#">Адреса винотек</DrawerLink>
+            <DrawerLink href="#">Контакты</DrawerLink>
+          </DrawerSection>
+          
+          <DrawerSection>
+            <DrawerSectionTitle>Контакты</DrawerSectionTitle>
+            <DrawerLink href="tel:88005557799">8 (800) 555-77-99</DrawerLink>
+            <DrawerLink href="mailto:info@simplewine.ru">info@simplewine.ru</DrawerLink>
+          </DrawerSection>
+        </DrawerContent>
+      </Drawer>
     </HeaderWrapper>
   );
 };

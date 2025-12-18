@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { theme } from '../styles/theme';
 
 const CategoriesSection = styled.section`
@@ -32,7 +33,7 @@ const CategoriesGrid = styled.div`
   }
 `;
 
-const CategoryCard = styled.a`
+const CategoryCard = styled(Link)`
   display: flex;
   align-items: center;
   padding: 16px;
@@ -76,18 +77,18 @@ const CategoryImage = styled.div<{ $emoji: string }>`
 
 const Categories = () => {
   const categories = [
-    { name: 'Белое вино', emoji: '🍾', href: '#' },
-    { name: 'Красное вино', emoji: '🍷', href: '#' },
-    { name: 'Шампанское и игристое', emoji: '🥂', href: '#' },
-    { name: 'Топ рейтинг', emoji: '⭐', href: '#' },
-    { name: 'Онегин', emoji: '🏆', href: '#' },
-    { name: 'Бокалы', emoji: '🥃', href: '#' },
-    { name: 'В подарок', emoji: '🎁', href: '#' },
-    { name: 'Виски', emoji: '🥃', href: '#' },
-    { name: 'Коньяк', emoji: '🍸', href: '#' },
-    { name: 'Большое Русское Вино', emoji: '🇷🇺', href: '#' },
-    { name: 'Подарочные сертификаты', emoji: '💳', href: '#' },
-    { name: 'Блог', emoji: '📖', href: '#' },
+    { name: 'Белое вино', emoji: '🍾', slug: 'white-wine' },
+    { name: 'Красное вино', emoji: '🍷', slug: 'red-wine' },
+    { name: 'Шампанское и игристое', emoji: '🥂', slug: 'champagne' },
+    { name: 'Топ рейтинг', emoji: '⭐', slug: 'top-rating' },
+    { name: 'Онегин', emoji: '🏆', slug: 'onegin' },
+    { name: 'Бокалы', emoji: '🥃', slug: 'glasses' },
+    { name: 'В подарок', emoji: '🎁', slug: 'gift' },
+    { name: 'Виски', emoji: '🥃', slug: 'whisky' },
+    { name: 'Коньяк', emoji: '🍸', slug: 'cognac' },
+    { name: 'Большое Русское Вино', emoji: '🇷🇺', slug: 'russian-wine' },
+    { name: 'Подарочные сертификаты', emoji: '💳', slug: 'certificates' },
+    { name: 'Блог', emoji: '📖', slug: 'blog' },
   ];
 
   return (
@@ -95,7 +96,7 @@ const Categories = () => {
       <SectionTitle>Популярные категории</SectionTitle>
       <CategoriesGrid>
         {categories.map((category) => (
-          <CategoryCard key={category.name} href={category.href}>
+          <CategoryCard key={category.name} to={`/wines?category=${category.slug}`}>
             <CategoryInfo>
               <CategoryName>{category.name}</CategoryName>
             </CategoryInfo>
