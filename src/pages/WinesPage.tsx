@@ -240,7 +240,7 @@ const categoryNames: Record<string, string> = {
 const WinesPage = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get('category') || 'wine';
-  const categoryTitle = categoryNames[category] || 'Каталог вин';
+  const categoryTitle = categoryNames[category] || 'Коллекция вин';
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();

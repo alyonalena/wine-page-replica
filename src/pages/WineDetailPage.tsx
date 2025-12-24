@@ -404,7 +404,7 @@ const WineDetailPage = () => {
           <Header />
           <Container>
             <h1>Товар не найден</h1>
-            <Link to="/wines">Вернуться в каталог</Link>
+            <Link to="/wines">Перейти в коллекцию вин</Link>
           </Container>
           <Footer />
         </PageWrapper>

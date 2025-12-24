@@ -231,18 +231,22 @@ const Header = () => {
             </Badge>
             <span>Корзина</span>
           </ActionItem>
-          <ActionItem>
-            <UserOutlined />
-            <span>Войти</span>
-          </ActionItem>
+          <Link to="/profile" style={{ textDecoration: 'none' }}>
+            <ActionItem>
+              <UserOutlined />
+              <span>Профиль</span>
+            </ActionItem>
+          </Link>
         </HeaderActions>
         <Flex align={"center"} gap={16}>
-        <ActionItem>
-          <UserOutlined />
-        </ActionItem>
-        <ActionItem onClick={() => setDrawerOpen(true)}>
-          <MenuOutlined />
-        </ActionItem>
+          <Link to="/profile" style={{ textDecoration: 'none' }}>
+            <ActionItem>
+              <UserOutlined />
+            </ActionItem>
+          </Link>
+          <ActionItem onClick={() => setDrawerOpen(true)}>
+            <MenuOutlined />
+          </ActionItem>
         </Flex>
       </MainHeader>
       
