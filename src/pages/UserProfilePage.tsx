@@ -1,5 +1,6 @@
 import { ConfigProvider, Tabs, List, Avatar as AntAvatar, Tag } from 'antd';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { theme } from '../styles/theme';
@@ -14,6 +15,18 @@ const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px 48px;
+`;
+
+const BackLink = styled(Link)`
+  display: inline-block;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: ${theme.colors.muted};
+  text-decoration: none;
+
+  &:hover {
+    color: ${theme.colors.primary};
+  }
 `;
 
 const ProfileHeader = styled.div`
@@ -98,9 +111,9 @@ const UserProfilePage = () => {
     },
     {
       id: 2,
-      name: 'Italian Reds Masterclass',
+      name: 'Champagne Masterclass',
       date: '25 ноября 2024',
-      location: 'Москва, SimpleWine Академия',
+      location: 'Nappe',
       status: 'Посетил',
     },
   ];
@@ -128,7 +141,7 @@ const UserProfilePage = () => {
     },
     {
       key: 'events',
-      label: 'Мероприятия',
+      label: 'Дегустации',
       children: (
         <List
           itemLayout="horizontal"
@@ -166,6 +179,7 @@ const UserProfilePage = () => {
         <Header />
         <main>
           <Container>
+            <BackLink to="/">← На главную</BackLink>
             <ProfileHeader>
               <AvatarWrapper>
                 {user.initials}

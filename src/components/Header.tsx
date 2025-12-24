@@ -286,7 +286,7 @@ const Header = () => {
           <DrawerSection>
             <DrawerSectionTitle>Контакты</DrawerSectionTitle>
             <DrawerLink href="tel:88005557799">8 (800) 555-77-99</DrawerLink>
-            <DrawerLink href="mailto:info@simplewine.ru">info@simplewine.ru</DrawerLink>
+            <DrawerLink href="mailto:info@sxwine.ru">info@sxwine.ru</DrawerLink>
           </DrawerSection>
         </DrawerContent>
       </Drawer>
