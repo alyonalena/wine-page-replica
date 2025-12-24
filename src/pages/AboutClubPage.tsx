@@ -31,23 +31,6 @@ const BreadcrumbWrapper = styled.div`
     }
   }
 `
-
-const PageHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
-  gap: 16px;
-`
-
-const PageTitle = styled.h1`
-  font-size: 32px;
-  font-weight: 600;
-  margin: 0;
-  color: ${theme.colors.foreground};
-`
-
 const ProductsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -64,42 +47,6 @@ const ProductsGrid = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
   }
-`
-
-const ItemCard = styled.div`
-  background: ${theme.colors.primary};
-  border-radius: 12px;
-  padding: 16px 16px 24px;
-  transition: ${theme.transitions.default};
-  position: relative;
-  border: 1px solid ${theme.colors.border};
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  color: white;
-  &:hover {
-    box-shadow: ${theme.shadows.cardHover};
-    transform: translateY(-4px);
-    border-color: transparent;
-  }
-`
-
-const TeamImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-`
-
-const ImageWrapper = styled.div`
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
-  overflow-y: hidden;
-  border-radius: 8px;
 `
 
 const ItemInfo = styled.div`

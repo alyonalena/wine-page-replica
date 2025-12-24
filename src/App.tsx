@@ -16,7 +16,6 @@ import ProducersPage from "./pages/ProducersPage"
 import EventDetailPage from "./pages/EventDetailPage"
 import ProducerDetailPage from "./pages/ProducerDetailPage"
 
-
 const queryClient = new QueryClient()
 
 const App = () => (
@@ -27,7 +26,7 @@ const App = () => (
           token: {
             colorPrimary: '#8B1538',
             borderRadius: 3,
-            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+            fontFamily: "Ubuntu"
           },
           components: {
             Rate: {
@@ -53,8 +52,6 @@ const App = () => (
             <Route path="/about" element={<AboutClubPage />} />
             <Route path="/event/:id" element={<EventDetailPage />} />
             <Route path="/producer/:id" element={<ProducerDetailPage />} />
-            
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>      
