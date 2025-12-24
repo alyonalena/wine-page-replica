@@ -76,6 +76,7 @@ const ProductMeta = styled.div`
 const ButtonsSection = styled.div`
   display: flex;
   gap: 12px;
+  margin-bottom: 32px;
 `
 
 const AddToCartButton = styled(Button)`
@@ -148,22 +149,22 @@ const DescriptionText = styled.p`
   color: ${theme.colors.foreground};
 `
 
-const WineDetailPage = () => {
+const ProducerDetailPage = () => {
   const { id } = useParams()
   
   const product = allProducts.find(p => p.id === Number(id))
   
   if (!product) {
     return (
-      <PageWrapper>
-        <Header />
-        <Container>
-          <h1>Товар не найден</h1>
-          <Link to="/wines">Перейти в коллекцию вин</Link>
-        </Container>
-        <Footer />
-      </PageWrapper>
-    )
+        <PageWrapper>
+          <Header />
+          <Container>
+            <h1>Товар не найден</h1>
+            <Link to="/wines">Перейти в коллекцию вин</Link>
+          </Container>
+          <Footer />
+        </PageWrapper>
+    );
   }
 
   const relatedProducts = allProducts
@@ -224,21 +225,12 @@ const WineDetailPage = () => {
 
                 <ProductImageWrapper>
                     <ProductInfo>
-                      <Rate size='large' disabled defaultValue={product.rating} /><br />
+                      <Rate size='large' disabled defaultValue={product.rating} />
                       <ProductName>{product.name}</ProductName>
                       <ProductMeta>{product.color} • {product.sweetness} • {product.volume}</ProductMeta>   
                       <ProductMeta>{product.region}</ProductMeta>                      
                     </ProductInfo>
-                  </ProductImageWrapper>  
-
-                <Divider />
-                
-                <ButtonsSection>
-                  <AddToCartButton type="primary">
-                    Хочу это вино!
-                  </AddToCartButton>
-                </ButtonsSection>
-
+                  </ProductImageWrapper>
               </ProductInfo>
             </ProductLayout>
 
@@ -252,4 +244,4 @@ const WineDetailPage = () => {
   )
 }
 
-export default WineDetailPage
+export default ProducerDetailPage

@@ -1,40 +1,28 @@
-import { ConfigProvider, Tabs, List, Avatar as AntAvatar, Tag } from 'antd';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { theme } from '../styles/theme';
-import { allProducts } from '../data/products';
+import { ConfigProvider, Tabs, List, Avatar as AntAvatar, Tag, Breadcrumb } from 'antd'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import { theme } from '../styles/theme'
+import { allProducts } from '../data/products'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
   background: #ffffff;
-`;
+`
 
 const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px 48px;
-`;
-
-const BackLink = styled(Link)`
-  display: inline-block;
-  margin-bottom: 16px;
-  font-size: 14px;
-  color: ${theme.colors.muted};
-  text-decoration: none;
-
-  &:hover {
-    color: ${theme.colors.primary};
-  }
-`;
+`
 
 const ProfileHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
   margin-bottom: 32px;
-`;
+`
 
 const AvatarWrapper = styled.div`
   width: 96px;
@@ -46,25 +34,25 @@ const AvatarWrapper = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 40px;
-`;
+`
 
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`;
+`
 
 const UserName = styled.h1`
   margin: 0;
   font-size: 28px;
   font-weight: 600;
   color: ${theme.colors.foreground};
-`;
+`
 
 const UserStatus = styled.span`
   font-size: 14px;
   color: ${theme.colors.muted};
-`;
+`
 
 const StyledTabs = styled(Tabs)`
   .ant-tabs-nav {
@@ -90,16 +78,28 @@ const StyledTabs = styled(Tabs)`
     background: ${theme.colors.primary};
     height: 3px;
   }
-`;
+`
+
+const BreadcrumbWrapper = styled.div`
+  margin-bottom: 24px;
+  
+  .ant-breadcrumb-link a {
+    color: ${theme.colors.muted};
+    
+    &:hover {
+      color: ${theme.colors.primary};
+    }
+  }
+`
 
 const UserProfilePage = () => {
   const user = {
     fullName: 'Alexandra Petrova',
-    status: 'Champagne Lovers Club • Gold member',
+    status: 'Gold member',
     initials: 'AP',
-  };
+  }
 
-  const favoriteWines = allProducts.slice(0, 5);
+  const favoriteWines = allProducts.slice(0, 5)
 
   const attendedEvents = [
     {
@@ -116,7 +116,7 @@ const UserProfilePage = () => {
       location: 'Nappe',
       status: 'Посетил',
     },
-  ];
+  ]
 
   const tabItems = [
     {
@@ -133,7 +133,6 @@ const UserProfilePage = () => {
                 title={item.name}
                 description={`${item.region} • ${item.volume}`}
               />
-              <div style={{ fontWeight: 600 }}>{item.price.toLocaleString()} ₽</div>
             </List.Item>
           )}
         />
@@ -163,42 +162,38 @@ const UserProfilePage = () => {
         />
       ),
     },
-  ];
+  ]
 
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#8B1538',
-          borderRadius: 8,
-          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-        },
-      }}
-    >
-      <PageWrapper>
-        <Header />
-        <main>
-          <Container>
-            <BackLink to="/">← На главную</BackLink>
-            <ProfileHeader>
-              <AvatarWrapper>
-                {user.initials}
-              </AvatarWrapper>
-              <UserInfo>
-                <UserName>{user.fullName}</UserName>
-                <UserStatus>{user.status}</UserStatus>
-              </UserInfo>
-            </ProfileHeader>
+    <PageWrapper>
+      <Header />
+      <main>
+        <Container>
+          <BreadcrumbWrapper>
+            <Breadcrumb
+              items={[
+                { title: <Link to="/">Главная</Link> },
+                { title: 'Личный кабинет' },
+              ]}
+            />
+          </BreadcrumbWrapper>
+          <ProfileHeader>
+            <AvatarWrapper>
+              {user.initials}
+            </AvatarWrapper>
+            <UserInfo>
+              <UserName>{user.fullName}</UserName>
+              <UserStatus>{user.status}</UserStatus>
+            </UserInfo>
+          </ProfileHeader>
+          <StyledTabs items={tabItems} defaultActiveKey="favorites" />
+        </Container>
+      </main>
+      <Footer />
+    </PageWrapper>
+  )
+}
 
-            <StyledTabs items={tabItems} defaultActiveKey="favorites" />
-          </Container>
-        </main>
-        <Footer />
-      </PageWrapper>
-    </ConfigProvider>
-  );
-};
-
-export default UserProfilePage;
+export default UserProfilePage
 
 

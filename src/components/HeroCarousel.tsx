@@ -37,9 +37,8 @@ const SidePromos = styled.div`
 
 `;
 
-const PromoCard = styled.div<{ $bgImage?: string }>`
+const PromoCard = styled(Link)`
   flex: 1;
-  background: ${props => props.$bgImage ? `url(${props.$bgImage})` : theme.colors.lightBg};
   background-size: cover;
   background-position: center;
   border-radius: 12px;
@@ -57,7 +56,7 @@ const PromoCard = styled.div<{ $bgImage?: string }>`
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(231, 1, 76, 0.85) 0%, rgba(240, 214, 189, 0.86) 100%);
+    background: linear-gradient(135deg, rgba(231, 1, 76, 1) 0%, rgba(240, 214, 189, 0.86) 100%);
     z-index: 1;
   }
   
@@ -66,7 +65,7 @@ const PromoCard = styled.div<{ $bgImage?: string }>`
   }
 `;
 
-const PromoContent = styled(Link)`
+const PromoContent = styled.div`
   position: relative;
   z-index: 2;
   color: white;
@@ -101,14 +100,14 @@ const HeroCarousel = () => {
 
       
       <SidePromos>
-        <PromoCard>
-          <PromoContent to={`/wines?category=white-wine`}>
+        <PromoCard to={`/events`}>
+          <PromoContent>
             <PromoTitle>Дегустации</PromoTitle>
             <PromoSubtitle></PromoSubtitle>
           </PromoContent>
         </PromoCard>
-        <PromoCard>
-          <PromoContent to={`/wines?category=white-wine`}>
+        <PromoCard to={`/wines?category=white-wine`}>
+          <PromoContent>
             <PromoTitle>Коллекция вин</PromoTitle>
             <PromoSubtitle></PromoSubtitle>
           </PromoContent>

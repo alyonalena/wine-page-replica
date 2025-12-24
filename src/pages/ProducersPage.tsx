@@ -193,11 +193,35 @@ const ProductMeta = styled.div`
 const ProductRating = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   
   .ant-rate {
     font-size: 12px;
   }
+`;
+
+const RatingScore = styled.span`
+  font-size: 12px;
+  color: ${theme.colors.muted};
+`;
+
+const ProductPricing = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+`;
+
+const OldPrice = styled.span`
+  font-size: 13px;
+  color: ${theme.colors.muted};
+  text-decoration: line-through;
+`;
+
+const CurrentPrice = styled.span`
+  font-size: 18px;
+  font-weight: 600;
+  color: ${theme.colors.foreground};
 `;
 
 const AddToCartButton = styled(Button)`
@@ -212,7 +236,7 @@ const categoryNames: Record<string, string> = {
   'white-wine': 'Коллекция вин',
 };
 
-const WinesPage = () => {
+const ProducersPage = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get('category') || 'wine';
   const categoryTitle = categoryNames[category] || 'Коллекция вин';
@@ -238,35 +262,27 @@ const WinesPage = () => {
               <Breadcrumb
                 items={[
                   { title: <Link to="/">Главная</Link> },
-                  { title: 'Коллекция вин' },
+                  { title: 'Производители вин' },
                 ]}
               />
             </BreadcrumbWrapper>
 
             <PageHeader>
               <div>
-                <PageTitle>{categoryTitle}</PageTitle>
-                <ResultsCount>{allProducts.length} позиций</ResultsCount>
+                <PageTitle>Производители вин</PageTitle>
+                <ResultsCount>Производители вин, которые мы собрали в нашей коллекции SX Wine</ResultsCount>
               </div>
             </PageHeader>
 
             <ProductsGrid>
               {allProducts.map((product) => (
-                <ProductCard key={product.id} to={`/wine/${product.id}`}>
+                <ProductCard key={product.id} to={`/producer/${product.id}`}>
                   <ProductImageWrapper>
-                    <ProductImage>{product.emoji}</ProductImage>
                     <ProductInfo>
-                      <ProductRating>
-                        <Rate size='large' disabled defaultValue={product.rating} />
-                      </ProductRating>
                       <ProductName>{product.name}</ProductName>                     
-                      <ProductMeta>{product.color} • {product.sweetness} • {product.volume}</ProductMeta>   
                       <ProductMeta>{product.region}</ProductMeta>                           
                     </ProductInfo>
-                  </ProductImageWrapper>                  
-                  <AddToCartButton type="primary" onClick={handleAddToCart}>
-                    Хочу это вино!
-                  </AddToCartButton>
+                  </ProductImageWrapper>
                 </ProductCard>
               ))}
             </ProductsGrid>
@@ -277,4 +293,4 @@ const WinesPage = () => {
   )
 }
 
-export default WinesPage
+export default ProducersPage

@@ -333,11 +333,7 @@ const ProductSection = () => {
                   <Rate disabled defaultValue={product.rating} allowHalf />
                   <RatingScore>{product.rating} ({product.reviews})</RatingScore>
                 </ProductRating>
-                <ProductPricing>
-                  {product.oldPrice && <OldPrice>{product.oldPrice.toLocaleString()} ₽</OldPrice>}
-                  <CurrentPrice>{product.price.toLocaleString()} ₽</CurrentPrice>
-                </ProductPricing>
-                <AddToCartButton type="primary" icon={<ShoppingCartOutlined />}>
+                <AddToCartButton type="primary" >
                   Хочу!
                 </AddToCartButton>
               </ProductInfo>
@@ -360,9 +356,6 @@ const ProductSection = () => {
               <Rate disabled defaultValue={product.rating} allowHalf />
               <RatingScore>{product.rating} ({product.reviews})</RatingScore>
             </ProductRating>
-            <ProductPricing>
-              <CurrentPrice>{product.price.toLocaleString()} ₽</CurrentPrice>
-            </ProductPricing>
             <AddToCartButton type="primary">Хочу!</AddToCartButton>
           </ProductInfo>
         </ProductCard>
@@ -383,10 +376,6 @@ const ProductSection = () => {
               <Rate disabled defaultValue={product.rating} allowHalf />
               <RatingScore>{product.rating} ({product.reviews})</RatingScore>
             </ProductRating>
-            <ProductPricing>
-              <OldPrice>{product.oldPrice?.toLocaleString()} ₽</OldPrice>
-              <CurrentPrice>{product.price.toLocaleString()} ₽</CurrentPrice>
-            </ProductPricing>
             <AddToCartButton type="primary">Хочу!</AddToCartButton>
           </ProductInfo>
         </ProductCard>
