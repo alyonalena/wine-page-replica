@@ -425,14 +425,10 @@ const WineDetailPage = () => {
     { label: 'Сахар', value: product.sweetness },
     { label: 'Год урожая', value: product.year },
     { label: 'Объём', value: product.volume },
+    { }
   ];
 
   const tabItems = [
-    {
-      key: 'description',
-      label: 'Описание',
-      children: <DescriptionText>{product.description}</DescriptionText>,
-    },
     {
       key: 'specs',
       label: 'Характеристики',
@@ -448,9 +444,9 @@ const WineDetailPage = () => {
       ),
     },
     {
-      key: 'reviews',
-      label: `Отзывы (${product.reviews})`,
-      children: <DescriptionText>Отзывы покупателей скоро появятся здесь.</DescriptionText>,
+      key: 'description',
+      label: 'Описание',
+      children: <DescriptionText>{product.description}</DescriptionText>,
     },
   ];
 
@@ -479,24 +475,6 @@ const WineDetailPage = () => {
             </BreadcrumbWrapper>
 
             <ProductLayout>
-              <ProductImageSection>
-                <ProductImageWrapper>
-                  {product.badge && (
-                    <ProductBadge $type={product.badge}>
-                      {'Топ'}
-                    </ProductBadge>
-                  )}
-                  <ActionButtons>
-                    <IconButton>
-                      <HeartOutlined />
-                    </IconButton>
-                    <IconButton>
-                      <ShareAltOutlined />
-                    </IconButton>
-                  </ActionButtons>
-                  <ProductImage>{product.emoji}</ProductImage>
-                </ProductImageWrapper>
-              </ProductImageSection>
 
               <ProductInfo>
                 <ProductName>{product.name}</ProductName>
@@ -507,41 +485,18 @@ const WineDetailPage = () => {
                 </RatingSection>
 
                 <ButtonsSection>
-                  <AddToCartButton type="primary" icon={<ShoppingCartOutlined />}>
+                  <AddToCartButton type="primary">
                     Хочу!
                   </AddToCartButton>
                   <FavoriteButton icon={<HeartOutlined />} />
                 </ButtonsSection>
 
-                <SpecsGrid>
-                  {specs.slice(0, 6).map((spec) => (
-                    <SpecItem key={spec.label}>
-                      <SpecLabel>{spec.label}</SpecLabel>
-                      <SpecValue>{spec.value}</SpecValue>
-                    </SpecItem>
-                  ))}
-                </SpecsGrid>
               </ProductInfo>
             </ProductLayout>
 
             <TabsSection>
               <Tabs items={tabItems} defaultActiveKey="description" />
             </TabsSection>
-
-            {relatedProducts.length > 0 && (
-              <RelatedSection>
-                <SectionTitle>Похожие вина</SectionTitle>
-                <RelatedGrid>
-                  {relatedProducts.map((item) => (
-                    <RelatedCard key={item.id} to={`/wine/${item.id}`}>
-                      <RelatedImage>{item.emoji}</RelatedImage>
-                      <RelatedName>{item.name}</RelatedName>
-                      <RelatedPrice>{item.price.toLocaleString()} ₽</RelatedPrice>
-                    </RelatedCard>
-                  ))}
-                </RelatedGrid>
-              </RelatedSection>
-            )}
           </Container>
         </main>
         <Footer />
