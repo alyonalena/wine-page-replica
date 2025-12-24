@@ -26,14 +26,14 @@ const App = () => (
           token: {
             colorPrimary: '#8B1538',
             borderRadius: 3,
-            fontFamily: "Ubuntu"
+            fontFamily:  'Ubuntu, "times new roman", times, roman, serif'
           },
           components: {
             Rate: {
                 starColor: '#E7014C',
             },
             Card: {
-              fontFamily: "Ubuntu"
+              fontFamily:  'Ubuntu, "times new roman", times, roman, serif'
             }
           }
         }}
