@@ -45,7 +45,7 @@ const PromoCard = styled(Link)`
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(231, 1, 76, 1) 0%, rgba(240, 214, 189, 0.3) 100%);
+    background: linear-gradient(90deg, rgba(231, 1, 76, 1) 0%, rgba(252, 252, 252, 0.3) 100%);
     z-index: 1;
   }
   
@@ -72,7 +72,6 @@ const PromoSubtitle = styled.p`
   opacity: 0.9;
   margin: 0;
 `
-
 
 const HeroCarousel = () => {
 

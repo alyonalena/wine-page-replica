@@ -11,7 +11,7 @@ export const theme = {
     wineRose: '#fef2f4',
   },
   fonts: {
-    primary: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+    primary:  "'Drugs', sans-serif !important"
   },
   breakpoints: {
     mobile: '576px',
