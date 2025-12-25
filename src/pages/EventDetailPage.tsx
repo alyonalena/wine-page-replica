@@ -1,12 +1,11 @@
-import { ConfigProvider, Breadcrumb, Rate, Button, Tabs, Divider } from 'antd'
+import { Breadcrumb, Avatar, Button, Tabs, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { HeartOutlined } from '@ant-design/icons'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
-import { useState } from 'react'
+import cheers from '../pics/actions/cheers.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -14,6 +13,7 @@ const PageWrapper = styled.div`
 `
 
 const Container = styled.div`
+  animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px;
@@ -53,7 +53,6 @@ const ProductImageWrapper = styled.div`
   position: relative;
 `
 
-
 const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -76,7 +75,6 @@ const ProductMeta = styled.div`
 const ButtonsSection = styled.div`
   display: flex;
   gap: 12px;
-  margin-bottom: 32px;
 `
 
 const AddToCartButton = styled(Button)`
@@ -84,7 +82,6 @@ const AddToCartButton = styled(Button)`
   height: 52px;
   font-size: 16px;
   font-weight: 600;
-  border-radius: 10px;
 `
 
 const SpecsGrid = styled.div`
@@ -95,25 +92,25 @@ const SpecsGrid = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
   }
-`;
+`
 
 const SpecItem = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 12px 0;
   border-bottom: 1px solid ${theme.colors.border};
-`;
+`
 
 const SpecLabel = styled.span`
   font-size: 14px;
   color: ${theme.colors.muted};
-`;
+`
 
 const SpecValue = styled.span`
   font-size: 14px;
   font-weight: 500;
   color: ${theme.colors.foreground};
-`;
+`
 
 const TabsSection = styled.div`
   margin-top: 48px;
@@ -141,7 +138,7 @@ const TabsSection = styled.div`
     background: ${theme.colors.primary};
     height: 3px;
   }
-`;
+`
 
 const DescriptionText = styled.p`
   font-size: 15px;
@@ -152,6 +149,14 @@ const DescriptionText = styled.p`
 const EventDetailPage = () => {
   const { id } = useParams()
   
+  const handleAddToCart = (e: React.MouseEvent) => {
+    alert('Спасибо за интерес! С Вамим в ближайшее время свяжется наш администратор')
+    e.preventDefault();
+    e.stopPropagation();
+    // Add to cart logic
+  };
+
+
   const product = allProducts.find(p => p.id === Number(id))
   
   if (!product) {
@@ -184,13 +189,13 @@ const EventDetailPage = () => {
 
   const tabItems = [
     {
-      key: 'description',
-      label: 'Описание',
+      key: 'set',
+      label: 'Винный сет',
       children: <DescriptionText>{product.description}</DescriptionText>,
     },
     {
-      key: 'specs',
-      label: 'Характеристики',
+      key: 'members',
+      label: 'Участники',
       children: (
         <SpecsGrid>
           {specs.map((spec) => (
@@ -212,34 +217,28 @@ const EventDetailPage = () => {
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
-                  { title: <Link to="/">Главная</Link> },
-                  { title: <Link to="/events">Дегустации</Link> },
-                  { title: '...' },
+                  { title: <Link to="/">На главную страницу</Link> },
+                  { title: <Link to="/events">К другим дегустациям</Link> }
                 ]}
               />
             </BreadcrumbWrapper>
 
             <ProductLayout>
-
               <ProductInfo>
-
                 <ProductImageWrapper>
-                    <ProductInfo>
-                      <Rate size='large' disabled defaultValue={product.rating} />
-                      <ProductName>{product.name}</ProductName>
-                      <ProductMeta>{product.color} • {product.sweetness} • {product.volume}</ProductMeta>   
-                      <ProductMeta>{product.region}</ProductMeta>                      
-                    </ProductInfo>
-                  </ProductImageWrapper>  
-
-                <Divider />
-                
+                <ProductInfo>
+                    {/*<Rate size='large' disabled defaultValue={product.rating} />*/}
+                    <ProductName>{product.name}</ProductName>
+                    <ProductMeta>{product.color} • {product.sweetness} • {product.volume}</ProductMeta>   
+                    <ProductMeta>{product.region}</ProductMeta>                      
+                </ProductInfo>
+                </ProductImageWrapper>
+                <Divider />                
                 <ButtonsSection>
-                  <AddToCartButton type="primary">
-                    Хочу на дегустацию!
+                  <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e)}>
+                    Хочу на дегустацию <Avatar src={cheers}/>
                   </AddToCartButton>
                 </ButtonsSection>
-
               </ProductInfo>
             </ProductLayout>
 

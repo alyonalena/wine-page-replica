@@ -90,11 +90,13 @@ body {
 .ant-btn-primary {
   background-color: #E7014C !important;
   border-color: #E7014C !important;
+  border-radius: 3px;
 }
 
 .ant-btn-primary:hover {
   background-color: #E7014C !important;
   border-color: #E7014C !important;
+  border-radius: 3px;
 }
 
 .ant-input:focus,
@@ -118,4 +120,31 @@ body {
 .ant-typography p,
 .ant-typography span {
   font-family: 'Drugs', sans-serif !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDown {
+  from { 
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

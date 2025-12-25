@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { theme } from '../styles/theme'
 import winesImage from '../pics/main/wines.png'
 import eventsImage from '../pics/main/events.png'
-
+import arrowRight from '../pics/actions/arrow-right.svg'
+import { Avatar } from 'antd'
 
 const CarouselSection = styled.section`
   max-width: 1280px;
@@ -27,6 +28,7 @@ const SidePromos = styled.div`
 `
 
 const PromoCard = styled(Link)`
+  animation: fadeIn 0.7s ease;
   flex: 1;
   background-size: cover;
   background-position: center;
@@ -40,12 +42,11 @@ const PromoCard = styled(Link)`
   transition: ${theme.transitions.default};
   position: relative;
   overflow: hidden;
-  
+  background: rgba(231, 1, 76, 1);
   &::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(231, 1, 76, 1) 0%, rgba(252, 252, 252, 0.3) 100%);
+    inset: 0;    
     z-index: 1;
   }
   
@@ -53,24 +54,44 @@ const PromoCard = styled(Link)`
     transform: scale(1.02);
   }
 `
+//background: linear-gradient(90deg, rgba(231, 1, 76, 1) 0%, rgba(0, 0, 0, 0.3) 100%);
 
 const PromoContent = styled.div`
   position: relative;
   z-index: 2;
   color: white;
-    min-height: 170px;
+  min-height: 170px;
+`
+
+const PromoBlock1 = styled.div`
+  animation: slideUp 0.4s ease;
+  margin: 0 120px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+`
+
+const PromoBlock2 = styled.div`
+  animation: slideUp 0.7s ease;
+  margin: 0 120px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
 `
 
 const PromoTitle = styled.div`
-  font-size: 26px;
-  font-weight: 600;
-  margin: 0 0 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.3em;
 `
 
 const PromoSubtitle = styled.p`
   font-size: 13px;
   opacity: 0.9;
-  margin: 0;
+  margin: 20px;
 `
 
 const HeroCarousel = () => {
@@ -87,9 +108,13 @@ const HeroCarousel = () => {
               backgroundRepeat: 'no-repeat', 
             }}
           >
-            <PromoContent>            
-              <PromoTitle>Дегустации</PromoTitle>
-              <PromoSubtitle></PromoSubtitle>
+            <PromoContent>
+              <PromoBlock1>
+                <div>
+                  <PromoTitle>Дегустации&nbsp;<Avatar size={20} src={arrowRight}/></PromoTitle>
+                  <PromoSubtitle>Присоединяйтесь к нашим дегустациям</PromoSubtitle>
+                </div>
+              </PromoBlock1>
             </PromoContent>
           </PromoCard>
           <PromoCard to={`/wines?category=white-wine`}
@@ -101,7 +126,12 @@ const HeroCarousel = () => {
             }}
           >
             <PromoContent>
-              <PromoTitle>Коллекция вин</PromoTitle>
+              <PromoBlock2>
+                <div>
+                  <PromoTitle>Коллекция вин&nbsp;<Avatar size={20} src={arrowRight}/></PromoTitle>
+                  <PromoSubtitle>Познакомьтесь с нашей коллекцией вин</PromoSubtitle>
+                </div>
+              </PromoBlock2>
               <PromoSubtitle></PromoSubtitle>
             </PromoContent>
           </PromoCard>

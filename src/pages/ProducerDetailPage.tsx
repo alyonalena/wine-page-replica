@@ -1,12 +1,10 @@
-import { ConfigProvider, Breadcrumb, Rate, Button, Tabs, Divider } from 'antd'
+import { Breadcrumb, Rate, Button, Tabs } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { HeartOutlined } from '@ant-design/icons'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
-import { useState } from 'react'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -14,6 +12,7 @@ const PageWrapper = styled.div`
 `
 
 const Container = styled.div`
+  animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px;

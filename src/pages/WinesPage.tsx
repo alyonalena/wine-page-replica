@@ -13,6 +13,7 @@ const PageWrapper = styled.div`
 `;
 
 const Container = styled.div`
+  animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px;
@@ -44,31 +45,6 @@ const PageTitle = styled.h1`
   font-weight: 600;
   margin: 0;
   color: ${theme.colors.foreground};
-`;
-
-const FiltersRow = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-`;
-
-const FilterButton = styled(Button)`
-  height: 40px;
-  border-radius: 8px;
-`;
-
-const SortSelect = styled(Select)`
-  min-width: 200px;
-  
-  .ant-select-selector {
-    height: 40px !important;
-    border-radius: 8px !important;
-    
-    .ant-select-selection-item {
-      line-height: 38px !important;
-    }
-  }
 `;
 
 const ResultsCount = styled.span`
@@ -108,50 +84,6 @@ const ProductCard = styled(Link)`
     box-shadow: ${theme.shadows.cardHover};
     transform: translateY(-4px);
     border-color: transparent;
-  }
-`;
-
-const ProductBadge = styled.span<{ $type: 'discount' | 'new' | 'top' }>`
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  z-index: 2;
-  
-  ${props => {
-    switch (props.$type) {
-      case 'discount':
-        return `background: ${theme.colors.accent}; color: white;`;
-      case 'new':
-        return `background: #4CAF50; color: white;`;
-      case 'top':
-        return `background: ${theme.colors.primary}; color: white;`;
-    }
-  }}
-`;
-
-const FavoriteButton = styled.button`
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: white;
-  border: 1px solid ${theme.colors.border};
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: ${theme.transitions.default};
-  z-index: 2;
-  
-  &:hover {
-    border-color: ${theme.colors.primary};
-    color: ${theme.colors.primary};
   }
 `;
 

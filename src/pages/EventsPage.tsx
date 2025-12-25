@@ -1,10 +1,12 @@
-import { ConfigProvider, Breadcrumb, Select, Rate, Button, Card } from 'antd'
+import { ConfigProvider, Breadcrumb, Select, Avatar, Button, Card, Image } from 'antd'
 import { useSearchParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
+import cheers from '../pics/actions/cheers.svg'
+import photo from '../pics/events/image1.png'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -12,6 +14,7 @@ const PageWrapper = styled.div`
 `
 
 const Container = styled.div`
+  animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px;
@@ -39,6 +42,7 @@ const PageHeader = styled.div`
 `
 
 const PageTitle = styled.h1`
+  animation: slideUp 0.4s ease;
   font-size: 32px;
   font-weight: 600;
   margin: 0;
@@ -70,11 +74,9 @@ const ProductsGrid = styled.div`
 
 const ProductCard = styled(Link)`
   background: ${theme.colors.background};
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 3px;
   transition: ${theme.transitions.default};
   position: relative;
-  border: 1px solid ${theme.colors.border};
   text-decoration: none;
   display: block;
   
@@ -86,7 +88,6 @@ const ProductCard = styled(Link)`
 `
 
 const ProductImage = styled.div`
-  font-size: 120px;
   opacity: 0.9;
 `
 
@@ -127,7 +128,6 @@ const AddToCartButton = styled(Button)`
   margin-top: 12px;
   width: 100%;
   height: 40px;
-  border-radius: 8px;
   font-weight: 500;
 `;
 
@@ -137,15 +137,10 @@ const EventsPage = () => {
   const category = searchParams.get('category') || 'wine'
 
   const handleAddToCart = (e: React.MouseEvent) => {
+    alert('Спасибо за интерес! С Вамим в ближайшее время свяжется наш администратор')
     e.preventDefault();
     e.stopPropagation();
     // Add to cart logic
-  };
-
-  const handleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    // Favorite logic
   };
 
   return (
@@ -156,8 +151,7 @@ const EventsPage = () => {
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
-                  { title: <Link to="/">Главная</Link> },
-                  { title: 'Дегустации' },
+                  { title: <Link to="/">На главную страницу</Link> }
                 ]}
               />
             </BreadcrumbWrapper>
@@ -172,16 +166,18 @@ const EventsPage = () => {
             <ProductsGrid>
               {allProducts.map((product) => (
                 <ProductCard key={product.id} to={`/event/${product.id}`}>
-                  <Card>
-                    <ProductImage>{product.emoji}</ProductImage>
+                  <Card
+                      style={{margin: 0}}
+                    >
+                    <ProductImage><Image src={photo}/></ProductImage>
                     <ProductInfo>
                       <ProductName>{product.name}</ProductName>                     
                       <ProductMeta>{product.region}</ProductMeta>                           
                     </ProductInfo>
-                  </Card>                  
-                  <AddToCartButton type="primary" onClick={handleAddToCart}>
-                    Хочу на дегустацию!
-                  </AddToCartButton>
+                    <AddToCartButton type="primary" onClick={handleAddToCart}>
+                      Хочу на эту дегустацию <Avatar src={cheers}/>
+                    </AddToCartButton>
+                  </Card>
                 </ProductCard>
               ))}
             </ProductsGrid>

@@ -1,15 +1,15 @@
 import styled from 'styled-components'
-import { Button, Badge, Drawer, Col, Flex, Avatar, Typography, Tag } from 'antd'
+import { Button, Drawer, Col, Flex, Avatar, Typography, Tag } from 'antd'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  UserOutlined,
-  MenuOutlined,
   EnvironmentOutlined,
   CloseOutlined,
 } from '@ant-design/icons'
 import { theme } from '../styles/theme'
 import LogoImage from '../pics/logo.png'
+import menu from '../pics/actions/menu.svg'
+import user from '../pics/actions/user.svg'
 
 const HeaderWrapper = styled.header`
   background: ${theme.colors.background};
@@ -76,18 +76,6 @@ const LogoLink = styled(Link)`
   
   span {
     color: ${theme.colors.foreground};
-  }
-`
-
-const HeaderActions = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    span {
-      display: none;
-    }
   }
 `
 
@@ -216,11 +204,11 @@ const Header = () => {
         <Flex align={"center"} gap={16}>
           <Link to="/profile" style={{ textDecoration: 'none' }}>
             <ActionItem>
-              <UserOutlined />
+              <Avatar shape="square" src={user} />
             </ActionItem>
           </Link>
           <ActionItem onClick={() => setDrawerOpen(true)}>
-            <MenuOutlined />
+            <Avatar shape="square" src={menu} />
           </ActionItem>
         </Flex>
       </MainHeader>

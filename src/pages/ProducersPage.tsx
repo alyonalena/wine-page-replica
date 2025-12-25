@@ -241,17 +241,7 @@ const ProducersPage = () => {
   const category = searchParams.get('category') || 'wine';
   const categoryTitle = categoryNames[category] || 'Коллекция вин';
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    // Add to cart logic
-  };
 
-  const handleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    // Favorite logic
-  };
 
   return (
       <PageWrapper>
