@@ -1,4 +1,4 @@
-import { ConfigProvider, Tabs, List, Avatar, Tag, Breadcrumb } from 'antd'
+import { Tabs, List, Avatar, Tag, Breadcrumb } from 'antd'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'
@@ -131,7 +131,7 @@ const UserProfilePage = () => {
           renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
-                avatar={<AntAvatar style={{ backgroundColor: theme.colors.lightBg }}>{item.emoji}</AntAvatar>}
+                avatar={<Avatar style={{ backgroundColor: theme.colors.lightBg }}>{item.emoji}</Avatar>}
                 title={item.name}
                 description={`${item.region} • ${item.volume}`}
               />
