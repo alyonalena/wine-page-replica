@@ -1,4 +1,4 @@
-import { ConfigProvider, Breadcrumb, Select, Rate, Button, Avatar } from 'antd'
+import { Breadcrumb, Select, Rate, Button, Avatar, Typography } from 'antd'
 import { useSearchParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -39,12 +39,10 @@ const PageHeader = styled.div`
   gap: 16px;
 `;
 
-const PageTitle = styled.h1`
-  font-size: 32px;
-  font-weight: 600;
-  margin: 0;
-  color: ${theme.colors.foreground};
-`;
+const PageTitle = styled(Typography.Title)`
+  animation: slideUp 0.4s ease;
+`
+
 
 const FiltersRow = styled.div`
   display: flex;
@@ -258,7 +256,7 @@ const ProducersPage = () => {
 
             <PageHeader>
               <div>
-                <PageTitle>Производители вин</PageTitle>
+                <PageTitle level={3}>Производители вин</PageTitle>
                 <ResultsCount>Производители вин, которые мы собрали в нашей коллекции SX Wine</ResultsCount>
               </div>
             </PageHeader>

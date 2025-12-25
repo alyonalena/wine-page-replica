@@ -1,4 +1,4 @@
-import { Card, Breadcrumb, Avatar } from 'antd'
+import { Card, Breadcrumb, Avatar, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -41,11 +41,8 @@ const PageHeader = styled.div`
   gap: 16px;
 `
 
-const PageTitle = styled.h1`
-  font-size: 32px;
-  font-weight: 600;
-  margin: 0;
-  color: ${theme.colors.foreground};
+const PageTitle = styled(Typography.Title)`
+  animation: slideUp 0.4s ease;
 `
 
 const ProductsGrid = styled.div`
@@ -153,9 +150,7 @@ const TeamPage = () => {
           </BreadcrumbWrapper>
 
           <PageHeader>
-            <div>
-              <PageTitle>Команда клуба</PageTitle>
-            </div>
+           <PageTitle level={3}>Команда клуба</PageTitle>
           </PageHeader>
           
           <ProductsGrid>

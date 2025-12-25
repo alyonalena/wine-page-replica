@@ -1,4 +1,4 @@
-import { Breadcrumb, Rate, Button, Tabs, Divider, Avatar } from 'antd'
+import { Breadcrumb, Rate, Button, Tabs, Divider, Avatar, Space, Typography } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -6,6 +6,8 @@ import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
 import backIcon from '../pics/actions/back.svg'
+import bottle from '../pics/actions/pink.png'
+import glass from '../pics/actions/glass.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -53,25 +55,6 @@ const ProductImageWrapper = styled.div`
   position: relative;
 `
 
-const ProductInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const ProductName = styled.h1`
-  font-size: 28px;
-  font-weight: 600;
-  color: ${theme.colors.foreground};
-  margin: 0 0 12px;
-  line-height: 1.3;
-`
-
-const ProductMeta = styled.div`
-  font-size: 15px;
-  color: ${theme.colors.muted};
-  margin-bottom: 16px;
-`
-
 const ButtonsSection = styled.div`
   display: flex;
   gap: 12px;
@@ -82,7 +65,28 @@ const AddToCartButton = styled(Button)`
   height: 52px;
   font-size: 16px;
   font-weight: 600;
-  border-radius: 10px;
+`
+
+const ProductImage = styled.div`
+  width: 30%;
+`
+
+const ProductInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
+const ProductName = styled.h2`
+  font-size: 18px;
+  font-weight: 500;
+  color: ${theme.colors.foreground};
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `
 
 const SpecsGrid = styled.div`
@@ -152,6 +156,12 @@ const WineDetailPage = () => {
   
   const product = allProducts.find(p => p.id === Number(id))
   
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    // Add to cart logic
+  }
+
   if (!product) {
     return (
       <PageWrapper>
@@ -207,35 +217,27 @@ const WineDetailPage = () => {
               <Breadcrumb
                 items={[
                   { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> },
-                  { title: <Link to="/wines">Коллекция вин</Link> }
+                  { title: <Link to="/wines">К другим винам</Link> }
                 ]}
               />
             </BreadcrumbWrapper>
-
             <ProductLayout>
-
               <ProductInfo>
-
-                <ProductImageWrapper>
-                    <ProductInfo>
-                      <Rate size='large' disabled defaultValue={product.rating} /><br />
-                      <ProductName>{product.name}</ProductName>
-                      <ProductMeta>{product.color} • {product.sweetness} • {product.volume}</ProductMeta>   
-                      <ProductMeta>{product.region}</ProductMeta>                      
-                    </ProductInfo>
-                  </ProductImageWrapper>  
-
-                <Divider />
-                
+                <Space style={{ gap: 24, marginBottom: 16}}>
+                  <ProductImage><Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={70} src={bottle}/></ProductImage>
+                  <ProductInfo>
+                    <ProductName>{product.name}</ProductName>
+                    <Typography.Text type='secondary'>{product.color} • {product.sweetness} • {product.volume}</Typography.Text>   
+                    <Typography.Text type='secondary'>{product.region}</Typography.Text>                              
+                  </ProductInfo>
+                </Space>
                 <ButtonsSection>
-                  <AddToCartButton type="primary">
-                    Хочу это вино!
+                  <AddToCartButton type="primary" onClick={handleAddToCart}>
+                    Хочу это вино <Avatar shape='square' src={glass}/>
                   </AddToCartButton>
                 </ButtonsSection>
-
               </ProductInfo>
             </ProductLayout>
-
             <TabsSection>
               <Tabs items={tabItems} defaultActiveKey="description" />
             </TabsSection>

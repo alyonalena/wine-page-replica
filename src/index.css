@@ -113,6 +113,8 @@ body {
   background: hsl(0, 0%, 80%) !important;
 }
 
+.ant-typography h1,
+.ant-typography h2,
 .ant-typography h3,
 .ant-typography h4,
 .ant-typography h5,

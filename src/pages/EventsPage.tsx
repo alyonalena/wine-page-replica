@@ -1,5 +1,5 @@
-import { Breadcrumb, Select, Avatar, Button, Card, Image } from 'antd'
-import { useSearchParams, Link } from 'react-router-dom'
+import { Breadcrumb, Typography, Avatar, Button, Card, Space, Flex } from 'antd'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -8,7 +8,7 @@ import { allProducts } from '../data/products'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 import photo from '../pics/events/image1.png'
-
+import marker from '../pics/actions/marker.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -43,12 +43,8 @@ const PageHeader = styled.div`
   gap: 16px;
 `
 
-const PageTitle = styled.h1`
+const PageTitle = styled(Typography.Title)`
   animation: slideUp 0.4s ease;
-  font-size: 32px;
-  font-weight: 600;
-  margin: 0;
-  color: ${theme.colors.foreground};
 `
 
 const ResultsCount = styled.span`
@@ -90,17 +86,18 @@ const ProductCard = styled(Link)`
 `
 
 const ProductImage = styled.div`
-  opacity: 0.9;
+
 `
 
 const ProductInfo = styled.div`
+  width: 50%;
   display: flex;
   flex-direction: column;
   gap: 8px;
 `
 
-const ProductName = styled.h3`
-  font-size: 16px;
+const ProductName = styled.h2`
+  font-size: 18px;
   font-weight: 500;
   color: ${theme.colors.foreground};
   margin: 0;
@@ -111,10 +108,6 @@ const ProductName = styled.h3`
   overflow: hidden;
 `
 
-const ProductMeta = styled.div`
-  font-size: 12px;
-  color: ${theme.colors.muted};
-`
 
 const ProductRating = styled.div`
   display: flex;
@@ -158,7 +151,7 @@ const EventsPage = () => {
 
             <PageHeader>
               <div>
-                <PageTitle>{'Дегустации'}</PageTitle>
+                <PageTitle level={3}>{'Дегустации'}</PageTitle>
                 <ResultsCount>в Москве и Санкт-Петербурге</ResultsCount>
               </div>
             </PageHeader>
@@ -166,16 +159,50 @@ const EventsPage = () => {
             <ProductsGrid>
               {allProducts.map((product) => (
                 <ProductCard key={product.id} to={`/event/${product.id}`}>
-                  <Card>
-                    <ProductImage><Image src={photo}/></ProductImage>
-                    <ProductInfo>
-                      <ProductName>{product.name}</ProductName>                     
-                      <ProductMeta>{product.region}</ProductMeta>                           
-                    </ProductInfo>
-                    <AddToCartButton type="primary" onClick={handleAddToCart}>
-                      Хочу на эту дегустацию <Avatar src={cheers}/>
-                    </AddToCartButton>
-                  </Card>
+                  <Card
+                    style={{ 
+                        width: '100%', 
+                        margin: "0", 
+                        padding: '0',
+                        backgroundColor: 'rgba(255,255,255, 0.9)',
+                        boxShadow: '0px 0px 14px -2px rgba(34, 60, 80, 0.24)'
+                    }}
+                  >
+                    <Flex style={{ width: '100%'}} vertical align={'center'}>
+                        <div>
+                            <Typography.Title level={4}>{'Дегустация «Marie Courtin»' }</Typography.Title>
+                        </div><br/>
+                    </Flex>
+                    <Flex style={{ width: '100%', padding: '0 0 20px' }} align={'flex-start'} gap={16}>
+                        <Avatar 
+                            alt="SX" shape="square" 
+                            src={photo} 
+                            style={{ width: "130px", height: "170px", 
+                            boxShadow: 'inset -16px 0 24px -12px rgba(0, 0, 0, 0.45)' }} 
+                        />
+                        <Flex 
+                            vertical
+                            style={{ height: '100%', width: '70%', textAlign: 'left' }}
+                        >
+                          <div>
+                              <div style={{ lineHeight: 0}}>
+                                  <Typography.Title style={{color: '#E7014C'}} level={4}>Москва</Typography.Title>
+                                  <Space style={{gap:8}}>
+                                    <Avatar size={20} src={marker}/>                                  
+                                    <Typography.Text italic>Nappe</Typography.Text></Space>
+                              </div>
+                              <br/>
+                              <Typography.Title style={{color: '#E7014C'}} level={4}>{'24 января'} ({'ПТ'})</Typography.Title>
+
+                              {/* event.price && (<Space><WalletOutlined style={{ color: '#B8B8B8'}}/><Text italic>{ event.price }</Text></Space>)*/}
+                              <br />  
+                          </div>
+                      </Flex> 
+                  </Flex>
+                  <AddToCartButton type="primary" onClick={handleAddToCart}>
+                          Хочу на эту дегустацию <Avatar src={cheers}/>
+                          </AddToCartButton>
+                    </Card>
                 </ProductCard>
               ))}
             </ProductsGrid>

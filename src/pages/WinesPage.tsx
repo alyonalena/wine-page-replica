@@ -1,4 +1,4 @@
-import { Breadcrumb, Avatar, Rate, Button, Card, Space } from 'antd'
+import { Breadcrumb, Avatar, Rate, Button, Card, Space, Typography } from 'antd'
 import { useSearchParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -7,19 +7,19 @@ import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
-import cheers from '../pics/actions/cheers.svg'
+import glass from '../pics/actions/glass.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
   background: #ffffff;
-`;
+`
 
 const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px;
-`;
+`
 
 const BreadcrumbWrapper = styled.div`
   margin-bottom: 24px;
@@ -31,7 +31,7 @@ const BreadcrumbWrapper = styled.div`
       color: ${theme.colors.primary};
     }
   }
-`;
+`
 
 const PageHeader = styled.div`
   animation: slideUp 0.4s ease;
@@ -41,19 +41,11 @@ const PageHeader = styled.div`
   margin-bottom: 32px;
   flex-wrap: wrap;
   gap: 16px;
-`;
+`
 
-const PageTitle = styled.h1`
-  font-size: 32px;
-  font-weight: 600;
-  margin: 0;
-  color: ${theme.colors.foreground};
-`;
-
-const ResultsCount = styled.span`
-  color: ${theme.colors.muted};
-  font-size: 14px;
-`;
+const PageTitle = styled(Typography.Title)`
+  animation: slideUp 0.4s ease;
+`
 
 const ProductsGrid = styled.div`
   display: grid;
@@ -71,7 +63,7 @@ const ProductsGrid = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
   }
-`;
+`
 
 const ProductCard = styled(Link)`
   background: ${theme.colors.background};
@@ -86,24 +78,18 @@ const ProductCard = styled(Link)`
     transform: translateY(-4px);
     border-color: transparent;
   }
-`;
+`
 
-const ProductImageWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
-`;
 
 const ProductImage = styled.div`
   width: 30%;
-`;
+`
 
 const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`;
+`
 
 const ProductName = styled.h2`
   font-size: 18px;
@@ -115,12 +101,7 @@ const ProductName = styled.h2`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-`;
-
-const ProductMeta = styled.div`
-  font-size: 12px;
-  color: ${theme.colors.muted};
-`;
+`
 
 const ProductRating = styled.div`
   display: flex;
@@ -130,35 +111,23 @@ const ProductRating = styled.div`
   .ant-rate {
     font-size: 12px;
   }
-`;
+`
 
 const AddToCartButton = styled(Button)`
   margin-top: 12px;
   width: 100%;
   height: 40px;
   font-weight: 500;
-`;
-
-const categoryNames: Record<string, string> = {
-  'white-wine': 'Коллекция вин',
-};
+`
 
 const WinesPage = () => {
-  const [searchParams] = useSearchParams();
-  const category = searchParams.get('category') || 'wine';
-  const categoryTitle = categoryNames[category] || 'Коллекция вин';
 
   const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
     // Add to cart logic
-  };
+  }
 
-  const handleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    // Favorite logic
-  };
 
   return (
       <PageWrapper>
@@ -175,8 +144,8 @@ const WinesPage = () => {
 
             <PageHeader>
               <div>
-                <PageTitle>{categoryTitle}</PageTitle>
-                <ResultsCount>{allProducts.length} позиций</ResultsCount>
+                <PageTitle level={3}>Коллекция вин</PageTitle>
+                <Typography.Text type='secondary'>{allProducts.length} позиций</Typography.Text>
               </div>
             </PageHeader>
 
@@ -184,16 +153,16 @@ const WinesPage = () => {
               {allProducts.map((product) => (
                   <ProductCard key={product.id} to={`/wine/${product.id}`}>
                   <Card>
-                    <Space>
-                    <ProductImage><Avatar size={80} src={bottle}/></ProductImage>
-
+                    <Space style={{ gap: 24, marginBottom: 16}}>
+                    <ProductImage><Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={70} src={bottle}/></ProductImage>
                     <ProductInfo>
-                      <ProductName>{product.name}</ProductName>                     
-                      <ProductMeta>{product.region}</ProductMeta>                           
+                      <ProductName>{product.name}</ProductName>
+                      <Typography.Text type='secondary'>{product.color} • {product.sweetness} • {product.volume}</Typography.Text>   
+                      <Typography.Text type='secondary'>{product.region}</Typography.Text>                              
                     </ProductInfo>
                     </Space>
                     <AddToCartButton type="primary" onClick={handleAddToCart}>
-                    Хочу это вино <Avatar src={cheers}/>
+                      Хочу это вино <Avatar shape='square' src={glass}/>
                     </AddToCartButton>
                   </Card>
                 </ProductCard>
