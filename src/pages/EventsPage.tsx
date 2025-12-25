@@ -1,4 +1,4 @@
-import { ConfigProvider, Breadcrumb, Select, Avatar, Button, Card, Image } from 'antd'
+import { Breadcrumb, Select, Avatar, Button, Card, Image } from 'antd'
 import { useSearchParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -131,19 +131,17 @@ const AddToCartButton = styled(Button)`
   width: 100%;
   height: 40px;
   font-weight: 500;
-`;
+`
 
 
 const EventsPage = () => {
-  const [searchParams] = useSearchParams();
-  const category = searchParams.get('category') || 'wine'
 
   const handleAddToCart = (e: React.MouseEvent) => {
     alert('Спасибо за интерес! С Вамим в ближайшее время свяжется наш администратор')
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
     // Add to cart logic
-  };
+  }
 
   return (
       <PageWrapper>
@@ -168,9 +166,7 @@ const EventsPage = () => {
             <ProductsGrid>
               {allProducts.map((product) => (
                 <ProductCard key={product.id} to={`/event/${product.id}`}>
-                  <Card
-                      style={{margin: 0}}
-                    >
+                  <Card>
                     <ProductImage><Image src={photo}/></ProductImage>
                     <ProductInfo>
                       <ProductName>{product.name}</ProductName>                     

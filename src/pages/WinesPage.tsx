@@ -1,4 +1,4 @@
-import { Breadcrumb, Avatar, Rate, Button } from 'antd'
+import { Breadcrumb, Avatar, Rate, Button, Card, Space } from 'antd'
 import { useSearchParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -6,6 +6,8 @@ import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
 import backIcon from '../pics/actions/back.svg'
+import bottle from '../pics/actions/pink.png'
+import cheers from '../pics/actions/cheers.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -32,6 +34,7 @@ const BreadcrumbWrapper = styled.div`
 `;
 
 const PageHeader = styled.div`
+  animation: slideUp 0.4s ease;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -72,11 +75,9 @@ const ProductsGrid = styled.div`
 
 const ProductCard = styled(Link)`
   background: ${theme.colors.background};
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 3px;
   transition: ${theme.transitions.default};
   position: relative;
-  border: 1px solid ${theme.colors.border};
   text-decoration: none;
   display: block;
   
@@ -95,8 +96,7 @@ const ProductImageWrapper = styled.div`
 `;
 
 const ProductImage = styled.div`
-  font-size: 120px;
-  opacity: 0.9;
+  width: 30%;
 `;
 
 const ProductInfo = styled.div`
@@ -105,8 +105,8 @@ const ProductInfo = styled.div`
   gap: 8px;
 `;
 
-const ProductName = styled.h3`
-  font-size: 16px;
+const ProductName = styled.h2`
+  font-size: 18px;
   font-weight: 500;
   color: ${theme.colors.foreground};
   margin: 0;
@@ -136,7 +136,6 @@ const AddToCartButton = styled(Button)`
   margin-top: 12px;
   width: 100%;
   height: 40px;
-  border-radius: 8px;
   font-weight: 500;
 `;
 
@@ -183,21 +182,20 @@ const WinesPage = () => {
 
             <ProductsGrid>
               {allProducts.map((product) => (
-                <ProductCard key={product.id} to={`/wine/${product.id}`}>
-                  <ProductImageWrapper>
-                    <ProductImage>{product.emoji}</ProductImage>
+                  <ProductCard key={product.id} to={`/wine/${product.id}`}>
+                  <Card>
+                    <Space>
+                    <ProductImage><Avatar size={80} src={bottle}/></ProductImage>
+
                     <ProductInfo>
-                      <ProductRating>
-                        <Rate size='large' disabled defaultValue={product.rating} />
-                      </ProductRating>
                       <ProductName>{product.name}</ProductName>                     
-                      <ProductMeta>{product.color} • {product.sweetness} • {product.volume}</ProductMeta>   
                       <ProductMeta>{product.region}</ProductMeta>                           
                     </ProductInfo>
-                  </ProductImageWrapper>                  
-                  <AddToCartButton type="primary" onClick={handleAddToCart}>
-                    Хочу это вино!
-                  </AddToCartButton>
+                    </Space>
+                    <AddToCartButton type="primary" onClick={handleAddToCart}>
+                    Хочу это вино <Avatar src={cheers}/>
+                    </AddToCartButton>
+                  </Card>
                 </ProductCard>
               ))}
             </ProductsGrid>
