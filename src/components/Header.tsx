@@ -196,8 +196,8 @@ const Header = () => {
           <Flex align={"center"} gap={8}>
             <Avatar alt="SX" shape="square" src={LogoImage} style={{ width: "52px", height: "52px" }} />
             <Col flex="auto" style={{ textAlign: "left" }}>
-                <Typography.Title level={2} style={{ margin: 0, color: "black"}}>SX Wine</Typography.Title>
-                <Typography.Text style={{ fontSize: '0.9em'}}>Champagne Lovers Club</Typography.Text>
+                <Typography.Title level={1} style={{ margin: 0, color: "black", lineHeight: 1}}>SX Wine</Typography.Title>
+                <Typography.Text type='secondary' style={{ fontSize: '0.7em',  }}>Champagne Lovers Club</Typography.Text>
             </Col>
           </Flex>
         </LeftSection>

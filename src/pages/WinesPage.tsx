@@ -1,11 +1,11 @@
-import { ConfigProvider, Breadcrumb, Select, Rate, Button } from 'antd';
-import { useSearchParams, Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { HeartOutlined, ShoppingCartOutlined, FilterOutlined } from '@ant-design/icons';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { theme } from '../styles/theme';
-import { allProducts } from '../data/products';
+import { Breadcrumb, Avatar, Rate, Button } from 'antd'
+import { useSearchParams, Link } from 'react-router-dom'
+import styled from 'styled-components'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import { theme } from '../styles/theme'
+import { allProducts } from '../data/products'
+import backIcon from '../pics/actions/back.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -169,8 +169,7 @@ const WinesPage = () => {
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
-                  { title: <Link to="/">Главная</Link> },
-                  { title: 'Коллекция вин' },
+                  { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> },
                 ]}
               />
             </BreadcrumbWrapper>

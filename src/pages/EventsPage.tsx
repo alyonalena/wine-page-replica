@@ -6,7 +6,9 @@ import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
 import cheers from '../pics/actions/cheers.svg'
+import backIcon from '../pics/actions/back.svg'
 import photo from '../pics/events/image1.png'
+
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -151,7 +153,7 @@ const EventsPage = () => {
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
-                  { title: <Link to="/">На главную страницу</Link> }
+                  { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> }
                 ]}
               />
             </BreadcrumbWrapper>

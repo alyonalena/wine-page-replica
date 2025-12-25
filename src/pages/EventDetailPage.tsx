@@ -6,6 +6,7 @@ import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
 import cheers from '../pics/actions/cheers.svg'
+import backIcon from '../pics/actions/back.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -151,8 +152,8 @@ const EventDetailPage = () => {
   
   const handleAddToCart = (e: React.MouseEvent) => {
     alert('Спасибо за интерес! С Вамим в ближайшее время свяжется наш администратор')
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
     // Add to cart logic
   };
 
@@ -217,7 +218,7 @@ const EventDetailPage = () => {
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
-                  { title: <Link to="/">На главную страницу</Link> },
+                  { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> },
                   { title: <Link to="/events">К другим дегустациям</Link> }
                 ]}
               />
@@ -236,7 +237,7 @@ const EventDetailPage = () => {
                 <Divider />                
                 <ButtonsSection>
                   <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e)}>
-                    Хочу на дегустацию <Avatar src={cheers}/>
+                    Хочу на эту дегустацию <Avatar src={cheers}/>
                   </AddToCartButton>
                 </ButtonsSection>
               </ProductInfo>

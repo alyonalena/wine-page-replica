@@ -1,4 +1,4 @@
-import { Card, Breadcrumb } from 'antd'
+import { Card, Breadcrumb, Avatar } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -8,6 +8,7 @@ import image0 from '../pics/about/image_0.png'
 import image1 from '../pics/about/image_1.png'
 import image2 from '../pics/about/image_2.png'
 import image3 from '../pics/about/image_3.png'
+import backIcon from '../pics/actions/back.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -121,8 +122,7 @@ const AboutClubPage = () => {
           <BreadcrumbWrapper>
             <Breadcrumb
               items={[
-                { title: <Link to="/">Главная</Link> },
-                { title: 'О клубе' },
+                { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> }
               ]}
             />
           </BreadcrumbWrapper>

@@ -1,10 +1,11 @@
-import { ConfigProvider, Tabs, List, Avatar as AntAvatar, Tag, Breadcrumb } from 'antd'
+import { ConfigProvider, Tabs, List, Avatar, Tag, Breadcrumb } from 'antd'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
+import backIcon from '../pics/actions/back.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -173,8 +174,7 @@ const UserProfilePage = () => {
           <BreadcrumbWrapper>
             <Breadcrumb
               items={[
-                { title: <Link to="/">Главная</Link> },
-                { title: 'Личный кабинет' },
+                { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> }
               ]}
             />
           </BreadcrumbWrapper>

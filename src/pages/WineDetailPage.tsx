@@ -1,12 +1,11 @@
-import { ConfigProvider, Breadcrumb, Rate, Button, Tabs, Divider } from 'antd'
+import { Breadcrumb, Rate, Button, Tabs, Divider, Avatar } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { HeartOutlined } from '@ant-design/icons'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
-import { useState } from 'react'
+import backIcon from '../pics/actions/back.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -53,7 +52,6 @@ const ProductImageWrapper = styled.div`
   justify-content: center;
   position: relative;
 `
-
 
 const ProductInfo = styled.div`
   display: flex;
@@ -167,10 +165,6 @@ const WineDetailPage = () => {
     )
   }
 
-  const relatedProducts = allProducts
-    .filter(p => p.id !== product.id && p.color === product.color)
-    .slice(0, 4);
-
   const specs = [
     { label: 'Страна', value: product.country },
     { label: 'Регион', value: product.region.split(',')[0] },
@@ -212,9 +206,8 @@ const WineDetailPage = () => {
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
-                  { title: <Link to="/">Главная</Link> },
-                  { title: <Link to="/wines">Коллекция вин</Link> },
-                  { title: '...' },
+                  { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> },
+                  { title: <Link to="/wines">Коллекция вин</Link> }
                 ]}
               />
             </BreadcrumbWrapper>
