@@ -1,4 +1,4 @@
-import { Card, Breadcrumb, Avatar } from 'antd'
+import { Card, Breadcrumb, Avatar, Flex } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -59,10 +59,9 @@ const ItemInfo = styled.div`
   margin-bottom: 20px;
 `
 
-const Name = styled.h3`
+const Name = styled.h4`
   font-size: 24px;
   margin: 0;
-  line-height: 3.0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -127,19 +126,26 @@ const AboutClubPage = () => {
             />
           </BreadcrumbWrapper>
 
-
           <ProductsGrid>
             {blocks.map((member) => (
-                <Card key={member.id}
-                  hoverable
-                  style={{ backgroundColor: '#E7014C' }}
-                  cover={<img alt="example" src={member.image} />}
-                >
-                  <ItemInfo>
-                    <Name>{member.name}</Name>
-                    {member.info.map(block => <p>{block}</p>)}
-                  </ItemInfo>
-              </Card>
+              <Flex style={{ width: '100%', padding: '20px', backgroundColor: '#E7014C' }} align={'flex-start'} gap={16}>
+                  <Avatar 
+                    alt="SX" 
+                    src={member.image}
+                    style={{ width: "130px", height: "130px" }} 
+                  />
+                  <Flex 
+                      vertical
+                      style={{ height: '100%', width: '70%', textAlign: 'left' }}
+                  >
+                    <div>
+                    <ItemInfo>
+                      <Name>{member.name}</Name><br/>
+                      {member.info.map(block => <p>{block}</p>)}
+                    </ItemInfo>
+                    </div>
+                  </Flex>
+              </Flex>
             ))}
           </ProductsGrid>
         </Container>

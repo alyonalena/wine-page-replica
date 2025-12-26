@@ -9,6 +9,7 @@ import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 import photo from '../pics/events/image1.png'
 import marker from '../pics/actions/marker.svg'
+import { Weight } from 'lucide-react'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -85,40 +86,6 @@ const ProductCard = styled(Link)`
   }
 `
 
-const ProductImage = styled.div`
-
-`
-
-const ProductInfo = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`
-
-const ProductName = styled.h2`
-  font-size: 18px;
-  font-weight: 500;
-  color: ${theme.colors.foreground};
-  margin: 0;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-`
-
-
-const ProductRating = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  
-  .ant-rate {
-    font-size: 12px;
-  }
-`
-
 const AddToCartButton = styled(Button)`
   margin-top: 12px;
   width: 100%;
@@ -126,6 +93,28 @@ const AddToCartButton = styled(Button)`
   font-weight: 500;
 `
 
+const ProductName = styled.h2`
+  font-size: 24px;
+  font-weight: 400;
+  color: ${theme.colors.foreground};
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
+const ImportantInfo = styled.h2`
+font-size: 18px;
+font-weight: 400;
+color: ${theme.colors.primary};
+line-height: 0.9;
+margin: 0 0 16px;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow: hidden;
+`
 
 const EventsPage = () => {
 
@@ -159,49 +148,36 @@ const EventsPage = () => {
             <ProductsGrid>
               {allProducts.map((product) => (
                 <ProductCard key={product.id} to={`/event/${product.id}`}>
-                  <Card
-                    style={{ 
-                        width: '100%', 
-                        margin: "0", 
-                        padding: '0',
-                        backgroundColor: 'rgba(255,255,255, 0.9)',
-                        boxShadow: '0px 0px 14px -2px rgba(34, 60, 80, 0.24)'
-                    }}
-                  >
-                    <Flex style={{ width: '100%'}} vertical align={'center'}>
-                        <div>
-                            <Typography.Title level={4}>{'Дегустация «Marie Courtin»' }</Typography.Title>
-                        </div><br/>
+                  <Card>
+                    <Flex style={{ width: '100%' }} align={'center'}>
+                      <ProductName>{'Дегустация «Marie Courtin»' }</ProductName>
                     </Flex>
-                    <Flex style={{ width: '100%', padding: '0 0 20px' }} align={'flex-start'} gap={16}>
+                    <Flex style={{ width: '100%' }} align={'flex-start'} gap={16}>
                         <Avatar 
-                            alt="SX" shape="square" 
-                            src={photo} 
-                            style={{ width: "130px", height: "170px", 
-                            boxShadow: 'inset -16px 0 24px -12px rgba(0, 0, 0, 0.45)' }} 
+                          alt="SX" 
+                          src={photo}
+                          style={{ width: "130px", height: "130px" }} 
                         />
                         <Flex 
-                            vertical
-                            style={{ height: '100%', width: '70%', textAlign: 'left' }}
+                          vertical
+                          style={{ height: '100%',textAlign: 'left' }}
                         >
-                          <div>
-                              <div style={{ lineHeight: 0}}>
-                                  <Typography.Title style={{color: '#E7014C'}} level={4}>Москва</Typography.Title>
-                                  <Space style={{gap:8}}>
-                                    <Avatar size={20} src={marker}/>                                  
-                                    <Typography.Text italic>Nappe</Typography.Text></Space>
-                              </div>
-                              <br/>
-                              <Typography.Title style={{color: '#E7014C'}} level={4}>{'24 января'} ({'ПТ'})</Typography.Title>
-
-                              {/* event.price && (<Space><WalletOutlined style={{ color: '#B8B8B8'}}/><Text italic>{ event.price }</Text></Space>)*/}
+                          <div>                             
+                              <ImportantInfo style={{ fontWeight: 'bold'}}>Москва</ImportantInfo>
+                              <Space style={{ gap:4, lineHeight: '0.9' }}>
+                                <Avatar size={20} src={marker}/>
+                                <Typography.Text italic>Nappe</Typography.Text>
+                              </Space>
+                              <br /><br />  
+                              <ImportantInfo>{'24 января'} ({'ПТ'})</ImportantInfo>
+                              <ImportantInfo>19:00</ImportantInfo>
                               <br />  
                           </div>
                       </Flex> 
-                  </Flex>
-                  <AddToCartButton type="primary" onClick={handleAddToCart}>
-                          Хочу на эту дегустацию <Avatar src={cheers}/>
-                          </AddToCartButton>
+                    </Flex>
+                    <AddToCartButton type="primary" onClick={handleAddToCart}>
+                      Хочу на эту дегустацию <Avatar src={cheers}/>
+                      </AddToCartButton>
                     </Card>
                 </ProductCard>
               ))}

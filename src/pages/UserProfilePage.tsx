@@ -1,4 +1,5 @@
-import { Tabs, List, Avatar, Tag, Breadcrumb } from 'antd'
+import { Tabs, List, Avatar, Tag, Breadcrumb, Typography, Rate } from 'antd'
+
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'
@@ -6,6 +7,9 @@ import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
 import backIcon from '../pics/actions/back.svg'
+import { HeartFilled } from '@ant-design/icons'
+import glass from '../pics/actions/glass.svg'
+import cheers from '../pics/actions/cheers.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -44,16 +48,16 @@ const UserInfo = styled.div`
   gap: 8px;
 `
 
-const UserName = styled.h1`
+const UserName = styled.h3`
   margin: 0;
   font-size: 28px;
   font-weight: 600;
   color: ${theme.colors.foreground};
+    color: ${theme.colors.primary};
 `
 
 const UserStatus = styled.span`
   font-size: 14px;
-  color: ${theme.colors.muted};
 `
 
 const StyledTabs = styled(Tabs)`
@@ -93,6 +97,27 @@ const BreadcrumbWrapper = styled.div`
     }
   }
 `
+const PageHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+`
+
+const PageTitle = styled(Typography.Title)`
+  animation: slideUp 0.4s ease;
+`
+
+const DrawerLogo = styled.div`
+  font-size: 14px;
+  color: ${theme.colors.muted};
+  
+  span {
+    color: ${theme.colors.primary};
+  }
+`
 
 const UserProfilePage = () => {
   const user = {
@@ -109,21 +134,19 @@ const UserProfilePage = () => {
       name: 'Champagne & Oysters Night',
       date: '12 декабря 2024',
       location: 'Москва, SX Wine Bar',
-      status: 'Посетил',
     },
     {
       id: 2,
       name: 'Champagne Masterclass',
       date: '25 ноября 2024',
       location: 'Nappe',
-      status: 'Посетил',
     },
   ]
 
   const tabItems = [
     {
       key: 'favorites',
-      label: 'Избранные вина',
+      label: 'Ваша коллекция вин',
       children: (
         <List
           itemLayout="horizontal"
@@ -131,7 +154,7 @@ const UserProfilePage = () => {
           renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Avatar style={{ backgroundColor: theme.colors.lightBg }}>{item.emoji}</Avatar>}
+                avatar={<Avatar style={{backgroundColor: '#E7014C', padding: '10px'}} size={50} src={glass}/>}
                 title={item.name}
                 description={`${item.region} • ${item.volume}`}
               />
@@ -142,7 +165,7 @@ const UserProfilePage = () => {
     },
     {
       key: 'events',
-      label: 'Дегустации',
+      label: 'Ваши дегустации',
       children: (
         <List
           itemLayout="horizontal"
@@ -150,6 +173,7 @@ const UserProfilePage = () => {
           renderItem={(event) => (
             <List.Item>
               <List.Item.Meta
+                avatar={<Avatar style={{backgroundColor: '#E7014C', padding: '10px'}} size={50} src={cheers}/>}
                 title={event.name}
                 description={
                   <>
@@ -178,13 +202,21 @@ const UserProfilePage = () => {
               ]}
             />
           </BreadcrumbWrapper>
+          <PageHeader>
+              <div>
+                <PageTitle level={3}>{'Личный кабинет'}</PageTitle>
+              </div>
+            </PageHeader>
           <ProfileHeader>
             <AvatarWrapper>
               {user.initials}
             </AvatarWrapper>
             <UserInfo>
               <UserName>{user.fullName}</UserName>
-              <UserStatus>{user.status}</UserStatus>
+              <UserStatus>
+                <DrawerLogo>Приветствуем Вас! Вы <span>друг SX Wine </span></DrawerLogo>
+                <br/><Rate character={<HeartFilled/>} count={3} defaultValue={1} />
+              </UserStatus>
             </UserInfo>
           </ProfileHeader>
           <StyledTabs items={tabItems} defaultActiveKey="favorites" />

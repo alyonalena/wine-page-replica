@@ -123,10 +123,6 @@ const CloseButton = styled(Button)`
   box-shadow: none;
 `
 
-const DrawerNav = styled.nav`
-  padding: 16px 0;
-`
-
 const DrawerNavItem = styled(Link)<{ $isSpecial?: boolean }>`
   display: block;
   padding: 14px 24px;
@@ -150,7 +146,7 @@ const DrawerSection = styled.div`
 const DrawerSectionTitle = styled.h4`
   font-size: 12px;
   text-transform: uppercase;
-  color: ${theme.colors.muted};
+  color: ${theme.colors.primary};
   margin: 0 0 12px;
   letter-spacing: 0.5px;
 `
@@ -171,11 +167,12 @@ const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   const navItems = [
-    { label: 'Дегустации', href: '/events', isSpecial: true },
-    { label: 'Коллекция вин', href: '/wines?category=champagne' },
-    { label: 'Производители вин', href: '/producers'},
-    { label: 'Мерч', href: '', inWork: true},
-    { label: 'Сеты', href: '', inWork: true },
+    { label: 'Дегустации', href: '/events'},
+    { label: 'Коллекция вин', href: '/wines' },
+    { label: 'Любимые производители', href: '/producers'},
+    { label: 'Мерч', href: '/in_progress', inWork: true},
+    { label: 'Сеты', href: '/in_progress', inWork: true },
+    { label: 'Школа Шампани', href: '/in_progress', inWork: true},
   ]
 
   return (
@@ -228,12 +225,11 @@ const Header = () => {
           </DrawerHeader>
           
           <DrawerSection>
-          <DrawerSectionTitle>В клубе</DrawerSectionTitle>
+          <DrawerSectionTitle>У нас в клубе</DrawerSectionTitle>
               {navItems.map((item) => (
                 <DrawerNavItem 
                   key={item.label} 
-                  to={item.href} 
-                  $isSpecial={item.isSpecial}
+                  to={item.href}
                   onClick={() => setDrawerOpen(false)}
                 >
                   {item.label} {item.inWork && (<Tag variant='outlined'>В разработке</Tag>)}
@@ -261,7 +257,6 @@ const Header = () => {
           <DrawerSection>
             <DrawerSectionTitle>Контакты</DrawerSectionTitle>
             <DrawerLink href="tel:88005557799">8 (800) 555-77-99</DrawerLink>
-            <DrawerLink href="mailto:info@sxwine.ru">info@sxwine.ru</DrawerLink>
           </DrawerSection>
         </DrawerContent>
       </Drawer>

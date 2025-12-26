@@ -80,7 +80,6 @@ const ProductCard = styled(Link)`
   }
 `
 
-
 const ProductImage = styled.div`
   width: 30%;
 `

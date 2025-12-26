@@ -1,4 +1,4 @@
-import { Card, Breadcrumb, Avatar, Typography } from 'antd'
+import { Card, Breadcrumb, Avatar, Typography, Flex,  } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -32,11 +32,12 @@ const BreadcrumbWrapper = styled.div`
   }
 `
 
+
 const PageHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   flex-wrap: wrap;
   gap: 16px;
 `
@@ -63,42 +64,6 @@ const ProductsGrid = styled.div`
   }
 `
 
-const ItemCard = styled.div`
-  background: ${theme.colors.primary};
-  border-radius: 12px;
-  padding: 16px 16px 24px;
-  transition: ${theme.transitions.default};
-  position: relative;
-  border: 1px solid ${theme.colors.border};
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  color: white;
-  &:hover {
-    box-shadow: ${theme.shadows.cardHover};
-    transform: translateY(-4px);
-    border-color: transparent;
-  }
-`
-
-const TeamImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-`
-
-const ImageWrapper = styled.div`
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
-  overflow-y: hidden;
-  border-radius: 8px;
-`
-
 const ItemInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -110,7 +75,6 @@ const ItemInfo = styled.div`
 const Name = styled.h3`
   font-size: 24px;
   margin: 0;
-  line-height: 3.0;
   color: white;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -155,16 +119,24 @@ const TeamPage = () => {
           
           <ProductsGrid>
             {team.map((member) => (
-              <Card key={member.id}
-                hoverable
-                style={{ backgroundColor: '#E7014C' }}
-                cover={<img alt="example" src={member.image} />}
-              >
-                <ItemInfo>
-                  <Name>{member.name}</Name>
-                  {member.info}
-                </ItemInfo>
-              </Card>
+              <Flex style={{ width: '100%', padding: '20px', backgroundColor: '#E7014C' }} align={'flex-start'} gap={16}>
+                <Avatar 
+                    alt="SX" 
+                    src={member.image}
+                    style={{ width: "130px", height: "130px" }} 
+                />
+                <Flex 
+                    vertical
+                    style={{ height: '100%', width: '70%', textAlign: 'left' }}
+                >
+                  <div>
+                  <ItemInfo>
+                    <Name>{member.name}</Name>
+                    {member.info}
+                  </ItemInfo>
+                  </div>
+                </Flex>
+              </Flex>
             ))}
           </ProductsGrid>
         </Container>
