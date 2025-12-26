@@ -19,6 +19,12 @@ const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px;
+  backgroundPosition: 'top center, top center',
+  backgroundImage: url('../pics/main/backWine.png'),
+  backgroundSize: 'cover, contain',
+  backgroundRepeat: 'no-repeat, no-repeat',
+  backgroundColor: 'rgba(79, 77, 64, 0.3)', /* Black overlay with 50% opacity */
+  backgroundBlendMode: 'overlay'
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -216,7 +222,7 @@ const WineDetailPage = () => {
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
-                  { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> },
+                  { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
                   { title: <Link to="/wines">К другим винам</Link> }
                 ]}
               />

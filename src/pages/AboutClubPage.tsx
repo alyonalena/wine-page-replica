@@ -56,12 +56,12 @@ const ItemInfo = styled.div`
   flex-direction: column;
   gap: 8px;
   color: white;
-  margin-bottom: 20px;
 `
 
-const Name = styled.h4`
+const Name = styled.h3`
   font-size: 24px;
-  margin: 0;
+  margin: 20px 0;
+  color: white;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -121,30 +121,25 @@ const AboutClubPage = () => {
           <BreadcrumbWrapper>
             <Breadcrumb
               items={[
-                { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> }
+                { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
               ]}
             />
           </BreadcrumbWrapper>
 
           <ProductsGrid>
             {blocks.map((member) => (
-              <Flex style={{ width: '100%', padding: '20px', backgroundColor: '#E7014C' }} align={'flex-start'} gap={16}>
-                  <Avatar 
-                    alt="SX" 
-                    src={member.image}
-                    style={{ width: "130px", height: "130px" }} 
-                  />
-                  <Flex 
-                      vertical
-                      style={{ height: '100%', width: '70%', textAlign: 'left' }}
-                  >
-                    <div>
-                    <ItemInfo>
-                      <Name>{member.name}</Name><br/>
-                      {member.info.map(block => <p>{block}</p>)}
-                    </ItemInfo>
-                    </div>
-                  </Flex>
+              <Flex vertical style={{ padding: '20px', backgroundColor: '#E7014C' }} gap={16}>
+                <Flex style={{ width: '100%', backgroundColor: '#E7014C' }} align={'flex-start'} gap={16}>
+                  <div style={{ padding: 0, margin: 0, width: 130}}>
+                    <Avatar 
+                        alt="SX" 
+                        src={member.image}
+                        style={{ width: "130px", height: "130px" }} 
+                    />
+                  </div>
+                  <Name>{member.name}</Name>
+                </Flex>
+                <ItemInfo>{member.info.map(block => <p>{block}</p>)}</ItemInfo>
               </Flex>
             ))}
           </ProductsGrid>

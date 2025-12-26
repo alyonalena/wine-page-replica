@@ -1,5 +1,5 @@
-import { Breadcrumb, Avatar, Rate, Button, Card, Space, Typography } from 'antd'
-import { useSearchParams, Link } from 'react-router-dom'
+import { Breadcrumb, Avatar, Button, Card, Space, Typography } from 'antd'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -19,6 +19,11 @@ const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px;
+  background-position: top right, top right;
+  background-image: url("src/pics/main/wines.png");
+  background-size: 90px, 90px;
+  background-repeat: no-repeat, no-repeat;
+  background-blend-mode: overlay;
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -45,6 +50,7 @@ const PageHeader = styled.div`
 
 const PageTitle = styled(Typography.Title)`
   animation: slideUp 0.4s ease;
+  line-height: 1;
 `
 
 const ProductsGrid = styled.div`
@@ -72,12 +78,7 @@ const ProductCard = styled(Link)`
   position: relative;
   text-decoration: none;
   display: block;
-  
-  &:hover {
-    box-shadow: ${theme.shadows.cardHover};
-    transform: translateY(-4px);
-    border-color: transparent;
-  }
+  box-shadow: ${theme.shadows.cardHover};
 `
 
 const ProductImage = styled.div`
@@ -102,16 +103,6 @@ const ProductName = styled.h2`
   overflow: hidden;
 `
 
-const ProductRating = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  
-  .ant-rate {
-    font-size: 12px;
-  }
-`
-
 const AddToCartButton = styled(Button)`
   margin-top: 12px;
   width: 100%;
@@ -127,7 +118,6 @@ const WinesPage = () => {
     // Add to cart logic
   }
 
-
   return (
       <PageWrapper>
         <Header />
@@ -136,7 +126,7 @@ const WinesPage = () => {
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
-                  { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> },
+                  { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
                 ]}
               />
             </BreadcrumbWrapper>

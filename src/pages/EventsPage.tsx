@@ -9,7 +9,6 @@ import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 import photo from '../pics/events/image1.png'
 import marker from '../pics/actions/marker.svg'
-import { Weight } from 'lucide-react'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -21,6 +20,11 @@ const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 20px;
+  background-position: top right, top right;
+  background-image: url("src/pics/main/events.png");
+  background-size: 90px, 90px;
+  background-repeat: no-repeat, no-repeat;
+  background-blend-mode: overlay;
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -78,12 +82,7 @@ const ProductCard = styled(Link)`
   position: relative;
   text-decoration: none;
   display: block;
-  
-  &:hover {
-    box-shadow: ${theme.shadows.cardHover};
-    transform: translateY(-4px);
-    border-color: transparent;
-  }
+  box-shadow: ${theme.shadows.cardHover};
 `
 
 const AddToCartButton = styled(Button)`
@@ -94,7 +93,7 @@ const AddToCartButton = styled(Button)`
 `
 
 const ProductName = styled.h2`
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 400;
   color: ${theme.colors.foreground};
   margin: 0 0 16px;
@@ -133,7 +132,7 @@ const EventsPage = () => {
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
-                  { title: <Link to="/"><Avatar size={15} src={backIcon}/>&nbsp;На главную страницу</Link> }
+                  { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
                 ]}
               />
             </BreadcrumbWrapper>
