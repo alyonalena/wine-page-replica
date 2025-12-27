@@ -173,7 +173,7 @@ const UserProfilePage = () => {
           renderItem={(event) => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Avatar style={{backgroundColor: '#E7014C', padding: '10px'}} size={50} src={cheers}/>}
+                avatar={<Avatar style={{ backgroundColor: '#E7014C', padding: '10px' }} size={50} src={cheers}/>}
                 title={event.name}
                 description={
                   <>

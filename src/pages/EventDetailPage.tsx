@@ -1,4 +1,4 @@
-import { Breadcrumb, Avatar, Button, Tabs, Divider } from 'antd'
+import { Breadcrumb, Avatar, Button, Tabs, Divider, List, Flex, Card, Space, Typography } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -7,6 +7,10 @@ import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
+import bottle from '../pics/actions/pink.png'
+import user from '../pics/actions/user.svg'
+import photo from '../pics/events/image1.png'
+import marker from '../pics/actions/marker.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -59,14 +63,6 @@ const ProductInfo = styled.div`
   flex-direction: column;
 `
 
-const ProductName = styled.h1`
-  font-size: 28px;
-  font-weight: 600;
-  color: ${theme.colors.foreground};
-  margin: 0 0 12px;
-  line-height: 1.3;
-`
-
 const ProductMeta = styled.div`
   font-size: 15px;
   color: ${theme.colors.muted};
@@ -85,33 +81,6 @@ const AddToCartButton = styled(Button)`
   font-weight: 600;
 `
 
-const SpecsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  
-  @media (max-width: ${theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
-  }
-`
-
-const SpecItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid ${theme.colors.border};
-`
-
-const SpecLabel = styled.span`
-  font-size: 14px;
-  color: ${theme.colors.muted};
-`
-
-const SpecValue = styled.span`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${theme.colors.foreground};
-`
 
 const TabsSection = styled.div`
   margin-top: 48px;
@@ -141,10 +110,27 @@ const TabsSection = styled.div`
   }
 `
 
-const DescriptionText = styled.p`
-  font-size: 15px;
-  line-height: 1.8;
+const ProductName = styled.h2`
+  font-size: 22px;
+  font-weight: 400;
   color: ${theme.colors.foreground};
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
+const ImportantInfo = styled.h2`
+  font-size: 18px;
+  font-weight: 400;
+  color: ${theme.colors.primary};
+  line-height: 0.9;
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `
 
 const EventDetailPage = () => {
@@ -173,39 +159,46 @@ const EventDetailPage = () => {
     );
   }
 
-  const relatedProducts = allProducts
-    .filter(p => p.id !== product.id && p.color === product.color)
-    .slice(0, 4);
-
-  const specs = [
-    { label: 'Страна', value: product.country },
-    { label: 'Регион', value: product.region.split(',')[0] },
-    { label: 'Виноград', value: product.grape },
-    { label: 'Крепость', value: product.alcohol },
-    { label: 'Цвет', value: product.color },
-    { label: 'Сахар', value: product.sweetness },
-    { label: 'Год урожая', value: product.year },
-    { label: 'Объём', value: product.volume },
-  ]
+  const favoriteWines = allProducts.slice(0, 5)
 
   const tabItems = [
     {
+      key: 'description',
+      label: 'Описание',
+      children: (
+        <>
+          Описание дегустации
+        </>
+      )
+    },
+    {
       key: 'set',
       label: 'Винный сет',
-      children: <DescriptionText>{product.description}</DescriptionText>,
+      children: (
+        <List
+          itemLayout="horizontal"
+          dataSource={favoriteWines}
+          renderItem={(item) => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={<Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/>}
+                title={item.name}
+                description={`${item.region} • ${item.volume}`}
+              />
+            </List.Item>
+          )}
+        />
+      )
     },
     {
       key: 'members',
       label: 'Участники',
       children: (
-        <SpecsGrid>
-          {specs.map((spec) => (
-            <SpecItem key={spec.label}>
-              <SpecLabel>{spec.label}</SpecLabel>
-              <SpecValue>{spec.value}</SpecValue>
-            </SpecItem>
+        <>
+          {favoriteWines.map((favoriteWine) => (            
+             <Avatar key={favoriteWine.id}style={{backgroundColor: '#F5F5F5', padding: '10px', margin: '10px'}} size={50} src={user}/>
           ))}
-        </SpecsGrid>
+        </>
       ),
     },
   ]
@@ -226,14 +219,32 @@ const EventDetailPage = () => {
 
             <ProductLayout>
               <ProductInfo>
-                <ProductImageWrapper>
-                <ProductInfo>
-                    {/*<Rate size='large' disabled defaultValue={product.rating} />*/}
-                    <ProductName>{product.name}</ProductName>
-                    <ProductMeta>{product.color} • {product.sweetness} • {product.volume}</ProductMeta>   
-                    <ProductMeta>{product.region}</ProductMeta>                      
-                </ProductInfo>
-                </ProductImageWrapper>
+                <Flex style={{ width: '100%' }} align={'center'}>
+                    <ProductName>{'Дегустация «Marie Courtin»' }</ProductName>
+                  </Flex> 
+                  <Flex style={{ width: '100%' }} align={'flex-start'} gap={16}>
+                      <Avatar 
+                        alt="SX" 
+                        src={photo}
+                        style={{ width: "130px", height: "130px" }} 
+                      />
+                      <Flex 
+                        vertical
+                        style={{ height: '100%',textAlign: 'left' }}
+                      >
+                        <div>                             
+                            <ImportantInfo style={{ fontWeight: 'bold'}}>Москва</ImportantInfo>
+                            <Space style={{ gap:4, lineHeight: '0.9' }}>
+                              <Avatar size={20} src={marker}/>
+                              <Typography.Text italic>Nappe</Typography.Text>
+                            </Space>
+                            <br /><br />  
+                            <ImportantInfo>{'24 января'} ({'ПТ'})</ImportantInfo>
+                            <ImportantInfo>19:00</ImportantInfo>
+                            <br />  
+                        </div>
+                    </Flex> 
+                  </Flex>
                 <Divider />                
                 <ButtonsSection>
                   <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e)}>
@@ -242,7 +253,6 @@ const EventDetailPage = () => {
                 </ButtonsSection>
               </ProductInfo>
             </ProductLayout>
-
             <TabsSection>
               <Tabs items={tabItems} defaultActiveKey="description" />
             </TabsSection>

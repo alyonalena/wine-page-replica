@@ -104,15 +104,15 @@ const ProductName = styled.h2`
 `
 
 const ImportantInfo = styled.h2`
-font-size: 18px;
-font-weight: 400;
-color: ${theme.colors.primary};
-line-height: 0.9;
-margin: 0 0 16px;
-display: -webkit-box;
--webkit-line-clamp: 2;
--webkit-box-orient: vertical;
-overflow: hidden;
+  font-size: 18px;
+  font-weight: 400;
+  color: ${theme.colors.primary};
+  line-height: 0.9;
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `
 
 const EventsPage = () => {
