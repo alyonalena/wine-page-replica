@@ -121,6 +121,7 @@ const EventsPage = () => {
 
   const successWithCustomIcon = () => {
     messageApi.open({
+      duration: 2,
       content: <>
         <Avatar src={cheers} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
         С Вамим в ближайшее время свяжется наш администратор

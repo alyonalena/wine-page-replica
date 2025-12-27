@@ -1,6 +1,8 @@
-import { message, Breadcrumb, Avatar, Button, Card, Space, Typography } from 'antd'
+import { message, Breadcrumb, Avatar, Button, Card, Space, Typography, Flex, Spin } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
+
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
@@ -91,9 +93,9 @@ const ProductInfo = styled.div`
   gap: 8px;
 `
 
-const ProductName = styled.h2`
-  font-size: 18px;
-  font-weight: 500;
+const ProductName = styled.div`
+  font-size: 16px;
+  font-weight: 400;
   color: ${theme.colors.foreground};
   margin: 0;
   line-height: 1.4;
@@ -115,6 +117,7 @@ const WinesPage = () => {
 
   const successWithCustomIcon = () => {
     messageApi.open({
+      duration: 2,
       content: <>
         <Avatar src={glass} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
         С Вамим в ближайшее время свяжется наш администратор
@@ -129,48 +132,88 @@ const WinesPage = () => {
     // Add to cart logic
   }
 
+
+  const { data: wines, isLoading, isError } = useQuery({
+    queryKey: ['wines'],
+    queryFn: async () => {
+      const response = await fetch("https://severely-superior-monster.cloudpub.ru/api/wines/", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
+  console.info(wines)
+
+  const getContent = () => {
+    if (isError) {
+      return (
+        <Flex style={{ alignItems: 'center', height: '100vh'}}>
+          <Typography.Title>Oops! Something went wrong</Typography.Title>
+        </Flex>
+      )
+    }
+    if (isLoading) {
+      return (
+        <Flex style={{ alignItems: 'center', height: '100vh', justifyContent: 'space-between'}}>
+          <Spin/>
+        </Flex>
+      )
+    } else {
+      return (
+        <Container>
+          {contextHolder}
+          <BreadcrumbWrapper>
+            <Breadcrumb
+              items={[
+                { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
+              ]}
+            />
+          </BreadcrumbWrapper>
+  
+          <PageHeader>
+            <div>
+              <PageTitle level={3}>Коллекция вин</PageTitle>
+              <Typography.Text type='secondary'>Всего: {wines.length}</Typography.Text>
+            </div>
+          </PageHeader>
+  
+          <ProductsGrid>
+  
+            {wines.map((wine) => (
+                <ProductCard key={wine.id} to={`/wine/${wine.id}`}>
+                <Card>
+                  <Space style={{ gap: 24, marginBottom: 16}}>
+                  <ProductImage><Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/></ProductImage>
+                  <ProductInfo>
+                    <ProductName style={{fontSize: '1.3em' }}>{wine.name}</ProductName>
+                    <ProductName>{wine.producer?.name} • {wine.aging} г.</ProductName>
+                    <Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume}л.</Typography.Text>   
+                    <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
+                  </ProductInfo>
+                  </Space>
+                  <AddToCartButton type="primary" onClick={handleAddToCart}>
+                    Хочу это вино <Avatar shape='square' src={glass}/>
+                  </AddToCartButton>
+                </Card>
+              </ProductCard>
+            ))}
+          </ProductsGrid>
+        </Container>
+      )
+    }
+  }
+
   return (
       <PageWrapper>
         <Header />
         <main>
-          <Container>
-          {contextHolder}
-            <BreadcrumbWrapper>
-              <Breadcrumb
-                items={[
-                  { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-                ]}
-              />
-            </BreadcrumbWrapper>
-
-            <PageHeader>
-              <div>
-                <PageTitle level={3}>Коллекция вин</PageTitle>
-                <Typography.Text type='secondary'>{allProducts.length} позиций</Typography.Text>
-              </div>
-            </PageHeader>
-
-            <ProductsGrid>
-
-              {allProducts.map((product) => (
-                  <ProductCard key={product.id} to={`/wine/${product.id}`}>
-                  <Card>
-                    <Space style={{ gap: 24, marginBottom: 16}}>
-                    <ProductImage><Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={70} src={bottle}/></ProductImage>
-                    <ProductInfo>
-                      <ProductName>{product.name}</ProductName>
-                      <Typography.Text type='secondary'>{product.color} • {product.sweetness} • {product.volume}</Typography.Text>   
-                      <Typography.Text type='secondary'>{product.region}</Typography.Text>                              
-                    </ProductInfo>
-                    </Space>
-                    <AddToCartButton type="primary" onClick={handleAddToCart}>
-                      Хочу это вино <Avatar shape='square' src={glass}/>
-                    </AddToCartButton>
-                  </Card>
-                </ProductCard>
-              ))}
-            </ProductsGrid>
-          </Container>
+          {getContent()}
         </main>
         <Footer />
       </PageWrapper>

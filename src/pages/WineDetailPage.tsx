@@ -1,4 +1,6 @@
-import { Breadcrumb, Button, Tabs, Avatar, Space, Typography, message } from 'antd'
+import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { Breadcrumb, Button, Tabs, Avatar, Space, Typography, message, Flex, Spin } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -8,6 +10,7 @@ import { allProducts } from '../data/products'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
+
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -150,11 +153,33 @@ const DescriptionText = styled.p`
 const WineDetailPage = () => {
   const { id } = useParams()
   
-  const product = allProducts.find(p => p.id === Number(id))
+  const [selectedWine, setSelectedWine] = useState(null)
   const [messageApi, contextHolder] = message.useMessage();
+
+  const { data: wines, isLoading, isError } = useQuery({
+    queryKey: ['wines'],
+    queryFn: async () => {
+      const response = await fetch("https://severely-superior-monster.cloudpub.ru/api/wines/", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
+
+  useEffect(() => {
+    const wine = wines?.find(w => w.id === Number(id))
+    setSelectedWine(wine)
+  }, [ wines, id ])
 
   const successWithCustomIcon = () => {
     messageApi.open({
+      duration: 2,
       content: <>
         <Avatar src={glass} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
         С Вамим в ближайшее время свяжется наш администратор
@@ -169,87 +194,110 @@ const WineDetailPage = () => {
     // Add to cart logic
   }
 
-  if (!product) {
-    return (
-      <PageWrapper>
-        <Header />
-        <Container>
-          <h1>Товар не найден</h1>
-          <Link to="/wines">Перейти в коллекцию вин</Link>
-        </Container>
-        <Footer />
-      </PageWrapper>
-    )
+
+  const getTabs = () => {
+    if (!selectedWine) {
+      return []
+    }
+    const specs = [
+      { label: 'Страна', value: selectedWine.country?.name },
+      { label: 'Регион', value: selectedWine.region?.name },
+      
+      { label: 'Крепость', value: selectedWine.alcohol?.name },
+      { label: 'Цвет', value: selectedWine.color?.name },
+      { label: 'Сахар', value: selectedWine.sugar?.name },
+      { label: 'Год урожая', value: selectedWine.aging },
+      { label: 'Объём', value: selectedWine.volume },
+    ]
+    return [
+      {
+        key: 'description',
+        label: 'Описание',
+        children: <DescriptionText>{selectedWine.description || "Описание не найдено"}</DescriptionText>,
+      },
+      {
+        key: 'specs',
+        label: 'Характеристики',
+        children: (
+          <SpecsGrid>
+            <SpecItem key={'grape_variety'}>
+            <SpecLabel>Виноград</SpecLabel>
+            <SpecValue>
+              { selectedWine.grape_variety?.map(({name, percentage}) => (<div>{`${percentage}% ${name}`}</div>)) }
+            </SpecValue>            
+            </SpecItem>
+            {specs.map((spec) => (
+              <SpecItem key={spec.label}>
+                <SpecLabel>{spec.label}</SpecLabel>
+                <SpecValue>{spec.value}</SpecValue>
+              </SpecItem>
+            ))}
+          </SpecsGrid>
+        ),
+      },
+    ]
   }
 
-  const specs = [
-    { label: 'Страна', value: product.country },
-    { label: 'Регион', value: product.region.split(',')[0] },
-    { label: 'Виноград', value: product.grape },
-    { label: 'Крепость', value: product.alcohol },
-    { label: 'Цвет', value: product.color },
-    { label: 'Сахар', value: product.sweetness },
-    { label: 'Год урожая', value: product.year },
-    { label: 'Объём', value: product.volume },
-  ]
+  const getContent = () => {
 
-  const tabItems = [
-    {
-      key: 'description',
-      label: 'Описание',
-      children: <DescriptionText>{product.description}</DescriptionText>,
-    },
-    {
-      key: 'specs',
-      label: 'Характеристики',
-      children: (
-        <SpecsGrid>
-          {specs.map((spec) => (
-            <SpecItem key={spec.label}>
-              <SpecLabel>{spec.label}</SpecLabel>
-              <SpecValue>{spec.value}</SpecValue>
-            </SpecItem>
-          ))}
-        </SpecsGrid>
-      ),
-    },
-  ]
+    if (isLoading) {
+      return (
+        <Flex style={{ alignItems: 'center', height: '100vh', justifyContent: 'space-between'}}>
+          <Spin/>
+        </Flex>
+      )
+    }
+    if (!selectedWine) {
+      return (
+        <PageWrapper>
+          <Container>
+            <h1>Товар не найден</h1>
+            <Link to="/wines">Перейти в коллекцию вин</Link>
+          </Container>
+        </PageWrapper>
+      )
+    }
+    return (
+      <Container>
+        {contextHolder}
+        <BreadcrumbWrapper>
+          <Breadcrumb
+            items={[
+              { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
+              { title: <Link to="/wines">К другим винам</Link> }
+            ]}
+          />
+        </BreadcrumbWrapper>
+        <ProductLayout>
+          <ProductInfo>
+            <Space style={{ gap: 24, marginBottom: 16}}>
+              <ProductImage><Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/></ProductImage>
+              <ProductInfo>
+                <ProductName style={{fontSize: '1.3em' }}>{selectedWine?.name}</ProductName>
+                <ProductName>{selectedWine?.producer?.name} • {selectedWine?.aging} г.</ProductName>
+                <Typography.Text type='secondary'>{selectedWine?.color?.name} • {selectedWine?.sugar?.name} • {selectedWine?.volume}л.</Typography.Text>   
+                <Typography.Text type='secondary'>{selectedWine?.country?.name} • {selectedWine?.region?.name}</Typography.Text>                              
+              </ProductInfo>
+            </Space>
+            <ButtonsSection>
+              <AddToCartButton type="primary" onClick={handleAddToCart}>
+                Хочу это вино <Avatar shape='square' src={glass}/>
+              </AddToCartButton>
+            </ButtonsSection>
+          </ProductInfo>
+        </ProductLayout>
+        <TabsSection>
+          <Tabs items={getTabs()} defaultActiveKey="description" />
+        </TabsSection>
+      </Container>
+    )
+  }
 
   return (
       <PageWrapper>
         <Header />
         <main>
-          <Container>            
-            {contextHolder}
-            <BreadcrumbWrapper>
-              <Breadcrumb
-                items={[
-                  { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-                  { title: <Link to="/wines">К другим винам</Link> }
-                ]}
-              />
-            </BreadcrumbWrapper>
-            <ProductLayout>
-              <ProductInfo>
-                <Space style={{ gap: 24, marginBottom: 16}}>
-                  <ProductImage><Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={70} src={bottle}/></ProductImage>
-                  <ProductInfo>
-                    <ProductName>{product.name}</ProductName>
-                    <Typography.Text type='secondary'>{product.color} • {product.sweetness} • {product.volume}</Typography.Text>   
-                    <Typography.Text type='secondary'>{product.region}</Typography.Text>                              
-                  </ProductInfo>
-                </Space>
-                <ButtonsSection>
-                  <AddToCartButton type="primary" onClick={handleAddToCart}>
-                    Хочу это вино <Avatar shape='square' src={glass}/>
-                  </AddToCartButton>
-                </ButtonsSection>
-              </ProductInfo>
-            </ProductLayout>
-            <TabsSection>
-              <Tabs items={tabItems} defaultActiveKey="description" />
-            </TabsSection>
-          </Container>
+          {getContent()}
         </main>
         <Footer />
       </PageWrapper>
