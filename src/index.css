@@ -124,6 +124,14 @@ body {
   font-family: 'Drugs', sans-serif !important;
 }
 
+.ant-message-notice-content {
+  background: #E7014C !important;
+  color: white !important;
+  font-size: 24px;
+  margin: 30px 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

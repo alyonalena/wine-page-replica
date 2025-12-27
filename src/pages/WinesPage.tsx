@@ -1,4 +1,4 @@
-import { Breadcrumb, Avatar, Button, Card, Space, Typography } from 'antd'
+import { message, Breadcrumb, Avatar, Button, Card, Space, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -111,8 +111,20 @@ const AddToCartButton = styled(Button)`
 `
 
 const WinesPage = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const successWithCustomIcon = () => {
+    messageApi.open({
+      content: <>
+        <Avatar src={glass} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
+        С Вамим в ближайшее время свяжется наш администратор
+      </>,
+      // Custom icon definition
+    })
+  }
 
   const handleAddToCart = (e: React.MouseEvent) => {
+    successWithCustomIcon()
     e.preventDefault()
     e.stopPropagation()
     // Add to cart logic
@@ -122,7 +134,9 @@ const WinesPage = () => {
       <PageWrapper>
         <Header />
         <main>
+
           <Container>
+          {contextHolder}
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
@@ -139,6 +153,7 @@ const WinesPage = () => {
             </PageHeader>
 
             <ProductsGrid>
+
               {allProducts.map((product) => (
                   <ProductCard key={product.id} to={`/wine/${product.id}`}>
                   <Card>
