@@ -1,4 +1,4 @@
-import { Card, Breadcrumb, Avatar, Typography, Flex,  } from 'antd'
+import { Breadcrumb, Avatar, Typography, Flex,  } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -17,7 +17,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 20px;
+  padding: 12px 20px;
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -31,7 +31,6 @@ const BreadcrumbWrapper = styled.div`
     }
   }
 `
-
 
 const PageHeader = styled.div`
   display: flex;

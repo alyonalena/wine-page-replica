@@ -1,4 +1,4 @@
-import { Breadcrumb, Typography, Avatar, Button, Card, Space, Flex } from 'antd'
+import { Breadcrumb, Typography, Avatar, Button, Card, Space, Flex, message } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -19,7 +19,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 20px;
+  padding: 12px 20px;
   background-position: top right, top right;
   background-image: url("src/pics/main/events.png");
   background-size: 90px, 90px;
@@ -117,8 +117,19 @@ const ImportantInfo = styled.h2`
 
 const EventsPage = () => {
 
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const successWithCustomIcon = () => {
+    messageApi.open({
+      content: <>
+        <Avatar src={cheers} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
+        С Вамим в ближайшее время свяжется наш администратор
+      </>,
+    })
+  }
+
   const handleAddToCart = (e: React.MouseEvent) => {
-    alert('Спасибо за интерес! С Вамим в ближайшее время свяжется наш администратор')
+    successWithCustomIcon()
     e.preventDefault()
     e.stopPropagation()
     // Add to cart logic
@@ -129,6 +140,7 @@ const EventsPage = () => {
         <Header />
         <main>
           <Container>
+            {contextHolder}
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[

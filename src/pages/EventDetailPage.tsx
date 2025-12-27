@@ -1,4 +1,4 @@
-import { Breadcrumb, Avatar, Button, Tabs, Divider, List, Flex, Card, Space, Typography } from 'antd'
+import { Breadcrumb, Avatar, Button, Tabs, List, Flex, Space, Typography, message } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -10,7 +10,6 @@ import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
 import user from '../pics/actions/user.svg'
 import photo from '../pics/events/image1.png'
-import marker from '../pics/actions/marker.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -21,7 +20,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 20px;
+  padding: 12px 20px;
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -40,33 +39,17 @@ const ProductLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 48px;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 24px;
   }
-`
-
-const ProductImageWrapper = styled.div`
-  background: ${theme.colors.lightBg};
-  border-radius: 16px;
-  padding: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
 `
 
 const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
-`
-
-const ProductMeta = styled.div`
-  font-size: 15px;
-  color: ${theme.colors.muted};
-  margin-bottom: 16px;
 `
 
 const ButtonsSection = styled.div`
@@ -135,14 +118,23 @@ const ImportantInfo = styled.h2`
 
 const EventDetailPage = () => {
   const { id } = useParams()
-  
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const successWithCustomIcon = () => {
+    messageApi.open({
+      content: <>
+        <Avatar src={cheers} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
+        С Вамим в ближайшее время свяжется наш администратор
+      </>,
+    })
+  }
+
   const handleAddToCart = (e: React.MouseEvent) => {
-    alert('Спасибо за интерес! С Вамим в ближайшее время свяжется наш администратор')
+    successWithCustomIcon()
     e.preventDefault()
     e.stopPropagation()
     // Add to cart logic
-  };
-
+  }
 
   const product = allProducts.find(p => p.id === Number(id))
   
@@ -208,6 +200,7 @@ const EventDetailPage = () => {
         <Header />
         <main>
           <Container>
+            {contextHolder}
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
@@ -219,33 +212,34 @@ const EventDetailPage = () => {
 
             <ProductLayout>
               <ProductInfo>
-                <Flex style={{ width: '100%' }} align={'center'}>
+                  <Flex style={{ width: '100%' }} align={'center'}>
                     <ProductName>{'Дегустация «Marie Courtin»' }</ProductName>
                   </Flex> 
-                  <Flex style={{ width: '100%' }} align={'flex-start'} gap={16}>
-                      <Avatar 
-                        alt="SX" 
-                        src={photo}
-                        style={{ width: "130px", height: "130px" }} 
-                      />
-                      <Flex 
-                        vertical
-                        style={{ height: '100%',textAlign: 'left' }}
-                      >
-                        <div>                             
-                            <ImportantInfo style={{ fontWeight: 'bold'}}>Москва</ImportantInfo>
-                            <Space style={{ gap:4, lineHeight: '0.9' }}>
-                              <Avatar size={20} src={marker}/>
-                              <Typography.Text italic>Nappe</Typography.Text>
-                            </Space>
-                            <br /><br />  
-                            <ImportantInfo>{'24 января'} ({'ПТ'})</ImportantInfo>
-                            <ImportantInfo>19:00</ImportantInfo>
-                            <br />  
+                  <Flex style={{ width: '100%'}} align={'flex-start'} gap={16}>
+                        <div style={{ padding: 0, margin: 0, width: 130}}>
+                            <Avatar 
+                              alt="SX" 
+                              src={photo}
+                              style={{ width: "130px", height: "130px" }} 
+                            />
                         </div>
-                    </Flex> 
-                  </Flex>
-                <Divider />                
+                        <Flex 
+                            vertical
+                            style={{ height: '100%',textAlign: 'left' }}
+                          >
+                            <div>
+                                <ImportantInfo>Москва</ImportantInfo>
+                                <Space style={{ gap:4, lineHeight: '0.9' }}>
+                                  
+                                  <Typography.Text type='secondary'>{'Nappe'} • {'Скатертный переулок, д. 13'}</Typography.Text>
+                                </Space>
+                                <br /><br />  
+                                <ImportantInfo>{'24 января'} • {'ПТ'} • {'19:00'}</ImportantInfo>
+
+                                <br />  
+                            </div>
+                        </Flex> 
+                    </Flex>              
                 <ButtonsSection>
                   <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e)}>
                     Хочу на эту дегустацию <Avatar src={cheers}/>

@@ -18,7 +18,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 20px;
+  padding: 12px 20px;
   background-position: top right, top right;
   background-image: url("src/pics/main/wines.png");
   background-size: 90px, 90px;
@@ -119,7 +119,6 @@ const WinesPage = () => {
         <Avatar src={glass} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
         С Вамим в ближайшее время свяжется наш администратор
       </>,
-      // Custom icon definition
     })
   }
 
@@ -134,7 +133,6 @@ const WinesPage = () => {
       <PageWrapper>
         <Header />
         <main>
-
           <Container>
           {contextHolder}
             <BreadcrumbWrapper>

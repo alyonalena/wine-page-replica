@@ -1,4 +1,4 @@
-import { Breadcrumb, Rate, Button, Tabs, Divider, Avatar, Space, Typography } from 'antd'
+import { Breadcrumb, Button, Tabs, Avatar, Space, Typography, message } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -18,7 +18,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 20px;
+  padding: 12px 20px;
   backgroundPosition: 'top center, top center',
   backgroundImage: url('../pics/main/backWine.png'),
   backgroundSize: 'cover, contain',
@@ -42,23 +42,13 @@ const BreadcrumbWrapper = styled.div`
 const ProductLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  gap: 24px;
   margin-bottom: 48px;
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 24px;
   }
-`
-
-const ProductImageWrapper = styled.div`
-  background: ${theme.colors.lightBg};
-  border-radius: 16px;
-  padding: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
 `
 
 const ButtonsSection = styled.div`
@@ -110,18 +100,18 @@ const SpecItem = styled.div`
   justify-content: space-between;
   padding: 12px 0;
   border-bottom: 1px solid ${theme.colors.border};
-`;
+`
 
 const SpecLabel = styled.span`
   font-size: 14px;
   color: ${theme.colors.muted};
-`;
+`
 
 const SpecValue = styled.span`
   font-size: 14px;
   font-weight: 500;
   color: ${theme.colors.foreground};
-`;
+`
 
 const TabsSection = styled.div`
   margin-top: 48px;
@@ -149,7 +139,7 @@ const TabsSection = styled.div`
     background: ${theme.colors.primary};
     height: 3px;
   }
-`;
+`
 
 const DescriptionText = styled.p`
   font-size: 15px;
@@ -161,8 +151,19 @@ const WineDetailPage = () => {
   const { id } = useParams()
   
   const product = allProducts.find(p => p.id === Number(id))
-  
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const successWithCustomIcon = () => {
+    messageApi.open({
+      content: <>
+        <Avatar src={glass} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
+        С Вамим в ближайшее время свяжется наш администратор
+      </>,
+    })
+  }
+
   const handleAddToCart = (e: React.MouseEvent) => {
+    successWithCustomIcon()
     e.preventDefault()
     e.stopPropagation()
     // Add to cart logic
@@ -218,7 +219,8 @@ const WineDetailPage = () => {
       <PageWrapper>
         <Header />
         <main>
-          <Container>
+          <Container>            
+            {contextHolder}
             <BreadcrumbWrapper>
               <Breadcrumb
                 items={[
