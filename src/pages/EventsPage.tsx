@@ -19,7 +19,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 10px 16px;
   background-position: top right, top right;
   background-image: url("src/pics/main/events.png");
   background-size: 90px, 90px;
@@ -45,7 +45,7 @@ const PageHeader = styled.div`
   align-items: center;
   margin-bottom: 32px;
   flex-wrap: wrap;
-  gap: 16px;
+  line-height: 0.8;
 `
 
 const PageTitle = styled(Typography.Title)`
@@ -54,7 +54,7 @@ const PageTitle = styled(Typography.Title)`
 
 const ResultsCount = styled.span`
   color: ${theme.colors.muted};
-  font-size: 14px;
+  font-size: 12px;
 `
 
 const ProductsGrid = styled.div`
@@ -78,6 +78,7 @@ const ProductsGrid = styled.div`
 const ProductCard = styled(Link)`
   background: ${theme.colors.background};
   border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   transition: ${theme.transitions.default};
   position: relative;
   text-decoration: none;
@@ -93,7 +94,7 @@ const AddToCartButton = styled(Button)`
 `
 
 const ProductName = styled.h2`
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 400;
   color: ${theme.colors.foreground};
   margin: 0 0 16px;
@@ -104,7 +105,7 @@ const ProductName = styled.h2`
 `
 
 const ImportantInfo = styled.h2`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   color: ${theme.colors.primary};
   line-height: 0.9;
@@ -160,37 +161,35 @@ const EventsPage = () => {
             <ProductsGrid>
               {allProducts.map((product) => (
                 <ProductCard key={product.id} to={`/event/${product.id}`}>
-                  <Card>
-                    <Flex style={{ width: '100%' }} align={'center'}>
+                    <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                       <ProductName>{'Дегустация «Marie Courtin»' }</ProductName>
-                    </Flex>
-                    <Flex style={{ width: '100%' }} align={'flex-start'} gap={16}>
-                        <Avatar 
-                          alt="SX" 
-                          src={photo}
-                          style={{ width: "130px", height: "130px" }} 
-                        />
-                        <Flex 
+                    </Flex> 
+                    <Flex style={{ width: '100%', padding: '8px 16px '}} align={'flex-start'} gap={8}>
+                      <div style={{ padding: 0, margin: 0, width: 130}}>
+                          <Avatar 
+                            alt="SX" 
+                            src={photo}
+                            style={{ width: "130px", height: "130px" }} 
+                          />
+                      </div>
+                      <Flex 
                           vertical
                           style={{ height: '100%',textAlign: 'left' }}
                         >
-                          <div>                             
-                              <ImportantInfo style={{ fontWeight: 'bold'}}>Москва</ImportantInfo>
+                          <div>
+                              <ImportantInfo>Москва</ImportantInfo>
                               <Space style={{ gap:4, lineHeight: '0.9' }}>
-                                <Avatar size={20} src={marker}/>
-                                <Typography.Text italic>Nappe</Typography.Text>
+                                <Typography.Text type='secondary'>{'Nappe'} • {'Скатертный переулок, д. 13'}</Typography.Text>
                               </Space>
-                              <br /><br />  
-                              <ImportantInfo>{'24 января'} ({'ПТ'})</ImportantInfo>
-                              <ImportantInfo>19:00</ImportantInfo>
-                              <br />  
+                              <br />  <br /> 
+                              <ImportantInfo>{'24 января'} • {'ПТ'} • {'19:00'}</ImportantInfo>
                           </div>
                       </Flex> 
                     </Flex>
                     <AddToCartButton type="primary" onClick={handleAddToCart}>
                       Хочу на эту дегустацию <Avatar src={cheers}/>
-                      </AddToCartButton>
-                    </Card>
+                    </AddToCartButton>
+
                 </ProductCard>
               ))}
             </ProductsGrid>

@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
-import { allProducts } from '../data/products'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
@@ -20,7 +19,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 12px 16px;
   background-position: top right, top right;
   background-image: url("src/pics/main/wines.png");
   background-size: 90px, 90px;
@@ -41,18 +40,21 @@ const BreadcrumbWrapper = styled.div`
 `
 
 const PageHeader = styled.div`
-  animation: slideUp 0.4s ease;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
   flex-wrap: wrap;
-  gap: 16px;
+  line-height: 0.8;
 `
 
 const PageTitle = styled(Typography.Title)`
   animation: slideUp 0.4s ease;
-  line-height: 1;
+`
+
+const ResultsCount = styled.span`
+  color: ${theme.colors.muted};
+  font-size: 12px;
 `
 
 const ProductsGrid = styled.div`
@@ -76,6 +78,7 @@ const ProductsGrid = styled.div`
 const ProductCard = styled(Link)`
   background: ${theme.colors.background};
   border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   transition: ${theme.transitions.default};
   position: relative;
   text-decoration: none;
@@ -93,17 +96,30 @@ const ProductInfo = styled.div`
   gap: 8px;
 `
 
-const ProductName = styled.div`
+const ProductName = styled.h2`
   font-size: 16px;
   font-weight: 400;
+  line-height: 1;
   color: ${theme.colors.foreground};
-  margin: 0;
-  line-height: 1.4;
+  margin: 0 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 `
+
+const ImportantInfo = styled.h2`
+  font-size: 16px;
+  font-weight: 400;
+  color: ${theme.colors.primary};
+  line-height: 0.9;
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
 
 const AddToCartButton = styled(Button)`
   margin-top: 12px;
@@ -179,7 +195,7 @@ const WinesPage = () => {
           <PageHeader>
             <div>
               <PageTitle level={3}>Коллекция вин</PageTitle>
-              <Typography.Text type='secondary'>Всего: {wines.length}</Typography.Text>
+              <ResultsCount>Всего: {wines.length}</ResultsCount>
             </div>
           </PageHeader>
   
@@ -187,20 +203,25 @@ const WinesPage = () => {
   
             {wines.map((wine) => (
                 <ProductCard key={wine.id} to={`/wine/${wine.id}`}>
-                <Card>
-                  <Space style={{ gap: 24, marginBottom: 16}}>
-                  <ProductImage><Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/></ProductImage>
-                  <ProductInfo>
-                    <ProductName style={{fontSize: '1.3em' }}>{wine.name}</ProductName>
-                    <ProductName>{wine.producer?.name} • {wine.aging} г.</ProductName>
-                    <Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume}л.</Typography.Text>   
-                    <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
-                  </ProductInfo>
-                  </Space>
-                  <AddToCartButton type="primary" onClick={handleAddToCart}>
-                    Хочу это вино <Avatar shape='square' src={glass}/>
-                  </AddToCartButton>
-                </Card>
+                  <Flex style={{ width: '100%', padding: '16px '}} align={'center'} gap={8}>
+                    <div style={{ padding: 0, margin: 0, width: 70}}>
+                        <Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/>
+                    </div>
+                    <Flex 
+                        vertical
+                        style={{ height: '100%',textAlign: 'left' }}
+                      >
+                        <ProductInfo>
+                          <ProductName style={{fontSize: '1.3em' }}>{wine.name}</ProductName>
+                          <ImportantInfo>{wine.producer?.name} • {wine.aging} г.</ImportantInfo>
+                          <Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume}л.</Typography.Text>   
+                          <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
+                        </ProductInfo>
+                    </Flex> 
+                  </Flex>
+                <AddToCartButton type="primary" onClick={handleAddToCart}>
+                  Хочу это вино <Avatar shape='square' src={glass}/>
+                </AddToCartButton>
               </ProductCard>
             ))}
           </ProductsGrid>

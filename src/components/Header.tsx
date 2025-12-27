@@ -53,7 +53,7 @@ const LocationSelect = styled.div`
 const MainHeader = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  padding: 16px 20px;
+  padding: 8px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -201,7 +201,7 @@ const Header = () => {
         <Flex align={"center"} gap={16}>
           <Link to="/profile" style={{ textDecoration: 'none' }}>
             <ActionItem>
-              <Avatar shape="square" src={user} />
+              <Avatar shape="square" style={{ width: "25px", height: "25px" }} src={user} />
             </ActionItem>
           </Link>
           <ActionItem onClick={() => setDrawerOpen(true)}>

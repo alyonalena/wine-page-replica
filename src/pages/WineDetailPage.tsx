@@ -21,7 +21,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 12px 16px;
   backgroundPosition: 'top center, top center',
   backgroundImage: url('../pics/main/backWine.png'),
   backgroundSize: 'cover, contain',
@@ -201,8 +201,7 @@ const WineDetailPage = () => {
     }
     const specs = [
       { label: 'Страна', value: selectedWine.country?.name },
-      { label: 'Регион', value: selectedWine.region?.name },
-      
+      { label: 'Регион', value: selectedWine.region?.name },      
       { label: 'Крепость', value: selectedWine.alcohol?.name },
       { label: 'Цвет', value: selectedWine.color?.name },
       { label: 'Сахар', value: selectedWine.sugar?.name },
@@ -213,7 +212,7 @@ const WineDetailPage = () => {
       {
         key: 'description',
         label: 'Описание',
-        children: <DescriptionText>{selectedWine.description || "Описание не найдено"}</DescriptionText>,
+        children: <DescriptionText>{selectedWine.description || "Описания вина пока нет"}</DescriptionText>,
       },
       {
         key: 'specs',

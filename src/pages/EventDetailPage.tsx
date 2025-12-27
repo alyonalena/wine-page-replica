@@ -20,7 +20,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 10px 16px;
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -43,7 +43,7 @@ const ProductLayout = styled.div`
   
   @media (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 8px;
   }
 `
 
@@ -54,7 +54,6 @@ const ProductInfo = styled.div`
 
 const ButtonsSection = styled.div`
   display: flex;
-  gap: 12px;
 `
 
 const AddToCartButton = styled(Button)`
@@ -94,7 +93,7 @@ const TabsSection = styled.div`
 `
 
 const ProductName = styled.h2`
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 400;
   color: ${theme.colors.foreground};
   margin: 0 0 16px;
@@ -216,31 +215,29 @@ const EventDetailPage = () => {
                   <Flex style={{ width: '100%' }} align={'center'}>
                     <ProductName>{'Дегустация «Marie Courtin»' }</ProductName>
                   </Flex> 
-                  <Flex style={{ width: '100%'}} align={'flex-start'} gap={16}>
-                        <div style={{ padding: 0, margin: 0, width: 130}}>
-                            <Avatar 
-                              alt="SX" 
-                              src={photo}
-                              style={{ width: "130px", height: "130px" }} 
-                            />
+                  <Flex style={{ width: '100%'}} align={'flex-start'} gap={8}>
+                    <div style={{ padding: 0, margin: 0, width: 130}}>
+                        <Avatar 
+                          alt="SX" 
+                          src={photo}
+                          style={{ width: "130px", height: "130px" }} 
+                        />
+                    </div>
+                    <Flex 
+                        vertical
+                        style={{ height: '100%',textAlign: 'left' }}
+                      >
+                        <div>
+                            <ImportantInfo>Москва</ImportantInfo>
+                            <Space style={{ gap:4, lineHeight: '0.9' }}>                                  
+                              <Typography.Text type='secondary'>{'Nappe'} • {'Скатертный переулок, д. 13'}</Typography.Text>
+                            </Space>
+                            <br /><br />  
+                            <ImportantInfo>{'24 января'} • {'ПТ'} • {'19:00'}</ImportantInfo>
+                            <br />
                         </div>
-                        <Flex 
-                            vertical
-                            style={{ height: '100%',textAlign: 'left' }}
-                          >
-                            <div>
-                                <ImportantInfo>Москва</ImportantInfo>
-                                <Space style={{ gap:4, lineHeight: '0.9' }}>
-                                  
-                                  <Typography.Text type='secondary'>{'Nappe'} • {'Скатертный переулок, д. 13'}</Typography.Text>
-                                </Space>
-                                <br /><br />  
-                                <ImportantInfo>{'24 января'} • {'ПТ'} • {'19:00'}</ImportantInfo>
-
-                                <br />  
-                            </div>
-                        </Flex> 
-                    </Flex>              
+                    </Flex> 
+                  </Flex>
                 <ButtonsSection>
                   <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e)}>
                     Хочу на эту дегустацию <Avatar src={cheers}/>

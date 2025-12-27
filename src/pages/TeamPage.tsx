@@ -17,9 +17,8 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 10px 16px;
 `
-
 const BreadcrumbWrapper = styled.div`
   margin-bottom: 24px;
   
