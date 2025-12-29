@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Breadcrumb, Button, Tabs, Avatar, Space, Typography, message, Flex, Spin } from 'antd'
+import { Breadcrumb, Button, Tabs, Avatar, Space, Typography, message, Flex, Spin, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
-import { allProducts } from '../data/products'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
-
+import forwardIcon from '../pics/actions/forward.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -28,18 +27,6 @@ const Container = styled.div`
   backgroundRepeat: 'no-repeat, no-repeat',
   backgroundColor: 'rgba(79, 77, 64, 0.3)', /* Black overlay with 50% opacity */
   backgroundBlendMode: 'overlay'
-`
-
-const BreadcrumbWrapper = styled.div`
-  margin-bottom: 24px;
-  
-  .ant-breadcrumb-link a {
-    color: ${theme.colors.muted};
-    
-    &:hover {
-      color: ${theme.colors.primary};
-    }
-  }
 `
 
 const ProductLayout = styled.div`
@@ -241,7 +228,7 @@ const WineDetailPage = () => {
 
     if (isLoading) {
       return (
-        <Flex style={{ alignItems: 'center', height: '100vh', justifyContent: 'space-between'}}>
+        <Flex style={{ alignItems: 'center', height: '100vh'}}>
           <Spin/>
         </Flex>
       )
@@ -259,20 +246,28 @@ const WineDetailPage = () => {
     return (
       <Container>
         {contextHolder}
-        <BreadcrumbWrapper>
+        <Flex>
           <Breadcrumb
             items={[
               { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-              { title: <Link to="/wines">К другим винам</Link> }
             ]}
           />
-        </BreadcrumbWrapper>
+        </Flex>
+        <Flex justify='space-between'>
+          <div></div>
+          <Breadcrumb
+            items={[
+              { title: <Link style={{ textAlign: 'center' }} to="/wines">К другим винам<Avatar shape={'square'} size={20} src={forwardIcon}/></Link> }
+            ]}
+          />
+        </Flex>
+        <Divider/>
         <ProductLayout>
           <ProductInfo>
-            <Space style={{ gap: 24, marginBottom: 16}}>
+            <Space style={{ gap: 24, marginBottom: 24}}>
               <ProductImage><Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/></ProductImage>
               <ProductInfo>
-                <ProductName style={{fontSize: '1.3em' }}>{selectedWine?.name}</ProductName>
+                <ProductName>{selectedWine?.name}</ProductName>
                 <ProductName>{selectedWine?.producer?.name} • {selectedWine?.aging} г.</ProductName>
                 <Typography.Text type='secondary'>{selectedWine?.color?.name} • {selectedWine?.sugar?.name} • {selectedWine?.volume}л.</Typography.Text>   
                 <Typography.Text type='secondary'>{selectedWine?.country?.name} • {selectedWine?.region?.name}</Typography.Text>                              

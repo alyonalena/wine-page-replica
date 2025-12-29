@@ -1,4 +1,5 @@
-import { Breadcrumb, Typography, Avatar, Button, Card, Space, Flex, message } from 'antd'
+import { Breadcrumb, Typography, Avatar, Button, Space, Flex, message, Spin } from 'antd'
+import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -8,7 +9,6 @@ import { allProducts } from '../data/products'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 import photo from '../pics/events/image1.png'
-import marker from '../pics/actions/marker.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -119,6 +119,22 @@ const ImportantInfo = styled.h2`
 const EventsPage = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
+  const { data: events, isLoading, isError } = useQuery({
+    queryKey: ['events'],
+    queryFn: async () => {
+      const response = await fetch("https://severely-superior-monster.cloudpub.ru/api/events/", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
+  console.info(events)
 
   const successWithCustomIcon = () => {
     messageApi.open({
@@ -137,63 +153,81 @@ const EventsPage = () => {
     // Add to cart logic
   }
 
+  const getContent = () => {
+    if (isError) {
+      return (
+        <Flex style={{ alignItems: 'center', height: '100vh'}}>
+          <Typography.Title>Oops! Something went wrong</Typography.Title>
+        </Flex>
+      )
+    }
+    if (isLoading) {
+      return (
+        <Flex style={{ alignItems: 'center', height: '100vh'}}>
+          <Spin/>
+        </Flex>
+      )
+    } else {
+      return (
+        <Container>
+          {contextHolder}
+          <BreadcrumbWrapper>
+            <Breadcrumb
+              items={[
+                { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
+              ]}
+            />
+          </BreadcrumbWrapper>  
+          <PageHeader>
+            <div>
+              <PageTitle level={3}>{'Дегустации'}</PageTitle>              
+              <ResultsCount>в Москве и Санкт-Петербурге</ResultsCount>
+            </div>
+          </PageHeader> 
+          <ProductsGrid>  
+            {events.map((event) => (
+              <ProductCard key={event.id} to={`/event/${event.id}`}>
+                <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
+                  <ProductName>{event.name}</ProductName>
+                </Flex> 
+                <Flex style={{ width: '100%', padding: '8px 16px '}} align={'flex-start'} gap={8}>
+                  <div style={{ padding: 0, margin: 0, width: 130}}>
+                      <Avatar 
+                        alt="SX" 
+                        src={event.image}
+                        style={{ width: "130px", height: "130px" }} 
+                      />
+                  </div>
+                  <Flex 
+                      vertical
+                      style={{ height: '100%',textAlign: 'left' }}
+                    >
+                      <div>
+                          <ImportantInfo>{event.city.name}</ImportantInfo>
+                          <Space style={{ gap:4, lineHeight: '0.9' }}>
+                            <Typography.Text type='secondary'>{event.place} • {event.address}</Typography.Text>
+                          </Space>
+                          <br />  <br /> 
+                          <ImportantInfo>{event.date} • {'19:00'}</ImportantInfo>
+                      </div>
+                  </Flex> 
+                </Flex>
+                <AddToCartButton type="primary" onClick={handleAddToCart}>
+                  Хочу на эту дегустацию <Avatar src={cheers}/>
+                </AddToCartButton>
+              </ProductCard>
+            ))}
+          </ProductsGrid>
+        </Container>
+      )
+    }
+  }
+  
   return (
       <PageWrapper>
         <Header />
         <main>
-          <Container>
-            {contextHolder}
-            <BreadcrumbWrapper>
-              <Breadcrumb
-                items={[
-                  { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-                ]}
-              />
-            </BreadcrumbWrapper>
-
-            <PageHeader>
-              <div>
-                <PageTitle level={3}>{'Дегустации'}</PageTitle>
-                <ResultsCount>в Москве и Санкт-Петербурге</ResultsCount>
-              </div>
-            </PageHeader>
-
-            <ProductsGrid>
-              {allProducts.map((product) => (
-                <ProductCard key={product.id} to={`/event/${product.id}`}>
-                    <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
-                      <ProductName>{'Дегустация «Marie Courtin»' }</ProductName>
-                    </Flex> 
-                    <Flex style={{ width: '100%', padding: '8px 16px '}} align={'flex-start'} gap={8}>
-                      <div style={{ padding: 0, margin: 0, width: 130}}>
-                          <Avatar 
-                            alt="SX" 
-                            src={photo}
-                            style={{ width: "130px", height: "130px" }} 
-                          />
-                      </div>
-                      <Flex 
-                          vertical
-                          style={{ height: '100%',textAlign: 'left' }}
-                        >
-                          <div>
-                              <ImportantInfo>Москва</ImportantInfo>
-                              <Space style={{ gap:4, lineHeight: '0.9' }}>
-                                <Typography.Text type='secondary'>{'Nappe'} • {'Скатертный переулок, д. 13'}</Typography.Text>
-                              </Space>
-                              <br />  <br /> 
-                              <ImportantInfo>{'24 января'} • {'ПТ'} • {'19:00'}</ImportantInfo>
-                          </div>
-                      </Flex> 
-                    </Flex>
-                    <AddToCartButton type="primary" onClick={handleAddToCart}>
-                      Хочу на эту дегустацию <Avatar src={cheers}/>
-                    </AddToCartButton>
-
-                </ProductCard>
-              ))}
-            </ProductsGrid>
-          </Container>
+          {getContent()}
         </main>
         <Footer />
       </PageWrapper>

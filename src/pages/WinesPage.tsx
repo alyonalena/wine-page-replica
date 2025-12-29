@@ -1,4 +1,4 @@
-import { message, Breadcrumb, Avatar, Button, Card, Space, Typography, Flex, Spin } from 'antd'
+import { message, Breadcrumb, Avatar, Button, Typography, Flex, Spin } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
@@ -176,7 +176,7 @@ const WinesPage = () => {
     }
     if (isLoading) {
       return (
-        <Flex style={{ alignItems: 'center', height: '100vh', justifyContent: 'space-between'}}>
+        <Flex style={{ alignContent: 'center', height: '100vh', width: '100wh'}}>
           <Spin/>
         </Flex>
       )
@@ -212,7 +212,7 @@ const WinesPage = () => {
                         style={{ height: '100%',textAlign: 'left' }}
                       >
                         <ProductInfo>
-                          <ProductName style={{fontSize: '1.3em' }}>{wine.name}</ProductName>
+                          <ProductName>{wine.name}</ProductName>
                           <ImportantInfo>{wine.producer?.name} • {wine.aging} г.</ImportantInfo>
                           <Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume}л.</Typography.Text>   
                           <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              

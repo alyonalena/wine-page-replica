@@ -1,4 +1,6 @@
-import { Breadcrumb, Avatar, Button, Tabs, List, Flex, Space, Typography, message } from 'antd'
+import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { Breadcrumb, Avatar, Button, Tabs, List, Flex, Space, Typography, Spin, message, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -9,7 +11,7 @@ import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
 import user from '../pics/actions/user.svg'
-import photo from '../pics/events/image1.png'
+import forwardIcon from '../pics/actions/forward.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -21,18 +23,6 @@ const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 10px 16px;
-`
-
-const BreadcrumbWrapper = styled.div`
-  margin-bottom: 24px;
-  
-  .ant-breadcrumb-link a {
-    color: ${theme.colors.muted};
-    
-    &:hover {
-      color: ${theme.colors.primary};
-    }
-  }
 `
 
 const ProductLayout = styled.div`
@@ -117,7 +107,29 @@ const ImportantInfo = styled.h2`
 
 const EventDetailPage = () => {
   const { id } = useParams()
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage()
+  const [selectedEvent, setSelectedEvent] = useState(null)
+
+  const { data: events, isLoading, isError } = useQuery({
+    queryKey: ['events'],
+    queryFn: async () => {
+      const response = await fetch("https://severely-superior-monster.cloudpub.ru/api/events/", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
+
+  useEffect(() => {
+    const event = events?.find(w => w.id === Number(id))
+    setSelectedEvent(event)
+  }, [ events, id ])
 
   const successWithCustomIcon = () => {
     messageApi.open({
@@ -153,102 +165,137 @@ const EventDetailPage = () => {
 
   const favoriteWines = allProducts.slice(0, 5)
 
-  const tabItems = [
-    {
-      key: 'description',
-      label: 'Описание',
-      children: (
-        <>
-          Описание дегустации
-        </>
+  const getTabs = () => {
+    if (!selectedEvent) {
+      return []
+    }
+    return [
+      {
+        key: 'description',
+        label: 'Описание',
+        children: (
+          <>
+            Описание дегустации
+          </>
+        )
+      },
+      {
+        key: 'set',
+        label: 'Винный сет',
+        children: (
+          <List
+            itemLayout="horizontal"
+            dataSource={selectedEvent?.wine_list || []}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/>}
+                  title={item.name}
+                  description={`${item.sugar?.name} • ${item.volume}`}
+                />
+              </List.Item>
+            )}
+          />
+        )
+      },
+      {
+        key: 'members',
+        label: 'Участники',
+        children: (
+          <>
+            {favoriteWines.map((favoriteWine) => (            
+               <Avatar key={favoriteWine.id}style={{backgroundColor: '#F5F5F5', padding: '10px', margin: '10px'}} size={50} src={user}/>
+            ))}
+          </>
+        ),
+      },
+    ]
+  }
+  
+  const getContent = () => {
+
+    if (isLoading) {
+      return (
+        <Flex style={{ alignItems: 'center', height: '100vh'}}>
+          <Spin/>
+        </Flex>
       )
-    },
-    {
-      key: 'set',
-      label: 'Винный сет',
-      children: (
-        <List
-          itemLayout="horizontal"
-          dataSource={favoriteWines}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/>}
-                title={item.name}
-                description={`${item.region} • ${item.volume}`}
-              />
-            </List.Item>
-          )}
-        />
+    }
+    if (!selectedEvent) {
+      return (
+        <PageWrapper>
+          <Container>
+            <h1>Товар не найден</h1>
+            <Link to="/wines">Перейти в коллекцию вин</Link>
+          </Container>
+        </PageWrapper>
       )
-    },
-    {
-      key: 'members',
-      label: 'Участники',
-      children: (
-        <>
-          {favoriteWines.map((favoriteWine) => (            
-             <Avatar key={favoriteWine.id}style={{backgroundColor: '#F5F5F5', padding: '10px', margin: '10px'}} size={50} src={user}/>
-          ))}
-        </>
-      ),
-    },
-  ]
+    }
+    return (
+      <Container>
+        {contextHolder}
+        <Flex>
+          <Breadcrumb
+            items={[
+              { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
+            ]}
+          />
+        </Flex>
+        <Flex justify='space-between'>
+          <div></div>
+          <Breadcrumb
+            items={[
+              { title: <Link style={{ textAlign: 'center' }} to="/events">К другим дегустациям<Avatar shape={'square'} size={20} src={forwardIcon}/></Link> }
+            ]}
+          />
+        </Flex>
+        <Divider/>
+        <ProductLayout>
+          <ProductInfo>
+              <Flex style={{ width: '100%' }} align={'center'}>
+                <ProductName>{selectedEvent.name}</ProductName>
+              </Flex> 
+              <Flex style={{ width: '100%', padding: '8px 16px 24px'}} align={'flex-start'} gap={8}>
+                <div style={{ padding: 0, margin: 0, width: 130}}>
+                    <Avatar 
+                      alt="SX" 
+                      src={selectedEvent.image}
+                      style={{ width: "130px", height: "130px" }} 
+                    />
+                </div>
+                <Flex 
+                    vertical
+                    style={{ height: '100%',textAlign: 'left' }}
+                  >
+                    <div>
+                        <ImportantInfo>{selectedEvent.city.name}</ImportantInfo>
+                        <Space style={{ gap:4, lineHeight: '0.9' }}>
+                          <Typography.Text type='secondary'>{selectedEvent.place} • {selectedEvent.address}</Typography.Text>
+                        </Space>
+                        <br />  <br /> 
+                        <ImportantInfo>{selectedEvent.date} • {'19:00'}</ImportantInfo>
+                    </div>
+                </Flex> 
+              </Flex>
+            <ButtonsSection>
+              <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e)}>
+                Хочу на эту дегустацию <Avatar src={cheers}/>
+              </AddToCartButton>
+            </ButtonsSection>
+          </ProductInfo>
+        </ProductLayout>
+        <TabsSection>
+          <Tabs items={getTabs()} defaultActiveKey="description" />
+        </TabsSection>
+      </Container>
+    )
+  }
 
   return (
       <PageWrapper>
         <Header />
         <main>
-          <Container>
-            {contextHolder}
-            <BreadcrumbWrapper>
-              <Breadcrumb
-                items={[
-                  { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-                  { title: <Link to="/events">К другим дегустациям</Link> }
-                ]}
-              />
-            </BreadcrumbWrapper>
-
-            <ProductLayout>
-              <ProductInfo>
-                  <Flex style={{ width: '100%' }} align={'center'}>
-                    <ProductName>{'Дегустация «Marie Courtin»' }</ProductName>
-                  </Flex> 
-                  <Flex style={{ width: '100%'}} align={'flex-start'} gap={8}>
-                    <div style={{ padding: 0, margin: 0, width: 130}}>
-                        <Avatar 
-                          alt="SX" 
-                          src={photo}
-                          style={{ width: "130px", height: "130px" }} 
-                        />
-                    </div>
-                    <Flex 
-                        vertical
-                        style={{ height: '100%',textAlign: 'left' }}
-                      >
-                        <div>
-                            <ImportantInfo>Москва</ImportantInfo>
-                            <Space style={{ gap:4, lineHeight: '0.9' }}>                                  
-                              <Typography.Text type='secondary'>{'Nappe'} • {'Скатертный переулок, д. 13'}</Typography.Text>
-                            </Space>
-                            <br /><br />  
-                            <ImportantInfo>{'24 января'} • {'ПТ'} • {'19:00'}</ImportantInfo>
-                            <br />
-                        </div>
-                    </Flex> 
-                  </Flex>
-                <ButtonsSection>
-                  <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e)}>
-                    Хочу на эту дегустацию <Avatar src={cheers}/>
-                  </AddToCartButton>
-                </ButtonsSection>
-              </ProductInfo>
-            </ProductLayout>
-            <TabsSection>
-              <Tabs items={tabItems} defaultActiveKey="description" />
-            </TabsSection>
-          </Container>
+          {getContent()}
         </main>
         <Footer />
       </PageWrapper>
