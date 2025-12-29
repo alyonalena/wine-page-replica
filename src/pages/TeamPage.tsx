@@ -1,4 +1,4 @@
-import { Breadcrumb, Avatar, Typography, Flex,  } from 'antd'
+import { Breadcrumb, Avatar, Typography, Flex, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -109,7 +109,7 @@ const TeamPage = () => {
               ]}
             />
           </BreadcrumbWrapper>
-
+          <Divider />
           <PageHeader>
            <PageTitle level={3}>Команда клуба</PageTitle>
           </PageHeader>

@@ -1,4 +1,4 @@
-import { Breadcrumb, Rate, Button, Tabs, Avatar } from 'antd'
+import { Breadcrumb, Rate, Button, Tabs, Avatar, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -217,7 +217,7 @@ const ProducerDetailPage = () => {
                 ]}
               />
             </BreadcrumbWrapper>
-
+            <Divider/>
             <ProductLayout>
 
               <ProductInfo>

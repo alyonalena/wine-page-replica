@@ -237,18 +237,18 @@ const EventDetailPage = () => {
         <Flex>
           <Breadcrumb
             items={[
-              { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
+              { title: <Link style={{ textAlign: 'center' }} to="/events"><Avatar size={30} src={backIcon}/>&nbsp;К другим дегустациям</Link> },
             ]}
           />
         </Flex>
-        <Flex justify='space-between'>
+        {/*<Flex justify='space-between'>
           <div></div>
           <Breadcrumb
             items={[
               { title: <Link style={{ textAlign: 'center' }} to="/events">К другим дегустациям<Avatar shape={'square'} size={20} src={forwardIcon}/></Link> }
             ]}
           />
-        </Flex>
+        </Flex>*/}
         <Divider/>
         <ProductLayout>
           <ProductInfo>

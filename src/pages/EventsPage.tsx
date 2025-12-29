@@ -1,14 +1,12 @@
-import { Breadcrumb, Typography, Avatar, Button, Space, Flex, message, Spin } from 'antd'
+import { Breadcrumb, Typography, Image, Button, Space, Flex, message, Spin, Avatar, Divider } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
-import { allProducts } from '../data/products'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
-import photo from '../pics/events/image1.png'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -20,11 +18,6 @@ const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 10px 16px;
-  background-position: top right, top right;
-  background-image: url("src/pics/main/events.png");
-  background-size: 90px, 90px;
-  background-repeat: no-repeat, no-repeat;
-  background-blend-mode: overlay;
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -178,6 +171,7 @@ const EventsPage = () => {
               ]}
             />
           </BreadcrumbWrapper>  
+          <Divider/>
           <PageHeader>
             <div>
               <PageTitle level={3}>{'Дегустации'}</PageTitle>              
@@ -190,12 +184,12 @@ const EventsPage = () => {
                 <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                   <ProductName>{event.name}</ProductName>
                 </Flex> 
-                <Flex style={{ width: '100%', padding: '8px 16px '}} align={'flex-start'} gap={8}>
-                  <div style={{ padding: 0, margin: 0, width: 130}}>
+                <Flex style={{ width: '100%', padding: '8px 16px'}} align={'flex-start'} gap={8}>
+                  <div style={{ padding: 0, margin: 0, minWidth: 130}}>
                       <Avatar 
                         alt="SX" 
                         src={event.image}
-                        style={{ width: "130px", height: "130px" }} 
+                        style={{ width: 130, height: 130 }} 
                       />
                   </div>
                   <Flex 

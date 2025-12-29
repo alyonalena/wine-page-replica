@@ -1,4 +1,4 @@
-import { message, Breadcrumb, Avatar, Button, Typography, Flex, Spin } from 'antd'
+import { message, Breadcrumb, Avatar, Button, Typography, Flex, Spin, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
@@ -20,11 +20,6 @@ const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 12px 16px;
-  background-position: top right, top right;
-  background-image: url("src/pics/main/wines.png");
-  background-size: 90px, 90px;
-  background-repeat: no-repeat, no-repeat;
-  background-blend-mode: overlay;
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -84,10 +79,6 @@ const ProductCard = styled(Link)`
   text-decoration: none;
   display: block;
   box-shadow: ${theme.shadows.cardHover};
-`
-
-const ProductImage = styled.div`
-  width: 30%;
 `
 
 const ProductInfo = styled.div`
@@ -191,7 +182,7 @@ const WinesPage = () => {
               ]}
             />
           </BreadcrumbWrapper>
-  
+          <Divider/>
           <PageHeader>
             <div>
               <PageTitle level={3}>Коллекция вин</PageTitle>
@@ -204,8 +195,17 @@ const WinesPage = () => {
             {wines.map((wine) => (
                 <ProductCard key={wine.id} to={`/wine/${wine.id}`}>
                   <Flex style={{ width: '100%', padding: '16px '}} align={'center'} gap={8}>
-                    <div style={{ padding: 0, margin: 0, width: 70}}>
-                        <Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/>
+                    <div style={{ padding: 0, margin: 0, width: 100}}>
+                        {wine?.image ? (
+                          <Avatar
+                              size={100} 
+                              src={wine.image}/>
+                          ): (
+                            <Avatar 
+                              style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
+                              size={100} 
+                              src={bottle}/>
+                          )}
                     </div>
                     <Flex 
                         vertical

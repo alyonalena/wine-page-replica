@@ -1,4 +1,4 @@
-import { Tabs, List, Avatar, Tag, Breadcrumb, Typography, Rate } from 'antd'
+import { Tabs, List, Avatar, Tag, Breadcrumb, Typography, Rate, Divider } from 'antd'
 
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -201,6 +201,7 @@ const UserProfilePage = () => {
               ]}
             />
           </BreadcrumbWrapper>
+          <Divider/>
           <PageHeader>
               <div>
                 <PageTitle level={3}>{'Личный кабинет'}</PageTitle>

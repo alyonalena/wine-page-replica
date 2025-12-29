@@ -249,23 +249,34 @@ const WineDetailPage = () => {
         <Flex>
           <Breadcrumb
             items={[
-              { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
+              { title: <Link style={{ textAlign: 'center' }} to="/wines"><Avatar size={30} src={backIcon}/>&nbsp;К другим винам</Link> },
             ]}
           />
         </Flex>
-        <Flex justify='space-between'>
+        {/*<Flex justify='space-between'>
           <div></div>
           <Breadcrumb
             items={[
               { title: <Link style={{ textAlign: 'center' }} to="/wines">К другим винам<Avatar shape={'square'} size={20} src={forwardIcon}/></Link> }
             ]}
           />
-        </Flex>
+        </Flex>*/}
         <Divider/>
         <ProductLayout>
           <ProductInfo>
             <Space style={{ gap: 24, marginBottom: 24}}>
-              <ProductImage><Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/></ProductImage>
+              <ProductImage>
+                {selectedWine?.image ? (
+                  <Avatar
+                      size={100} 
+                      src={selectedWine.image}/>
+                  ): (
+                    <Avatar 
+                      style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
+                      size={100} 
+                      src={bottle}/>
+                  )}
+              </ProductImage>
               <ProductInfo>
                 <ProductName>{selectedWine?.name}</ProductName>
                 <ProductName>{selectedWine?.producer?.name} • {selectedWine?.aging} г.</ProductName>

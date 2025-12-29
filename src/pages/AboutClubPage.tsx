@@ -1,4 +1,4 @@
-import { Card, Breadcrumb, Avatar, Flex } from 'antd'
+import { Breadcrumb, Avatar, Flex, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -125,7 +125,7 @@ const AboutClubPage = () => {
               ]}
             />
           </BreadcrumbWrapper>
-
+          <Divider />
           <ProductsGrid>
             {blocks.map((member) => (
               <Flex vertical style={{ padding: '20px', backgroundColor: '#E7014C' }} gap={16}>

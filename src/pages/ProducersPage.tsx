@@ -1,4 +1,4 @@
-import { Breadcrumb, Avatar, Typography } from 'antd'
+import { Breadcrumb, Avatar, Typography, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -128,7 +128,7 @@ const ProducersPage = () => {
                 ]}
               />
             </BreadcrumbWrapper>
-
+            <Divider/>
             <PageHeader>
               <div>
                 <PageTitle level={3}>Производители вин</PageTitle>
