@@ -253,10 +253,9 @@ const Header = () => {
               О клубе
             </DrawerNavItem>
           </DrawerSection>
-          
           <DrawerSection>
             <DrawerSectionTitle>Контакты</DrawerSectionTitle>
-            <DrawerLink href="tel:88005557799">8 (800) 555-77-99</DrawerLink>
+            <DrawerLink href="tel:+79817203701">+7-(981)-720-37-01</DrawerLink>
           </DrawerSection>
         </DrawerContent>
       </Drawer>

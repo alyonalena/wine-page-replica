@@ -113,7 +113,7 @@ const EventDetailPage = () => {
   const { data: events, isLoading, isError } = useQuery({
     queryKey: ['events'],
     queryFn: async () => {
-      const response = await fetch("https://severely-superior-monster.cloudpub.ru/api/events/", {
+      const response = await fetch("https://severely-superior-monster.cloudpub.ru/api/events", {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ const EventDetailPage = () => {
       duration: 2,
       content: <>
         <Avatar src={cheers} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
-        С Вамим в ближайшее время свяжется наш администратор
+        SX Wine свяжется с Вамим в ближайшее время
       </>,
     })
   }
@@ -204,7 +204,7 @@ const EventDetailPage = () => {
         children: (
           <>
             {favoriteWines.map((favoriteWine) => (            
-               <Avatar key={favoriteWine.id}style={{backgroundColor: '#F5F5F5', padding: '10px', margin: '10px'}} size={50} src={user}/>
+               <Avatar key={favoriteWine.id} style={{backgroundColor: '#F5F5F5', padding: '10px', margin: '10px'}} size={50} src={user}/>
             ))}
           </>
         ),

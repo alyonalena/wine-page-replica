@@ -146,7 +146,7 @@ const UserProfilePage = () => {
   const tabItems = [
     {
       key: 'favorites',
-      label: 'Ваша коллекция вин',
+      label: 'Моя коллекция вин',
       children: (
         <List
           itemLayout="horizontal"
@@ -165,7 +165,7 @@ const UserProfilePage = () => {
     },
     {
       key: 'events',
-      label: 'Ваши дегустации',
+      label: 'Мои дегустации',
       children: (
         <List
           itemLayout="horizontal"

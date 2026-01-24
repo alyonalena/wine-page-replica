@@ -61,19 +61,6 @@ const FooterText = styled.p`
   margin: 0 0 16px;
 `;
 
-const ContactItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-  font-size: 14px;
-  
-  .anticon {
-    font-size: 16px;
-    opacity: 0.7;
-  }
-`;
-
 const FooterTitle = styled.h4`
   font-size: 14px;
   font-weight: 600;
@@ -82,27 +69,6 @@ const FooterTitle = styled.h4`
   letter-spacing: 0.5px;
 `;
 
-const FooterLinks = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-`;
-
-const FooterLink = styled.li`
-  margin-bottom: 12px;
-  
-  a {
-    color: white;
-    opacity: 0.7;
-    text-decoration: none;
-    font-size: 14px;
-    transition: ${theme.transitions.default};
-    
-    &:hover {
-      opacity: 1;
-    }
-  }
-`;
 
 const NewsletterForm = styled.div`
   display: flex;
@@ -160,12 +126,6 @@ const FooterBottom = styled.div`
   gap: 16px;
 `;
 
-const Copyright = styled.p`
-  font-size: 13px;
-  opacity: 0.5;
-  margin: 0;
-`;
-
 const FooterBottomLinks = styled.div`
   display: flex;
   gap: 24px;
@@ -204,8 +164,7 @@ const Footer = () => {
         
         <FooterBottom>
           <FooterBottomLinks>
-            <a href="#">Политика конфиденциальности</a>
-            <a href="#">Пользовательское соглашение</a>
+            <a href="#">Правила клуба</a>
           </FooterBottomLinks>
         </FooterBottom>
       </FooterContainer>

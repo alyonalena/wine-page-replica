@@ -65,20 +65,20 @@ const PromoContent = styled.div`
 
 const PromoBlock1 = styled.div`
   animation: slideUp 0.4s ease;
-  margin: 0 120px 0 0;
+  margin: 0 0 0 0;
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
   justify-content: space-between;
+  color: white;
 `
 
 const PromoBlock2 = styled.div`
   animation: slideUp 0.7s ease;
-  margin: 0 120px 0 0;
+  margin: 0 0 0 0;
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
   justify-content: space-between;
+  color: white;
 `
 
 const PromoTitle = styled.div`
@@ -91,7 +91,8 @@ const PromoTitle = styled.div`
 const PromoSubtitle = styled.p`
   font-size: 13px;
   opacity: 0.9;
-  margin: 20px;
+  margin: 10px;
+  width: 50%;
 `
 
 const HeroCarousel = () => {
@@ -103,37 +104,33 @@ const HeroCarousel = () => {
           <PromoCard to={`/events`}
             style={{ 
               backgroundImage: `url(${eventsImage})`, 
-              backgroundSize: 'auto 220px', 
+              backgroundSize: '40% auto', 
               backgroundPosition: 'top right', 
               backgroundRepeat: 'no-repeat', 
             }}
           >
-            <PromoContent>
               <PromoBlock1>
                 <div>
-                  <PromoTitle>Дегустации&nbsp;<Avatar size={20} src={arrowRight}/></PromoTitle>
+                  <PromoTitle>Дегустации</PromoTitle>
                   <PromoSubtitle>Присоединяйтесь к нашим дегустациям</PromoSubtitle>
                 </div>
               </PromoBlock1>
-            </PromoContent>
           </PromoCard>
           <PromoCard to={`/wines?category=white-wine`}
             style={{ 
               backgroundImage: `url(${winesImage})`, 
-              backgroundSize: 'auto 220px', 
+              backgroundSize: '40% auto', 
               backgroundPosition: 'top right', 
               backgroundRepeat: 'no-repeat', 
             }}
           >
-            <PromoContent>
               <PromoBlock2>
                 <div>
-                  <PromoTitle>Коллекция вин&nbsp;<Avatar size={20} src={arrowRight}/></PromoTitle>
+                  <PromoTitle>Коллекция вин</PromoTitle>
                   <PromoSubtitle>Познакомьтесь с нашей коллекцией вин</PromoSubtitle>
                 </div>
               </PromoBlock2>
               <PromoSubtitle></PromoSubtitle>
-            </PromoContent>
           </PromoCard>
         </SidePromos>
       </CarouselSection>

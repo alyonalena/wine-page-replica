@@ -10,6 +10,7 @@ import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
 import forwardIcon from '../pics/actions/forward.svg'
+import Danil from '../pics/main/danil.jpg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -169,7 +170,7 @@ const WineDetailPage = () => {
       duration: 2,
       content: <>
         <Avatar src={glass} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
-        С Вамим в ближайшее время свяжется наш администратор
+        SX Wine свяжется с Вамим в ближайшее время
       </>,
     })
   }
@@ -198,8 +199,11 @@ const WineDetailPage = () => {
     return [
       {
         key: 'description',
-        label: 'Описание',
-        children: <DescriptionText>{selectedWine.description || "Описания вина пока нет"}</DescriptionText>,
+        label: 'Комментарий от SX',
+        children: <DescriptionText>
+          <Avatar alt="SX" src={Danil} style={{ width: "70px", height: "70px" }} />&nbsp;&nbsp;
+          {selectedWine.description || "..."}
+        </DescriptionText>,
       },
       {
         key: 'specs',

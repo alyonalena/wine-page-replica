@@ -127,7 +127,7 @@ const WinesPage = () => {
       duration: 2,
       content: <>
         <Avatar src={glass} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
-        С Вамим в ближайшее время свяжется наш администратор
+        SX Wine свяжется с Вамим в ближайшее время
       </>,
     })
   }
