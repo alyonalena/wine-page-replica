@@ -194,7 +194,7 @@ const Header = () => {
             <Avatar alt="SX" shape="square" src={LogoImage} style={{ width: "52px", height: "52px" }} />
             <Col flex="auto" style={{ textAlign: "left" }}>
                 <Typography.Title level={3} style={{ margin: 0, color: "black", lineHeight: 1}}>SX Wine</Typography.Title>
-                <Typography.Text type='secondary' style={{ fontSize: '0.7em',  }}>Champagne Lovers Club</Typography.Text>
+                <Typography.Text type='secondary' style={{ fontSize: '0.7em', color: '#E7014C' }}>Champagne Lovers Club</Typography.Text>
             </Col>
           </Flex>
         </LeftSection>

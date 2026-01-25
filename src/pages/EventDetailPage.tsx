@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Breadcrumb, Avatar, Button, Tabs, List, Flex, Space, Typography, Spin, message, Divider } from 'antd'
+import { Breadcrumb, Avatar, Button, Tabs, List, Flex, Space, Typography, Spin, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
+import NotificationModal from '../components/NotificationModal'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
@@ -105,8 +106,17 @@ const ImportantInfo = styled.h2`
 
 const EventDetailPage = () => {
   const { id } = useParams()
-  const [messageApi, contextHolder] = message.useMessage()
   const [selectedEvent, setSelectedEvent] = useState(null)
+  const [notificationModal, setNotificationModal] = useState<{
+    isVisible: boolean;
+    type: 'success' | 'error' | 'warning' | 'info';
+    content: React.ReactNode;
+    icon?: React.ReactNode;
+  }>({
+    isVisible: false,
+    type: 'info',
+    content: null,
+  });
 
   const { data: events, isLoading, isError } = useQuery({
     queryKey: ['events'],
@@ -182,15 +192,14 @@ const EventDetailPage = () => {
     setSelectedEvent(event)
   }, [ events, id ])
 
-  const successWithCustomIcon = () => {
-    messageApi.open({
-      duration: 2,
-      content: <>
-        <Avatar src={cheers} style={{backgroundColor: '#E7014C'}}/>&nbsp;Спасибо за интерес!<br/><br/>
-        SX Wine свяжется с Вамим в ближайшее время
-      </>,
-    })
-  }
+  const showSuccessNotification = () => {
+    setNotificationModal({
+      isVisible: true,
+      type: 'success',
+      content: <>Спасибо за интерес!<br/><br/>SX Wine свяжется с Вамим в ближайшее время</>,
+      icon: <Avatar src={cheers} style={{backgroundColor: '#E7014C', padding: '10px'}} size={70}/>,
+    });
+  };
 
   const mutation = useMutation({
     mutationFn: async ({ eventId, telegramId }: { eventId: number; telegramId: number }) => {
@@ -211,13 +220,14 @@ const EventDetailPage = () => {
     },
     onSuccess: (data) => {
       console.log('Event interest notification sent successfully:', data)
-      successWithCustomIcon()
+      showSuccessNotification()
     },
     onError: (error) => {
       console.error('Error sending event interest notification:', error)
-      messageApi.error({
+      setNotificationModal({
+        isVisible: true,
+        type: 'error',
         content: 'Произошла ошибка при отправке запроса. Попробуйте позже.',
-        duration: 3,
       })
     },
   })
@@ -285,13 +295,15 @@ const EventDetailPage = () => {
               eventMembers.map((member: any) => {
                 const initials = `${member.firstname?.[0] || ''}${member.lastname?.[0] || ''}`.toUpperCase() || member.nickname?.[0]?.toUpperCase() || 'U'
                 return (
+                  <>
                   <Avatar 
                     key={member.id} 
                     style={{backgroundColor: '#F5F5F5', padding: '10px', margin: '10px'}} 
                     size={50}
                   >
                     {initials}
-                  </Avatar>
+                  </Avatar>&nbsp;{member.firstname}&nbsp;{member.lastname}
+                  </>
                 )
               })
             ) : (
@@ -307,7 +319,7 @@ const EventDetailPage = () => {
 
     if (isLoading) {
       return (
-        <Flex style={{ alignItems: 'center', height: '100vh'}}>
+        <Flex style={{ alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100%'}}>
             <Spin/>
         </Flex>
       )
@@ -324,7 +336,13 @@ const EventDetailPage = () => {
     }
     return (
       <Container>
-        {contextHolder}
+        <NotificationModal
+          isVisible={notificationModal.isVisible}
+          onClose={() => setNotificationModal({ ...notificationModal, isVisible: false })}
+          type={notificationModal.type}
+          content={notificationModal.content}
+          icon={notificationModal.icon}
+        />
         <Flex>
           <Breadcrumb
             items={[

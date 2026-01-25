@@ -1,4 +1,5 @@
-import { message, Breadcrumb, Avatar, Button, Typography, Flex, Spin, Divider } from 'antd'
+import { useState } from 'react'
+import { Breadcrumb, Avatar, Button, Typography, Flex, Spin, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useQuery, useMutation, useQueryClient  } from '@tanstack/react-query'
@@ -7,6 +8,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
+import NotificationModal from '../components/NotificationModal'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
@@ -121,18 +123,26 @@ const AddToCartButton = styled(Button)`
 `
 
 const WinesPage = () => {
-  const [messageApi, contextHolder] = message.useMessage();
   const telegramId = useTelegramId();
+  const [notificationModal, setNotificationModal] = useState<{
+    isVisible: boolean;
+    type: 'success' | 'error' | 'warning' | 'info';
+    content: React.ReactNode;
+    icon?: React.ReactNode;
+  }>({
+    isVisible: false,
+    type: 'info',
+    content: null,
+  });
 
-  const successWithCustomIcon = () => {
-    messageApi.open({
-      duration: 2,
-      content: <>
-        <Avatar src={glass} style={{backgroundColor: '#E7014C'}}/>&nbsp;Спасибо за интерес!<br/><br/>
-        SX Wine свяжется с Вамим в ближайшее время
-      </>,
-    })
-  }
+  const showSuccessNotification = () => {
+    setNotificationModal({
+      isVisible: true,
+      type: 'success',
+      content: <>Спасибо за интерес!<br/><br/>SX Wine свяжется с Вамим в ближайшее время</>,
+      icon: <Avatar src={glass} style={{backgroundColor: '#E7014C', padding: '10px'}} size={70}/>,
+    });
+  };
 
   const mutation = useMutation({
     mutationFn: async ({ wineId, telegramId }: { wineId: number; telegramId: number }) => {
@@ -153,13 +163,14 @@ const WinesPage = () => {
     },
     onSuccess: (data) => {
       console.log('Wine interest notification sent successfully:', data)
-      successWithCustomIcon()
+      showSuccessNotification()
     },
     onError: (error) => {
       console.error('Error sending wine interest notification:', error)
-      messageApi.error({
+      setNotificationModal({
+        isVisible: true,
+        type: 'error',
         content: 'Произошла ошибка при отправке запроса. Попробуйте позже.',
-        duration: 3,
       })
     },
   })
@@ -202,14 +213,20 @@ const WinesPage = () => {
     }
     if (isLoading) {
       return (
-        <Flex style={{ alignContent: 'center', height: '100vh', width: '100wh'}}>
+        <Flex style={{ alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100%'}}>
           <Spin/>
         </Flex>
       )
     } else {
       return (
         <Container>
-          {contextHolder}
+          <NotificationModal
+            isVisible={notificationModal.isVisible}
+            onClose={() => setNotificationModal({ ...notificationModal, isVisible: false })}
+            type={notificationModal.type}
+            content={notificationModal.content}
+            icon={notificationModal.icon}
+          />
           <BreadcrumbWrapper>
             <Breadcrumb
               items={[

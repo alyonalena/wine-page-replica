@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { Button, Input, message } from 'antd';
+import { Button, Input } from 'antd';
 import { theme } from '../styles/theme';
 import { useTelegramId } from '../hooks/useTelegramId';
+import NotificationModal from './NotificationModal';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -57,9 +58,17 @@ const ConfirmButton = styled(Button)`
 const TelegramVerificationModal = () => {
   const [isVisible, setIsVisible] = useState<boolean | null>(null); // null = checking, true = show, false = hide
   const [key, setKey] = useState('');
-  const [messageApi, contextHolder] = message.useMessage();
   const telegramId = useTelegramId();
   const queryClient = useQueryClient();
+  const [notificationModal, setNotificationModal] = useState<{
+    isVisible: boolean;
+    type: 'success' | 'error' | 'warning' | 'info';
+    content: React.ReactNode;
+  }>({
+    isVisible: false,
+    type: 'info',
+    content: null,
+  });
 
   // Fetch all persons to check if user exists
   const { data: persons, isLoading: isLoadingPersons } = useQuery({
@@ -106,9 +115,10 @@ const TelegramVerificationModal = () => {
       return response.json();
     },
     onSuccess: async () => {
-      messageApi.success({
+      setNotificationModal({
+        isVisible: true,
+        type: 'success',
         content: 'Успешная верификация! Добро пожаловать!',
-        duration: 3,
       });
       localStorage.setItem('telegramVerified', 'true');
       setIsVisible(false);
@@ -120,9 +130,10 @@ const TelegramVerificationModal = () => {
       }, 500);
     },
     onError: (error: any) => {
-      messageApi.error({
+      setNotificationModal({
+        isVisible: true,
+        type: 'error',
         content: error.message || 'Неверный ключ. Пожалуйста, попробуйте снова.',
-        duration: 3,
       });
     },
   });
@@ -159,9 +170,10 @@ const TelegramVerificationModal = () => {
 
   const handleConfirm = () => {
     if (!key.trim()) {
-      messageApi.warning({
+      setNotificationModal({
+        isVisible: true,
+        type: 'warning',
         content: 'Пожалуйста, введите ключ',
-        duration: 2,
       });
       return;
     }
@@ -179,7 +191,13 @@ const TelegramVerificationModal = () => {
 
   return (
     <>
-      {contextHolder}
+      <NotificationModal
+        isVisible={notificationModal.isVisible}
+        onClose={() => setNotificationModal({ ...notificationModal, isVisible: false })}
+        type={notificationModal.type}
+        content={notificationModal.content}
+        duration={3000}
+      />
       <ModalOverlay>
         <ModalContent>
           <ModalTitle>Верификация пользователя</ModalTitle>

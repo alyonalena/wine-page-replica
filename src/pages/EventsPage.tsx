@@ -1,4 +1,5 @@
-import { Breadcrumb, Typography, Image, Button, Space, Flex, message, Spin, Avatar, Divider } from 'antd'
+import { useState } from 'react'
+import { Breadcrumb, Typography, Image, Button, Space, Flex, Spin, Avatar, Divider } from 'antd'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -6,6 +7,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
+import NotificationModal from '../components/NotificationModal'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 
@@ -111,8 +113,17 @@ const ImportantInfo = styled.h2`
 `
 
 const EventsPage = () => {
-  const [messageApi, contextHolder] = message.useMessage();
   const telegramId = useTelegramId();
+  const [notificationModal, setNotificationModal] = useState<{
+    isVisible: boolean;
+    type: 'success' | 'error' | 'warning' | 'info';
+    content: React.ReactNode;
+    icon?: React.ReactNode;
+  }>({
+    isVisible: false,
+    type: 'info',
+    content: null,
+  });
   const { data: events, isLoading, isError } = useQuery({
     queryKey: ['events'],
     queryFn: async () => {
@@ -128,15 +139,14 @@ const EventsPage = () => {
       return response.json()
     },
   })
-  const successWithCustomIcon = () => {
-    messageApi.open({
-      duration: 2,
-      content: <>
-        <Avatar src={cheers} style={{backgroundColor: '#E7014C'}}/>&nbsp;Спасибо за интерес!<br/><br/>
-        SX Wine свяжется с Вамим в ближайшее время
-      </>,
-    })
-  }
+  const showSuccessNotification = () => {
+    setNotificationModal({
+      isVisible: true,
+      type: 'success',
+      content: <>Спасибо за интерес!<br/><br/>SX Wine свяжется с Вамим в ближайшее время</>,
+      icon: <Avatar src={cheers} style={{backgroundColor: '#E7014C', padding: '10px'}} size={70}/>,
+    });
+  };
 
   const mutation = useMutation({
     mutationFn: async ({ eventId, telegramId }: { eventId: number; telegramId: number }) => {
@@ -157,13 +167,14 @@ const EventsPage = () => {
     },
     onSuccess: (data) => {
       console.log('Event interest notification sent successfully:', data)
-      successWithCustomIcon()
+      showSuccessNotification()
     },
     onError: (error) => {
       console.error('Error sending event interest notification:', error)
-      messageApi.error({
+      setNotificationModal({
+        isVisible: true,
+        type: 'error',
         content: 'Произошла ошибка при отправке запроса. Попробуйте позже.',
-        duration: 3,
       })
     },
   })
@@ -188,14 +199,20 @@ const EventsPage = () => {
     }
     if (isLoading) {
       return (
-        <Flex style={{ alignItems: 'center', height: '100vh'}}>
+        <Flex style={{ alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100%'}}>
           <Spin/>
         </Flex>
       )
     } else {
       return (
         <Container>
-          {contextHolder}
+          <NotificationModal
+            isVisible={notificationModal.isVisible}
+            onClose={() => setNotificationModal({ ...notificationModal, isVisible: false })}
+            type={notificationModal.type}
+            content={notificationModal.content}
+            icon={notificationModal.icon}
+          />
           <BreadcrumbWrapper>
             <Breadcrumb
               items={[

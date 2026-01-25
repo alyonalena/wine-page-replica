@@ -125,11 +125,26 @@ body {
 }
 
 .ant-message-notice-content {
-  color: #E7014C !important;
-  font-size: 16px;
-  margin: 30px 10px 0;
-  padding: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.24);
+  background: white !important;
+  border-radius: 16px !important;
+  padding: 48px !important;
+  max-width: 480px !important;
+  width: 90% !important;
+  text-align: center !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+  font-size: 15px !important;
+  color: #333 !important;
+  margin: 0 auto !important;
+}
+
+.ant-message-notice {
+  margin-bottom: 0 !important;
+}
+
+.ant-message {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
 }
 
 @keyframes fadeIn {

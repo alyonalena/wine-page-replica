@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Breadcrumb, Button, Tabs, Avatar, Space, Typography, message, Flex, Spin, Divider } from 'antd'
+import { Breadcrumb, Button, Tabs, Avatar, Space, Typography, Flex, Spin, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
+import NotificationModal from '../components/NotificationModal'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
@@ -143,7 +144,17 @@ const WineDetailPage = () => {
   const { id } = useParams()
   
   const [selectedWine, setSelectedWine] = useState(null)
-  const [messageApi, contextHolder] = message.useMessage();
+  const [notificationModal, setNotificationModal] = useState<{
+    isVisible: boolean;
+    type: 'success' | 'error' | 'warning' | 'info';
+    content: React.ReactNode;
+    icon?: React.ReactNode;
+    title?: string;
+  }>({
+    isVisible: false,
+    type: 'info',
+    content: null,
+  });
   const telegramId = useTelegramId();
 
   const { data: wines, isLoading, isError } = useQuery({
@@ -167,15 +178,15 @@ const WineDetailPage = () => {
     setSelectedWine(wine)
   }, [ wines, id ])
 
-  const successWithCustomIcon = () => {
-    messageApi.open({
-      duration: 2,
-      content: <>
-        <Avatar src={glass} style={{backgroundColor: '#E7014C'}}/>&nbsp;Спасибо за интерес!<br/><br/>
-        SX Wine свяжется с Вамим в ближайшее время
-      </>,
-    })
-  }
+  const showSuccessNotification = () => {
+    setNotificationModal({
+      isVisible: true,
+      type: 'success',
+      content: <>SX Wine свяжется с Вамим в ближайшее время</>,
+      title: 'Спасибо за интерес!',
+      icon: <Avatar src={glass} style={{backgroundColor: '#E7014C', padding: '10px'}} size={70}/>,
+    });
+  };
 
   const mutation = useMutation({
     mutationFn: async ({ wineId, telegramId }: { wineId: number; telegramId: number }) => {
@@ -196,13 +207,14 @@ const WineDetailPage = () => {
     },
     onSuccess: (data) => {
       console.log('Wine interest notification sent successfully:', data)
-      successWithCustomIcon()
+      showSuccessNotification()
     },
     onError: (error) => {
       console.error('Error sending wine interest notification:', error)
-      messageApi.error({
+      setNotificationModal({
+        isVisible: true,
+        type: 'error',
         content: 'Произошла ошибка при отправке запроса. Попробуйте позже.',
-        duration: 3,
       })
     },
   })
@@ -267,7 +279,7 @@ const WineDetailPage = () => {
 
     if (isLoading) {
       return (
-        <Flex style={{ alignItems: 'center', height: '100vh'}}>
+        <Flex style={{ alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100%'}}>
           <Spin/>
         </Flex>
       )
@@ -284,7 +296,13 @@ const WineDetailPage = () => {
     }
     return (
       <Container>
-        {contextHolder}
+        <NotificationModal
+          isVisible={notificationModal.isVisible}
+          onClose={() => setNotificationModal({ ...notificationModal, isVisible: false })}
+          type={notificationModal.type}
+          content={notificationModal.content}
+          icon={notificationModal.icon}
+        />
         <Flex>
           <Breadcrumb
             items={[

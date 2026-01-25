@@ -35,6 +35,14 @@ const App = () => (
             },
             Card: {
               fontFamily:  'Ubuntu, "times new roman", times, roman, serif'
+            },
+            Message: {
+              contentBg: '#ffffff',
+              borderRadius: 16,
+              paddingContentHorizontal: 48,
+              paddingContentVertical: 48,
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.2)',
+              fontSize: 15,
             }
           }
         }}
