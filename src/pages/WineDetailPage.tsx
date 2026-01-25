@@ -175,11 +175,16 @@ const WineDetailPage = () => {
     })
   }
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = (e: React.MouseEvent, wineId) => {
     successWithCustomIcon()
     e.preventDefault()
     e.stopPropagation()
     // Add to cart logic
+    /*localhost:8000/api/notifications/wine-interest/
+{
+    "telegram_id": 123456789,
+    "wine_id": wineId
+}*/
   }
 
 
@@ -289,7 +294,7 @@ const WineDetailPage = () => {
               </ProductInfo>
             </Space>
             <ButtonsSection>
-              <AddToCartButton type="primary" onClick={handleAddToCart}>
+              <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, selectedWine.id)}>
                 Хочу это вино <Avatar shape='square' src={glass}/>
               </AddToCartButton>
             </ButtonsSection>

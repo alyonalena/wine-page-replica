@@ -169,7 +169,7 @@ const Header = () => {
   const navItems = [
     { label: 'Дегустации', href: '/events'},
     { label: 'Коллекция вин', href: '/wines' },
-    { label: 'Любимые производители', href: '/producers'},
+    /*{ label: 'Любимые производители', href: '/producers'},*/
     { label: 'Мерч', href: '/in_progress', inWork: true},
     { label: 'Сеты', href: '/in_progress', inWork: true },
     { label: 'Школа Шампани', href: '/in_progress', inWork: true},
@@ -256,6 +256,7 @@ const Header = () => {
           <DrawerSection>
             <DrawerSectionTitle>Контакты</DrawerSectionTitle>
             <DrawerLink href="tel:+79817203701">+7-(981)-720-37-01</DrawerLink>
+            <DrawerLink href="mailto:yda@sx.wine?body=привет&subject=вопрос">yda@sx.wine</DrawerLink>
           </DrawerSection>
         </DrawerContent>
       </Drawer>

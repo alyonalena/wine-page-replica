@@ -157,7 +157,7 @@ const Footer = () => {
               <Button type="primary">Подписаться</Button>
             </NewsletterForm>
             <SocialLinks>
-              <SocialIcon href="#"><InstagramOutlined /></SocialIcon>
+              <SocialIcon href="https://www.instagram.com/sx_wine"><InstagramOutlined /></SocialIcon>
             </SocialLinks>
           </FooterColumn>
         </FooterGrid>
