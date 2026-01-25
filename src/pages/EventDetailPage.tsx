@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { Breadcrumb, Avatar, Button, Tabs, List, Flex, Space, Typography, Spin, message, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
-import { allProducts } from '../data/products'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
@@ -108,6 +107,80 @@ const EventDetailPage = () => {
   const [messageApi, contextHolder] = message.useMessage()
   const [selectedEvent, setSelectedEvent] = useState(null)
 
+  const { data: events, isLoading, isError } = useQuery({
+    queryKey: ['events'],
+    queryFn: async () => {
+      const response = await fetch("https://severely-superior-monster.cloudpub.ru/api/events", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
+
+  const { data: allPersons, isLoading: isLoadingPersons } = useQuery({
+    queryKey: ['persons'],
+    queryFn: async () => {
+      const response = await fetch('https://severely-superior-monster.cloudpub.ru/api/persons', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
+
+  // Fetch interested events for each person and filter those interested in current event
+  const { data: eventMembers, isLoading: isLoadingMembers } = useQuery({
+    queryKey: ['eventMembers', selectedEvent?.id],
+    queryFn: async () => {
+      if (!selectedEvent?.id || !allPersons) {
+        return []
+      }
+
+      // Fetch interested events for each person who has a telegram_id
+      const personsWithTelegram = allPersons.filter((person: any) => person.telegram_id !== null)
+      
+      const memberPromises = personsWithTelegram.map(async (person: any) => {
+        try {
+          const response = await fetch(`https://severely-superior-monster.cloudpub.ru/api/events/?interested_telegram_id=${person.telegram_id}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          if (!response.ok) {
+            return null
+          }
+          const interestedEvents = await response.json()
+          // Check if current event is in their interested events
+          const isInterested = interestedEvents.some((event: any) => event.id === selectedEvent.id)
+          return isInterested ? person : null
+        } catch (error) {
+          return null
+        }
+      })
+
+      const results = await Promise.all(memberPromises)
+      return results.filter((person) => person !== null)
+    },
+    enabled: !!selectedEvent?.id && !!allPersons,
+  })
+
+  useEffect(() => {
+    const event = events?.find(w => w.id === Number(id))
+    setSelectedEvent(event)
+  }, [ events, id ])
+
   const successWithCustomIcon = () => {
     messageApi.open({
       duration: 2,
@@ -147,28 +220,7 @@ const EventDetailPage = () => {
       })
     },
   })
-
-  const { data: events, isLoading, isError } = useQuery({
-    queryKey: ['events'],
-    queryFn: async () => {
-      const response = await fetch("https://severely-superior-monster.cloudpub.ru/api/events", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      return response.json()
-    },
-  })
-
-  useEffect(() => {
-    const event = events?.find(w => w.id === Number(id))
-    setSelectedEvent(event)
-  }, [ events, id ])
-
+  
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -186,22 +238,6 @@ const EventDetailPage = () => {
     })
   }
 
-  const product = allProducts.find(p => p.id === Number(id))
-  
-  if (!product) {
-    return (
-        <PageWrapper>
-            <Header />
-            <Container>
-            <h1>Товар не найден</h1>
-            <Link to="/wines">Перейти в коллекцию вин</Link>
-            </Container>
-            <Footer />
-        </PageWrapper>
-    );
-  }
-
-  const favoriteWines = allProducts.slice(0, 5)
 
   const getTabs = () => {
     if (!selectedEvent) {
@@ -224,7 +260,7 @@ const EventDetailPage = () => {
           <List
             itemLayout="horizontal"
             dataSource={selectedEvent?.wine_list || []}
-            renderItem={(item) => (
+            renderItem={(item: any) => (
               <List.Item>
                   <List.Item.Meta
                       avatar={<Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/>}
@@ -239,11 +275,28 @@ const EventDetailPage = () => {
       {
         key: 'members',
         label: 'Участники',
-        children: (
+        children: isLoadingMembers || isLoadingPersons ? (
+          <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
+            <Spin />
+          </Flex>
+        ) : (
           <>
-            {favoriteWines.map((favoriteWine) => (            
-               <Avatar key={favoriteWine.id} style={{backgroundColor: '#F5F5F5', padding: '10px', margin: '10px'}} size={50} src={user}/>
-            ))}
+            {eventMembers && eventMembers.length > 0 ? (
+              eventMembers.map((member: any) => {
+                const initials = `${member.firstname?.[0] || ''}${member.lastname?.[0] || ''}`.toUpperCase() || member.nickname?.[0]?.toUpperCase() || 'U'
+                return (
+                  <Avatar 
+                    key={member.id} 
+                    style={{backgroundColor: '#F5F5F5', padding: '10px', margin: '10px'}} 
+                    size={50}
+                  >
+                    {initials}
+                  </Avatar>
+                )
+              })
+            ) : (
+              <Typography.Text type="secondary">Пока нет участников</Typography.Text>
+            )}
           </>
         ),
       },

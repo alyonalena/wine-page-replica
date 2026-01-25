@@ -1,11 +1,10 @@
-import { Tabs, List, Avatar, Tag, Breadcrumb, Typography, Rate, Divider } from 'antd'
-
+import { Tabs, List, Avatar, Tag, Breadcrumb, Typography, Rate, Divider, Spin, Flex } from 'antd'
+import { useQuery } from '@tanstack/react-query'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
-import { allProducts } from '../data/products'
 import backIcon from '../pics/actions/back.svg'
 import { HeartFilled } from '@ant-design/icons'
 import glass from '../pics/actions/glass.svg'
@@ -120,43 +119,91 @@ const DrawerLogo = styled.div`
 `
 
 const UserProfilePage = () => {
-  const user = {
-    fullName: 'Alexandra Petrova',
-    status: 'Gold member',
-    initials: 'AP',
+  // Get telegramId from localStorage or use a default value
+  const telegramId = Number(localStorage.getItem('telegramId') || '1739711843')
+
+  const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
+    queryKey: ['persons'],
+    queryFn: async () => {
+      const response = await fetch('https://severely-superior-monster.cloudpub.ru/api/persons', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
+
+  // Find the current user by telegram_id
+  const currentUser = persons?.find((person: any) => person.telegram_id === telegramId)
+
+  // Prepare user data from API or use defaults
+  const user = currentUser ? {
+    fullName: `${currentUser.firstname || ''} ${currentUser.lastname || ''}`.trim() || currentUser.nickname || 'Пользователь',
+    status: currentUser.grade?.name || 'Гость',
+    initials: `${currentUser.firstname?.[0] || ''}${currentUser.lastname?.[0] || ''}`.toUpperCase() || currentUser.nickname?.[0]?.toUpperCase() || 'U',
+  } : {
+    fullName: 'Пользователь',
+    status: 'Гость',
+    initials: 'U',
   }
 
-  const favoriteWines = allProducts.slice(0, 5)
+  const { data: favoriteWines, isLoading: isLoadingWines, isError: isErrorWines } = useQuery({
+    queryKey: ['wines', 'interested', telegramId],
+    queryFn: async () => {
+      const response = await fetch(`https://severely-superior-monster.cloudpub.ru/api/wines/?interested_telegram_id=${telegramId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
 
-  const attendedEvents = [
-    {
-      id: 1,
-      name: 'Champagne & Oysters Night',
-      date: '12 декабря 2024',
-      location: 'Москва, SX Wine Bar',
+  const { data: attendedEvents, isLoading: isLoadingEvents, isError: isErrorEvents } = useQuery({
+    queryKey: ['events', 'interested', telegramId],
+    queryFn: async () => {
+      const response = await fetch(`https://severely-superior-monster.cloudpub.ru/api/events/?interested_telegram_id=${telegramId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
     },
-    {
-      id: 2,
-      name: 'Champagne Masterclass',
-      date: '25 ноября 2024',
-      location: 'Nappe',
-    },
-  ]
+  })
 
   const tabItems = [
     {
       key: 'favorites',
       label: 'Моя коллекция вин',
-      children: (
+      children: isLoadingWines ? (
+        <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
+          <Spin />
+        </Flex>
+      ) : isErrorWines ? (
+        <Typography.Text type="danger">Ошибка при загрузке коллекции вин</Typography.Text>
+      ) : (
         <List
           itemLayout="horizontal"
-          dataSource={favoriteWines}
-          renderItem={(item) => (
+          dataSource={favoriteWines || []}
+          renderItem={(wine: any) => (
             <List.Item>
               <List.Item.Meta
                 avatar={<Avatar style={{backgroundColor: '#E7014C', padding: '10px'}} size={50} src={glass}/>}
-                title={item.name}
-                description={`${item.region} • ${item.volume}`}
+                title={wine.name}
+                description={`${wine.region?.name || ''} • ${wine.volume || ''}л.`}
               />
             </List.Item>
           )}
@@ -166,19 +213,25 @@ const UserProfilePage = () => {
     {
       key: 'events',
       label: 'Мои дегустации',
-      children: (
+      children: isLoadingEvents ? (
+        <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
+          <Spin />
+        </Flex>
+      ) : isErrorEvents ? (
+        <Typography.Text type="danger">Ошибка при загрузке дегустаций</Typography.Text>
+      ) : (
         <List
           itemLayout="horizontal"
-          dataSource={attendedEvents}
-          renderItem={(event) => (
+          dataSource={attendedEvents || []}
+          renderItem={(event: any) => (
             <List.Item>
               <List.Item.Meta
                 avatar={<Avatar style={{ backgroundColor: '#E7014C', padding: '10px' }} size={50} src={cheers}/>}
                 title={event.name}
                 description={
                   <>
-                    <div>{event.date}</div>
-                    <div>{event.location}</div>
+                    <div>{event.date} {event.time ? `• ${event.time}` : ''}</div>
+                    <div>{event.city?.name} {event.place ? `• ${event.place}` : ''} {event.address ? `• ${event.address}` : ''}</div>
                   </>
                 }
               />
@@ -208,16 +261,33 @@ const UserProfilePage = () => {
               </div>
             </PageHeader>
           <ProfileHeader>
-            <AvatarWrapper>
-              {user.initials}
-            </AvatarWrapper>
-            <UserInfo>
-              <UserName>{user.fullName}</UserName>
-              <UserStatus>
-                <DrawerLogo>Приветствуем Вас! Вы <span>друг SX Wine </span></DrawerLogo>
-                <br/><Rate character={<HeartFilled/>} count={3} defaultValue={1} />
-              </UserStatus>
-            </UserInfo>
+            {isLoadingPerson ? (
+              <Flex style={{ alignItems: 'center', gap: 24, width: '100%' }}>
+                <Spin />
+                <Typography.Text>Загрузка профиля...</Typography.Text>
+              </Flex>
+            ) : (
+              <>
+                <AvatarWrapper>
+                  {user.initials}
+                </AvatarWrapper>
+                <UserInfo>
+                  <UserName>{user.fullName}</UserName>
+                  <UserStatus>
+                    <DrawerLogo>Приветствуем Вас! <br/>Ваш статус: 
+                      <span>
+                        {currentUser?.grade?.name && (
+                          <>
+                            <br/><Typography.Text type="secondary">{user.status}</Typography.Text>
+                          </>
+                        )}
+                      </span>
+                    </DrawerLogo>
+                    {/*<br/><Rate character={<HeartFilled/>} count={3} defaultValue={1} />*/}
+                  </UserStatus>
+                </UserInfo>
+              </>
+            )}
           </ProfileHeader>
           <StyledTabs items={tabItems} defaultActiveKey="favorites" />
         </Container>

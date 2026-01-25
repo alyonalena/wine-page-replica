@@ -1,5 +1,5 @@
 import { Breadcrumb, Typography, Image, Button, Space, Flex, message, Spin, Avatar, Divider } from 'antd'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -127,23 +127,57 @@ const EventsPage = () => {
       return response.json()
     },
   })
-  console.info(events)
-
   const successWithCustomIcon = () => {
     messageApi.open({
       duration: 2,
       content: <>
-        <Avatar src={cheers} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
+        <Avatar src={cheers} style={{backgroundColor: '#E7014C'}}/>&nbsp;Спасибо за интерес!<br/><br/>
         SX Wine свяжется с Вамим в ближайшее время
       </>,
     })
   }
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    successWithCustomIcon()
+  const mutation = useMutation({
+    mutationFn: async ({ eventId, telegramId }: { eventId: number; telegramId: number }) => {
+      const response = await fetch('https://severely-superior-monster.cloudpub.ru/api/notifications/event-interest/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          event_id: eventId,
+          telegram_id: telegramId,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+    onSuccess: (data) => {
+      console.log('Event interest notification sent successfully:', data)
+      successWithCustomIcon()
+    },
+    onError: (error) => {
+      console.error('Error sending event interest notification:', error)
+      messageApi.error({
+        content: 'Произошла ошибка при отправке запроса. Попробуйте позже.',
+        duration: 3,
+      })
+    },
+  })
+  
+  const handleAddToCart = (e: React.MouseEvent, eventId: number) => {
     e.preventDefault()
     e.stopPropagation()
-    // Add to cart logic
+    
+    // Get telegramId from localStorage or use a default value
+    const telegramId = Number(localStorage.getItem('telegramId') || '1739711843')
+    
+    mutation.mutate({
+      eventId: eventId,
+      telegramId: telegramId,
+    })
   }
 
   const getContent = () => {
@@ -206,7 +240,7 @@ const EventsPage = () => {
                       </div>
                   </Flex> 
                 </Flex>
-                <AddToCartButton type="primary" onClick={handleAddToCart}>
+                <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, event.id)}>
                   Хочу на эту дегустацию <Avatar src={cheers}/>
                 </AddToCartButton>
               </ProductCard>

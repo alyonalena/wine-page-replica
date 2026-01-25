@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { Breadcrumb, Button, Tabs, Avatar, Space, Typography, message, Flex, Spin, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -169,22 +169,53 @@ const WineDetailPage = () => {
     messageApi.open({
       duration: 2,
       content: <>
-        <Avatar src={glass} shape='square'/>&nbsp;Спасибо за интерес!<br/><br/>
+        <Avatar src={glass} style={{backgroundColor: '#E7014C'}}/>&nbsp;Спасибо за интерес!<br/><br/>
         SX Wine свяжется с Вамим в ближайшее время
       </>,
     })
   }
 
-  const handleAddToCart = (e: React.MouseEvent, wineId) => {
-    successWithCustomIcon()
+  const mutation = useMutation({
+    mutationFn: async ({ wineId, telegramId }: { wineId: number; telegramId: number }) => {
+      const response = await fetch('https://severely-superior-monster.cloudpub.ru/api/notifications/wine-interest/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          wine_id: wineId,
+          telegram_id: telegramId,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+    onSuccess: (data) => {
+      console.log('Wine interest notification sent successfully:', data)
+      successWithCustomIcon()
+    },
+    onError: (error) => {
+      console.error('Error sending wine interest notification:', error)
+      messageApi.error({
+        content: 'Произошла ошибка при отправке запроса. Попробуйте позже.',
+        duration: 3,
+      })
+    },
+  })
+
+  const handleAddToCart = (e: React.MouseEvent, wineId: number) => {
     e.preventDefault()
     e.stopPropagation()
-    // Add to cart logic
-    /*localhost:8000/api/notifications/wine-interest/
-{
-    "telegram_id": 123456789,
-    "wine_id": wineId
-}*/
+    
+    // Get telegramId from localStorage or use a default value
+    const telegramId = Number(localStorage.getItem('telegramId') || '1739711843')
+    
+    mutation.mutate({
+      wineId: wineId,
+      telegramId: telegramId,
+    })
   }
 
 
