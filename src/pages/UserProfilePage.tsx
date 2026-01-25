@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
+import { useTelegramId } from '../hooks/useTelegramId'
 import backIcon from '../pics/actions/back.svg'
 import { HeartFilled } from '@ant-design/icons'
 import glass from '../pics/actions/glass.svg'
@@ -119,8 +120,7 @@ const DrawerLogo = styled.div`
 `
 
 const UserProfilePage = () => {
-  // Get telegramId from localStorage or use a default value
-  const telegramId = Number(localStorage.getItem('telegramId') || '1739711843')
+  const telegramId = useTelegramId()
 
   const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
     queryKey: ['persons'],
@@ -187,7 +187,7 @@ const UserProfilePage = () => {
   const tabItems = [
     {
       key: 'favorites',
-      label: 'Моя коллекция вин',
+      label: 'Ваша коллекция вин',
       children: isLoadingWines ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
           <Spin />
@@ -212,7 +212,7 @@ const UserProfilePage = () => {
     },
     {
       key: 'events',
-      label: 'Мои дегустации',
+      label: 'Ваши дегустации',
       children: isLoadingEvents ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
           <Spin />
@@ -274,14 +274,10 @@ const UserProfilePage = () => {
                 <UserInfo>
                   <UserName>{user.fullName}</UserName>
                   <UserStatus>
-                    <DrawerLogo>Приветствуем Вас! <br/>Ваш статус: 
-                      <span>
+                    <DrawerLogo>Приветствуем Вас! <br/>Ваш статус:&nbsp;
                         {currentUser?.grade?.name && (
-                          <>
-                            <br/><Typography.Text type="secondary">{user.status}</Typography.Text>
-                          </>
+                          <span>{user.status}</span>
                         )}
-                      </span>
                     </DrawerLogo>
                     {/*<br/><Rate character={<HeartFilled/>} count={3} defaultValue={1} />*/}
                   </UserStatus>

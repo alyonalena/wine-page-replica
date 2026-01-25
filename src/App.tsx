@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound"
 import ProducersPage from "./pages/ProducersPage"
 import EventDetailPage from "./pages/EventDetailPage"
 import ProducerDetailPage from "./pages/ProducerDetailPage"
+import TelegramVerificationModal from "./components/TelegramVerificationModal"
 
 const queryClient = new QueryClient()
 
@@ -40,6 +41,7 @@ const App = () => (
       >
         <Toaster />
         <Sonner />
+        <TelegramVerificationModal />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />

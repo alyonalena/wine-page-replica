@@ -6,6 +6,7 @@ import { useQuery, useMutation, useQueryClient  } from '@tanstack/react-query'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
+import { useTelegramId } from '../hooks/useTelegramId'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
@@ -121,6 +122,7 @@ const AddToCartButton = styled(Button)`
 
 const WinesPage = () => {
   const [messageApi, contextHolder] = message.useMessage();
+  const telegramId = useTelegramId();
 
   const successWithCustomIcon = () => {
     messageApi.open({
@@ -165,9 +167,6 @@ const WinesPage = () => {
   const handleAddToCart = (e: React.MouseEvent, wineId: number) => {
     e.preventDefault()
     e.stopPropagation()
-    
-    // Get telegramId from localStorage or use a default value
-    const telegramId = Number(localStorage.getItem('telegramId') || '1739711843')
     
     mutation.mutate({
       wineId: wineId,

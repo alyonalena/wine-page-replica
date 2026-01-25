@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
+import { useTelegramId } from '../hooks/useTelegramId'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 
@@ -110,8 +111,8 @@ const ImportantInfo = styled.h2`
 `
 
 const EventsPage = () => {
-
   const [messageApi, contextHolder] = message.useMessage();
+  const telegramId = useTelegramId();
   const { data: events, isLoading, isError } = useQuery({
     queryKey: ['events'],
     queryFn: async () => {
@@ -170,9 +171,6 @@ const EventsPage = () => {
   const handleAddToCart = (e: React.MouseEvent, eventId: number) => {
     e.preventDefault()
     e.stopPropagation()
-    
-    // Get telegramId from localStorage or use a default value
-    const telegramId = Number(localStorage.getItem('telegramId') || '1739711843')
     
     mutation.mutate({
       eventId: eventId,

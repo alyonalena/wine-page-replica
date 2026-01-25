@@ -54,14 +54,6 @@ const PromoCard = styled(Link)`
     transform: scale(1.02);
   }
 `
-//background: linear-gradient(90deg, rgba(231, 1, 76, 1) 0%, rgba(0, 0, 0, 0.3) 100%);
-
-const PromoContent = styled.div`
-  position: relative;
-  z-index: 2;
-  color: white;
-  min-height: 170px;
-`
 
 const PromoBlock1 = styled.div`
   animation: slideUp 0.4s ease;

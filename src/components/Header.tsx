@@ -53,7 +53,7 @@ const LocationSelect = styled.div`
 const MainHeader = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  padding: 8px 16px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -105,7 +105,7 @@ const DrawerHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
-  border-bottom: 1px solid ${theme.colors.border};
+  border-bottom: 1px solid ${theme.colors.lightBg};
 `
 
 const DrawerLogo = styled.div`
