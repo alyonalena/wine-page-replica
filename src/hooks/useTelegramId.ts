@@ -2,11 +2,13 @@ import { useMemo } from 'react';
 import { retrieveLaunchParams } from '@telegram-apps/sdk'
 
 // Retrieve the launch parameters, including the initData raw string.
-const launchParams = retrieveLaunchParams()
+
 
 
 export const useTelegramId = (): number => {
   return useMemo(() => {
+    const launchParams = retrieveLaunchParams()
+    try {
     // The user data is located within the initData
     let telegramId = ''
     if (launchParams?.initData?.user) {
@@ -18,6 +20,9 @@ export const useTelegramId = (): number => {
     }
     const localTelegramId = localStorage.getItem('telegramId')
     return Number(telegramId || localTelegramId)
+    } catch(e) {
+      return 0
+    }
   }, [])
 }
 
