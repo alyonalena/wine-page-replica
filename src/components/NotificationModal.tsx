@@ -105,7 +105,7 @@ const NotificationModal = ({
           <ModalTitle>{getTitle()}</ModalTitle>
           <ModalText>{content}</ModalText>
           <ConfirmButton type="primary" onClick={onClose}>
-            Закрыть
+            Ок
           </ConfirmButton>
         </ContentWrapper>
       </ModalContent>

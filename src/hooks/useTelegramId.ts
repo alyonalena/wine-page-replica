@@ -9,7 +9,7 @@ export const useTelegramId = (): number => {
   return useMemo(() => {
     // The user data is located within the initData
     let telegramId = ''
-    if (launchParams.initData?.user) {
+    if (launchParams?.initData?.user) {
       telegramId = launchParams.initData.user?.id
       console.log("User Telegram ID:", telegramId)
     // Use the telegramId as needed in your application
