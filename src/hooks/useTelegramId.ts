@@ -5,11 +5,11 @@ import { retrieveLaunchParams } from '@telegram-apps/sdk'
 
 
 export const useTelegramId = (): number => {
-  return useMemo(() => {    
+  return useMemo(() => { 
+    let telegramId = ''
     try {
       const launchParams = retrieveLaunchParams()
       // The user data is located within the initData
-      let telegramId = ''
       if (launchParams?.initData?.user) {
         telegramId = launchParams.initData.user?.id
         console.log("User Telegram ID:", telegramId)
