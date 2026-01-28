@@ -16,9 +16,8 @@ export const useTelegramId = (): number => {
     } else {
       console.error("User data not available in initData")
     }
-    const localTelegramId = localStorage.getItem('telegramId')
-    
-    return Number(telegramId || localTelegramId)
+  
+    return Number(telegramId)
   }, [])
 }
 
