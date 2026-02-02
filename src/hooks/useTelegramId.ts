@@ -17,7 +17,6 @@ export const useTelegramId = (): number => {
       console.error("User data not available in initData")
     }
   
-    alert(Number(telegramId))
     return Number(telegramId)
   }, [])
 }
