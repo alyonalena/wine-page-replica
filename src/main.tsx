@@ -1,6 +1,6 @@
-import { createRoot } from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
+import { createRoot } from "react-dom/client"
+import App from "./App.tsx"
+import "./index.css"
 import { init, miniApp } from '@telegram-apps/sdk'
 import { StrictMode } from 'react'
 
