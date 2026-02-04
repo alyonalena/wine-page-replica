@@ -1,10 +1,10 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import styled from 'styled-components';
-import { Button, Input } from 'antd';
-import { theme } from '../styles/theme';
-import { useTelegramId } from '../hooks/useTelegramId';
-import NotificationModal from './NotificationModal';
+import { useState, useEffect, useMemo } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import styled from 'styled-components'
+import { Button, Input } from 'antd'
+import { theme } from '../styles/theme'
+import { useTelegramId } from '../hooks/useTelegramId'
+import NotificationModal from './NotificationModal'
 
 const ModalOverlay = styled.div`
   position: fixed;
