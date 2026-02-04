@@ -8,9 +8,7 @@ export const useTelegramId = (): number => {
     let telegramId = 0
     const launchParams = useLaunchParams()
     // The user data is located within the initData
-    if (launchParams.tgWebAppData?.user?.ids
-      
-    ) {
+    if (launchParams.tgWebAppData?.user?.id) {
       telegramId = launchParams.tgWebAppData?.user?.id
       console.log("User Telegram ID:", telegramId)
     // Use the telegramId as needed in your application
