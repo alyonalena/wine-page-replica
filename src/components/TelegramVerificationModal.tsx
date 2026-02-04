@@ -74,13 +74,14 @@ const TelegramVerificationModal = () => {
   const { data: persons, isLoading: isLoadingPersons } = useQuery({
     queryKey: ['persons'],
     queryFn: async () => {
-      const response = await fetch('https://severely-superior-monster.cloudpub.ru/api/persons', {
+      const response = await fetch('https://vfqc-bc18-fu02.gw-1a.dockhost.net/api/persons/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       });
       if (!response.ok) {
+        return []
         throw new Error('Network response was not ok');
       }
       return response.json();
@@ -98,7 +99,7 @@ const TelegramVerificationModal = () => {
   // Mutation to bind telegram
   const bindTelegramMutation = useMutation({
     mutationFn: async ({ telegramId, key }: { telegramId: number; key: string }) => {
-      const response = await fetch('https://severely-superior-monster.cloudpub.ru/api/auth/bind-telegram/', {
+      const response = await fetch('https://vfqc-bc18-fu02.gw-1a.dockhost.net/api/auth/bind-telegram/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
