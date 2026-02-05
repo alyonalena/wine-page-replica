@@ -18,7 +18,6 @@ import ProducerDetailPage from "./pages/ProducerDetailPage"
 import TelegramVerificationModal from "./components/TelegramVerificationModal"
 
 const queryClient = new QueryClient()
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>

@@ -8,6 +8,7 @@ import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
+import { TG_API_BASE_URL } from '../lib/api'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 
@@ -127,7 +128,7 @@ const EventsPage = () => {
   const { data: events, isLoading, isError } = useQuery({
     queryKey: ['events'],
     queryFn: async () => {
-      const response = await fetch("https://severely-superior-monster.cloudpub.ru/api/events/", {
+      const response = await fetch(`${TG_API_BASE_URL}/events/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -150,7 +151,7 @@ const EventsPage = () => {
 
   const mutation = useMutation({
     mutationFn: async ({ eventId, telegramId }: { eventId: number; telegramId: number }) => {
-      const response = await fetch('https://severely-superior-monster.cloudpub.ru/api/notifications/event-interest/', {
+      const response = await fetch(`${TG_API_BASE_URL}/notifications/event-interest/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

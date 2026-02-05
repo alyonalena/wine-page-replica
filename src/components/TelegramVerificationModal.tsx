@@ -5,6 +5,7 @@ import { Button, Input } from 'antd'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from './NotificationModal'
+import { TG_API_BASE_URL } from '../lib/api'
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -56,7 +57,8 @@ const ConfirmButton = styled(Button)`
 `;
 
 const TelegramVerificationModal = () => {
-  const [isVisible, setIsVisible] = useState<boolean | null>(null); // null = checking, true = show, false = hide
+  // null = checking, true = show, false = hide
+  const [isVisible, setIsVisible] = useState<boolean | null>(null);
   const [key, setKey] = useState('');
   const telegramId = useTelegramId();
   const queryClient = useQueryClient();
@@ -74,7 +76,7 @@ const TelegramVerificationModal = () => {
   const { data: persons, isLoading: isLoadingPersons } = useQuery({
     queryKey: ['persons'],
     queryFn: async () => {
-      const response = await fetch('https://vfqc-bc18-fu02.gw-1a.dockhost.net/api/persons/', {
+      const response = await fetch(`${TG_API_BASE_URL}/persons/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -96,10 +98,10 @@ const TelegramVerificationModal = () => {
     );
   }, [persons, isLoadingPersons, telegramId]);
 
-  // Mutation to bind telegram
+  // Mutation to bind telegram (verifies user by key)
   const bindTelegramMutation = useMutation({
     mutationFn: async ({ telegramId, key }: { telegramId: number; key: string }) => {
-      const response = await fetch('https://vfqc-bc18-fu02.gw-1a.dockhost.net/api/auth/bind-telegram/', {
+      const response = await fetch(`${TG_API_BASE_URL}/auth/bind-telegram/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -121,14 +123,10 @@ const TelegramVerificationModal = () => {
         type: 'success',
         content: 'Успешная верификация! Добро пожаловать!',
       });
-      localStorage.setItem('telegramVerified', 'true');
       setIsVisible(false);
-      // Invalidate and refetch persons to update the list
+      // Invalidate and refetch persons to update the list,
+      // so on next app open the user will be found in the list.
       await queryClient.invalidateQueries({ queryKey: ['persons'] });
-      // Small delay to ensure data is updated before checking again
-      setTimeout(() => {
-        queryClient.refetchQueries({ queryKey: ['persons'] });
-      }, 500);
     },
     onError: (error: any) => {
       setNotificationModal({
@@ -140,34 +138,27 @@ const TelegramVerificationModal = () => {
   });
 
   useEffect(() => {
-    // Don't check if mutation is in progress
-    if (bindTelegramMutation.isPending) {
-      return;
-    }
-
-    // Check if already verified in localStorage first
-    const verified = localStorage.getItem('telegramVerified');
-    if (verified === 'true') {
-      setIsVisible(false);
-      return;
-    }
-
-    // Wait for persons data to load
+    // While loading persons list, don't show the modal yet
     if (isLoadingPersons) {
       setIsVisible(null);
       return;
     }
 
-    // Once data is loaded, check if user exists
+    // If we failed to load persons for some reason, don't block the app
+    if (!persons) {
+      setIsVisible(false);
+      return;
+    }
+
+    // Every time the app opens we check the persons list:
+    // - if the current Telegram user exists there -> no modal
+    // - otherwise -> show verification modal with key input
     if (userExists) {
-      // User exists, mark as verified and hide modal
-      localStorage.setItem('telegramVerified', 'true');
       setIsVisible(false);
     } else {
-      // User doesn't exist, show verification modal
       setIsVisible(true);
     }
-  }, [persons, isLoadingPersons, telegramId, userExists, bindTelegramMutation.isPending]);
+  }, [persons, isLoadingPersons, userExists]);
 
   const handleConfirm = () => {
     if (!key.trim()) {
@@ -187,7 +178,7 @@ const TelegramVerificationModal = () => {
     }
   };
 
-  // Don't render anything while checking
+  // Don't render anything while we are still checking
   if (isVisible === null || !isVisible) return null;
 
   return (
