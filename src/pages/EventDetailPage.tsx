@@ -12,7 +12,6 @@ import { TG_API_BASE_URL } from '../lib/api'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
-import user from '../pics/actions/user.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;

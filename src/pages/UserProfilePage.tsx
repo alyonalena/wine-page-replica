@@ -7,9 +7,9 @@ import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import backIcon from '../pics/actions/back.svg'
-import { HeartFilled } from '@ant-design/icons'
 import glass from '../pics/actions/glass.svg'
 import cheers from '../pics/actions/cheers.svg'
+import { TG_API_BASE_URL } from '../lib/api'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -125,7 +125,7 @@ const UserProfilePage = () => {
   const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
     queryKey: ['persons'],
     queryFn: async () => {
-      const response = await fetch('https://severely-superior-monster.cloudpub.ru/api/persons', {
+      const response = await fetch(`${TG_API_BASE_URL}/persons`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ const UserProfilePage = () => {
   const { data: favoriteWines, isLoading: isLoadingWines, isError: isErrorWines } = useQuery({
     queryKey: ['wines', 'interested', telegramId],
     queryFn: async () => {
-      const response = await fetch(`https://severely-superior-monster.cloudpub.ru/api/wines/?interested_telegram_id=${telegramId}`, {
+      const response = await fetch(`${TG_API_BASE_URL}/wines/?interested_telegram_id=${telegramId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ const UserProfilePage = () => {
   const { data: attendedEvents, isLoading: isLoadingEvents, isError: isErrorEvents } = useQuery({
     queryKey: ['events', 'interested', telegramId],
     queryFn: async () => {
-      const response = await fetch(`https://severely-superior-monster.cloudpub.ru/api/events/?interested_telegram_id=${telegramId}`, {
+      const response = await fetch(`${TG_API_BASE_URL}/events/?interested_telegram_id=${telegramId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
