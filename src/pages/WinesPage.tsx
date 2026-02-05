@@ -82,7 +82,6 @@ const ProductCard = styled(Link)`
   position: relative;
   text-decoration: none;
   display: block;
-  box-shadow: ${theme.shadows.cardHover};
 `
 
 const ProductInfo = styled.div`
@@ -92,10 +91,9 @@ const ProductInfo = styled.div`
 `
 
 const ProductName = styled.span`
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 1.2rem;
   color: ${theme.colors.foreground};
-  margin: 16px 0 16px;
+  margin: 0 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -103,10 +101,9 @@ const ProductName = styled.span`
 `
 
 const ImportantInfo = styled.span`
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 1.2rem;
   color: ${theme.colors.primary};
-  margin: 16px 0 16px;
+  margin: 0 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -115,7 +112,7 @@ const ImportantInfo = styled.span`
 
 
 const AddToCartButton = styled(Button)`
-  margin-top: 12px;
+  margin: 8px;
   width: 100%;
   height: 40px;
   font-weight: 500;

@@ -83,8 +83,7 @@ const TabsSection = styled.div`
 `
 
 const ProductName = styled.span`
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 1.2rem;
   color: ${theme.colors.foreground};
   margin: 0 0 16px;
   display: -webkit-box;
@@ -94,10 +93,8 @@ const ProductName = styled.span`
 `
 
 const ImportantInfo = styled.span`
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 1.2rem;
   color: ${theme.colors.primary};
-  line-height: 0.9;
   margin: 0 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;

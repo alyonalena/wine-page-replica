@@ -68,11 +68,9 @@ const ProductInfo = styled.div`
 `
 
 const ProductName = styled.span`
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 1.2rem;
   color: ${theme.colors.foreground};
   margin: 0;
-  line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
