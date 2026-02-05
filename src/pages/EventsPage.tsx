@@ -51,8 +51,8 @@ const PageTitle = styled(Typography.Title)`
 `
 
 const ResultsCount = styled.span`
-  color: ${theme.colors.muted};
-  font-size: 12px;
+  color: ${theme.colors.primary};
+  font-size: 0.9rem;
 `
 
 const ProductsGrid = styled.div`
@@ -248,14 +248,13 @@ const EventsPage = () => {
                       style={{ height: '100%',textAlign: 'left' }}
                     >
                       <div>
-                          <ImportantInfo>{event.city.name}</ImportantInfo>
-                          <Space style={{ gap:4, lineHeight: '0.9' }}>
-                            <Typography.Text type='secondary'>{event.place} • {event.address}</Typography.Text>
-                          </Space>
-                          <br />  <br /> 
-                          <ImportantInfo>
+                         
+                      <ImportantInfo>
                             {formatDateTime(event.date, event.time || '19:00')}
                           </ImportantInfo>
+                          <Space style={{ gap:4, lineHeight: '0.9' }}>
+                            <Typography.Text type='secondary'>{event.city.name} • {event.place} • {event.address}</Typography.Text>
+                          </Space><br/>
                       </div>
                   </Flex> 
                 </Flex>
