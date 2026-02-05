@@ -9,6 +9,7 @@ import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
 import { TG_API_BASE_URL } from '../lib/api'
+import { formatDateTime } from '../lib/date'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 
@@ -252,7 +253,9 @@ const EventsPage = () => {
                             <Typography.Text type='secondary'>{event.place} • {event.address}</Typography.Text>
                           </Space>
                           <br />  <br /> 
-                          <ImportantInfo>{event.date} • {'19:00'}</ImportantInfo>
+                          <ImportantInfo>
+                            {formatDateTime(event.date, event.time || '19:00')}
+                          </ImportantInfo>
                       </div>
                   </Flex> 
                 </Flex>

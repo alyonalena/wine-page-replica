@@ -9,6 +9,7 @@ import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
 import { TG_API_BASE_URL } from '../lib/api'
+import { formatDateTime } from '../lib/date'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/back.svg'
 import bottle from '../pics/actions/pink.png'
@@ -298,8 +299,8 @@ const EventDetailPage = () => {
                   <>
                   <Avatar 
                     key={member.id} 
-                    style={{backgroundColor: '#F5F5F5', padding: '10px', margin: '10px'}} 
-                    size={50}
+                    style={{backgroundColor: '#E7014C', padding: '10px', margin: '10px'}} 
+                    size={30}
                   >
                     {initials}
                   </Avatar>&nbsp;{member.firstname}&nbsp;{member.lastname}
@@ -382,7 +383,9 @@ const EventDetailPage = () => {
                               <Typography.Text type='secondary'>{selectedEvent.place} • {selectedEvent.address}</Typography.Text>
                             </Space>
                             <br />  <br /> 
-                            <ImportantInfo>{selectedEvent.date} • {selectedEvent.time}</ImportantInfo>
+                            <ImportantInfo>
+                              {formatDateTime(selectedEvent.date, selectedEvent.time)}
+                            </ImportantInfo>
                         </div>
                   </Flex> 
                 </Flex>

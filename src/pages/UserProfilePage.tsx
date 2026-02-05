@@ -9,6 +9,7 @@ import { useTelegramId } from '../hooks/useTelegramId'
 import backIcon from '../pics/actions/back.svg'
 import glass from '../pics/actions/glass.svg'
 import cheers from '../pics/actions/cheers.svg'
+import { formatDateTime } from '../lib/date'
 import { TG_API_BASE_URL } from '../lib/api'
 
 const PageWrapper = styled.div`
@@ -230,7 +231,7 @@ const UserProfilePage = () => {
                 title={event.name}
                 description={
                   <>
-                    <div>{event.date} {event.time ? `• ${event.time}` : ''}</div>
+                    <div>{formatDateTime(event.date, event.time)}</div>
                     <div>{event.city?.name} {event.place ? `• ${event.place}` : ''} {event.address ? `• ${event.address}` : ''}</div>
                   </>
                 }
