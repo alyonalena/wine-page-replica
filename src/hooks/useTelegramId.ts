@@ -4,9 +4,11 @@ import { useMemo } from 'react'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
 
 export const useTelegramId = (): number => {
+  const launchParams = useLaunchParams()
+  
   return useMemo(() => { 
     let telegramId = 1739711844
-    const launchParams = useLaunchParams()
+
      //The user data is located within the initData
     console.info('HELLO '+launchParams)
     if (launchParams?.tgWebAppData?.user?.id) {
@@ -16,6 +18,7 @@ export const useTelegramId = (): number => {
     } else {
       console.error("User data not available in initData")
     }
+
     return Number(telegramId)
   }, [])
 }
