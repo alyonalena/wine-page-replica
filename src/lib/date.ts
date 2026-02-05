@@ -1,5 +1,5 @@
-import moment from 'moment';
-import 'moment/locale/ru';
+import moment from 'moment'
+import 'moment/lib/locale/ru'
 
 /**
  * Format date and optional time using moment to Russian locale.
