@@ -81,10 +81,7 @@ const ProductCard = styled(Link)`
   background: ${theme.colors.background};
   border-radius: 3px;
   border: 1px solid rgba(255, 255, 255, 0.4);
-  transition: ${theme.transitions.default};
-  position: relative;
   text-decoration: none;
-  display: block;
 `
 
 const AddToCartButton = styled(Button)`
@@ -95,7 +92,6 @@ const AddToCartButton = styled(Button)`
 `
 
 const ProductName = styled.span`
-  font-size: 1.2rem;
   color: ${theme.colors.foreground};
   margin: 16px 0 16px;
   display: -webkit-box;
@@ -105,12 +101,8 @@ const ProductName = styled.span`
 `
 
 const ImportantInfo = styled.span`
-    font-size: 1.2rem;
   color: ${theme.colors.primary};
   margin: 0 0 16px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   overflow: hidden;
 `
 
@@ -247,9 +239,8 @@ const EventsPage = () => {
                       vertical
                       style={{ height: '100%',textAlign: 'left' }}
                     >
-                      <div>
-                         
-                      <ImportantInfo>
+                      <div>                         
+                          <ImportantInfo>
                             {formatDateTime(event.date, event.time || '19:00')}
                           </ImportantInfo>
                           <Space style={{ gap:4, lineHeight: '0.9' }}>

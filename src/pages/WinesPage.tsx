@@ -78,10 +78,6 @@ const ProductCard = styled(Link)`
   background: ${theme.colors.background};
   border-radius: 3px;
   border: 1px solid rgba(255, 255, 255, 0.4);
-  transition: ${theme.transitions.default};
-  position: relative;
-  text-decoration: none;
-  display: block;
 `
 
 const ProductInfo = styled.div`
@@ -91,25 +87,14 @@ const ProductInfo = styled.div`
 `
 
 const ProductName = styled.span`
-  font-size: 1.2rem;
   color: ${theme.colors.foreground};
   margin: 0 0 16px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 `
 
 const ImportantInfo = styled.span`
-  font-size: 1.2rem;
   color: ${theme.colors.primary};
   margin: 0 0 16px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 `
-
 
 const AddToCartButton = styled(Button)`
   margin: 8px;

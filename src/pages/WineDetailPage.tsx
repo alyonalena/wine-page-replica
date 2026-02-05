@@ -68,13 +68,8 @@ const ProductInfo = styled.div`
 `
 
 const ProductName = styled.span`
-  font-size: 1.2rem;
   color: ${theme.colors.foreground};
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 `
 
 const SpecsGrid = styled.div`

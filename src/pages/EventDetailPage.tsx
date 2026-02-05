@@ -83,23 +83,13 @@ const TabsSection = styled.div`
 `
 
 const ProductName = styled.span`
-  font-size: 1.2rem;
   color: ${theme.colors.foreground};
   margin: 0 0 16px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 `
 
 const ImportantInfo = styled.span`
-  font-size: 1.2rem;
   color: ${theme.colors.primary};
   margin: 0 0 16px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 `
 
 const EventDetailPage = () => {
