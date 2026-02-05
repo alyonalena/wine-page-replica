@@ -78,6 +78,7 @@ const ProductCard = styled(Link)`
   background: ${theme.colors.background};
   border-radius: 3px;
   border: 1px solid rgba(255, 255, 255, 0.4);
+  text-decoration: none;
 `
 
 const ProductInfo = styled.div`
@@ -245,8 +246,8 @@ const WinesPage = () => {
                         style={{ height: '100%',textAlign: 'left' }}
                       >
                         <ProductInfo>
-                          <ProductName>{wine.name}</ProductName>
-                          <ImportantInfo>{wine.producer?.name} • {wine.aging} г.</ImportantInfo>
+                          <ProductName>{wine?.name}</ProductName>
+                          <ProductName>{wine?.producer?.name} • {wine?.aging} г.</ProductName>
                           <Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume}л.</Typography.Text>   
                           <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
                         </ProductInfo>
