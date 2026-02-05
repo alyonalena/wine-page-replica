@@ -82,7 +82,7 @@ const TabsSection = styled.div`
   }
 `
 
-const ProductName = styled.h2`
+const ProductName = styled.span`
   font-size: 18px;
   font-weight: 400;
   color: ${theme.colors.foreground};
@@ -93,7 +93,7 @@ const ProductName = styled.h2`
   overflow: hidden;
 `
 
-const ImportantInfo = styled.h2`
+const ImportantInfo = styled.span`
   font-size: 18px;
   font-weight: 400;
   color: ${theme.colors.primary};

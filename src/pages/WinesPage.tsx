@@ -91,24 +91,22 @@ const ProductInfo = styled.div`
   gap: 8px;
 `
 
-const ProductName = styled.h2`
+const ProductName = styled.span`
   font-size: 16px;
   font-weight: 400;
-  line-height: 1;
   color: ${theme.colors.foreground};
-  margin: 0 0 16px;
+  margin: 16px 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 `
 
-const ImportantInfo = styled.h2`
+const ImportantInfo = styled.span`
   font-size: 16px;
   font-weight: 400;
   color: ${theme.colors.primary};
-  line-height: 0.9;
-  margin: 0 0 16px;
+  margin: 16px 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

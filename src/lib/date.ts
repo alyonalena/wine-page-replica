@@ -1,12 +1,24 @@
 import moment from 'moment'
-import 'moment/locale/ru'
 
-// Set global locale for moment once
-moment.locale('ru')
+// Manual Russian month names (genitive case) to avoid locale issues
+const MONTHS_RU = [
+  'Января',
+  'Февраля',
+  'Марта',
+  'Апреля',
+  'Мая',
+  'Июня',
+  'Июля',
+  'Августа',
+  'Сентября',
+  'Октября',
+  'Ноября',
+  'Декабря',
+]
 
 /**
- * Format date and optional time using moment to Russian locale.
- * Example output: "13 марта 2026 13:00"
+ * Format date and optional time using moment, with manual Russian month names.
+ * Example output: "13 Марта 2026 13:00"
  */
 export const formatDateTime = (date?: string, time?: string | null): string => {
   if (!date) return ''
@@ -19,6 +31,12 @@ export const formatDateTime = (date?: string, time?: string | null): string => {
     return time ? `${date} • ${time}` : date
   }
 
-  return m.format('D MMMM YYYY HH:mm')
+  const day = m.date()
+  const monthIndex = m.month() // 0-11
+  const year = m.year()
+  const monthName = MONTHS_RU[monthIndex] ?? ''
+  const timeStr = m.format('HH:mm')
+
+  return `${day} ${monthName} ${year} ${timeStr}`
 }
 

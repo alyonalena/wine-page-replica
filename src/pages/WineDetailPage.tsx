@@ -67,7 +67,7 @@ const ProductInfo = styled.div`
   gap: 8px;
 `
 
-const ProductName = styled.h2`
+const ProductName = styled.span`
   font-size: 18px;
   font-weight: 500;
   color: ${theme.colors.foreground};
