@@ -290,16 +290,16 @@ const EventDetailPage = () => {
                   <List.Item.Meta
                       avatar={ item.image ? (
                         <Avatar
-                            size={140} 
+                            size={60} 
                             src={item.image.replace('http', 'https')}/>
                         ): (
                           <Avatar 
                             style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
-                            size={50} 
+                            size={60} 
                             src={bottle}/>
                         )}
                       title={<>
-                        <div>{item.name} • {item.aging}</div>
+                        <div>{item.aging ? `${item.name} • ${item.aging}г.`: item.name}</div>
                         <div>{item.producer.name}</div>
                       </>}
                       description={`${item.sugar?.name} • ${item.volume}`}
