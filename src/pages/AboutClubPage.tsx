@@ -142,13 +142,6 @@ const AboutClubPage = () => {
       <Header />
       <main>
         <Container>
-          <BreadcrumbWrapper>
-            <Breadcrumb
-              items={[
-                { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-              ]}
-            />
-          </BreadcrumbWrapper>
           <ProductsGrid>
             {blocks.map((member) => (
               <Flex vertical style={{ padding: '20px', backgroundColor: '#E7014C' }} gap={16}>
