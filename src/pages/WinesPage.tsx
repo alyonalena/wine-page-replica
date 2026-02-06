@@ -33,10 +33,10 @@ const BottomButtonWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 8px;
+  padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.1);
 `
 
 const BackButton = styled(Button)`
@@ -253,7 +253,7 @@ const WinesPage = () => {
                         {wine?.image ? (
                           <Avatar
                               size={100} 
-                              src={wine.image}/>
+                              src={wine.image.replace('http', 'https')}/>
                           ): (
                             <Avatar 
                               style={{backgroundColor: '#F5F5F5', padding: '10px'}} 

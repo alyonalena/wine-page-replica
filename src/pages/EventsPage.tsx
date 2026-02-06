@@ -32,10 +32,10 @@ const BottomButtonWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 8px;
+  padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.1);
 `
 
 const BackButton = styled(Button)`
@@ -45,9 +45,8 @@ const BackButton = styled(Button)`
   display: flex;
   align-items: center;
   gap: 8px;
-flex: 1;
+  flex: 1;
 `
-
 
 const PageHeader = styled.div`
   display: flex;
@@ -95,6 +94,7 @@ const ProductCard = styled(Link)`
   border-radius: 3px;
   border: 1px solid ${theme.colors.border};
   text-decoration: none;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const AddToCartButton = styled(Button)`
@@ -238,7 +238,7 @@ const EventsPage = () => {
                   <div style={{ padding: 0, margin: 0, minWidth: 130}}>
                       <Avatar 
                         alt="SX" 
-                        src={event.image}
+                        src={event.image.replace('http', 'https')}
                         style={{ width: 130, height: 130 }} 
                       />
                   </div>

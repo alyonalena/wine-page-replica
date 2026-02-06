@@ -33,7 +33,7 @@ const BottomButtonWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 100;
-    padding: 8px;
+  padding: 8px 16px;
   display: flex;
   justify-content: center;
   background: rgba(0, 0, 0, 0.1);
@@ -372,7 +372,7 @@ const EventDetailPage = () => {
                   <div style={{ padding: 0, margin: 0, width: 140}}>
                       <Avatar 
                         alt="SX" 
-                        src={selectedEvent.image}
+                        src={selectedEvent.image.replace('http', 'https')}
                         style={{ width: "140px", height: "140px" }} 
                       />
                   </div>
