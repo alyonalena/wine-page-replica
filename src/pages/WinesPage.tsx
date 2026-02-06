@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Breadcrumb, Avatar, Button, Typography, Flex, Spin, Divider } from 'antd'
+import { Avatar, Button, Typography, Flex, Spin, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
@@ -23,19 +23,30 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 12px 16px;
+  padding: 24px 16px;
+  padding-bottom: 80px;
 `
 
-const BreadcrumbWrapper = styled.div`
-  margin-bottom: 24px;
-  
-  .ant-breadcrumb-link a {
-    color: ${theme.colors.muted};
-    
-    &:hover {
-      color: ${theme.colors.primary};
-    }
-  }
+const BottomButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+`
+
+const BackButton = styled(Button)`
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
 `
 
 const PageHeader = styled.div`
@@ -68,8 +79,8 @@ const ProductsGrid = styled.div`
 const PageTitle = styled.div`
   animation: slideUp 0.4s ease;
   color: ${theme.colors.foreground};
-  font-weight: bold;
-  font-size: 2.2rem;
+  font-weight: bold;  
+  font-size: 1.6rem;
   margin: 8px 16px;
 `
 
@@ -88,8 +99,7 @@ const ProductCard = styled(Link)`
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin: 16px 0 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -226,14 +236,6 @@ const WinesPage = () => {
             content={notificationModal.content}
             icon={notificationModal.icon}
           />
-          <BreadcrumbWrapper>
-            <Breadcrumb
-              items={[
-                { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-              ]}
-            />
-          </BreadcrumbWrapper>
-          <Divider/>
           <PageHeader>
             <div>
               <PageTitle>Коллекция вин</PageTitle>
@@ -275,6 +277,12 @@ const WinesPage = () => {
               </ProductCard>
             ))}
           </ProductsGrid>
+          <BottomButtonWrapper>
+            <BackButton onClick={() => window.location.href = '/'}>
+              <Avatar size={50} src={backIcon}/>
+              На главную страницу
+            </BackButton>
+          </BottomButtonWrapper>
         </Container>
       )
     }
@@ -286,7 +294,6 @@ const WinesPage = () => {
         <main>
           {getContent()}
         </main>
-        <Footer />
       </PageWrapper>
   )
 }

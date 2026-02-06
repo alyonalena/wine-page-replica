@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Breadcrumb, Avatar, Button, Tabs, List, Flex, Space, Typography, Spin, Divider } from 'antd'
+import { Avatar, Button, Tabs, List, Flex, Space, Typography, Spin, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -23,7 +23,30 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 10px 16px;
+  padding: 24px 16px;
+  padding-bottom: 80px;
+`
+
+const BottomButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+    padding: 8px;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+`
+
+const BackButton = styled(Button)`
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
 `
 
 const ProductLayout = styled.div`
@@ -86,7 +109,7 @@ const TabsSection = styled.div`
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
   font-weight: bold;
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -340,33 +363,17 @@ const EventDetailPage = () => {
           content={notificationModal.content}
           icon={notificationModal.icon}
         />
-        <Flex>
-          <Breadcrumb
-            items={[
-              { title: <Link style={{ textAlign: 'center' }} to="/events"><Avatar size={30} src={backIcon}/>&nbsp;К другим дегустациям</Link> },
-            ]}
-          />
-        </Flex>
-        {/*<Flex justify='space-between'>
-          <div></div>
-          <Breadcrumb
-            items={[
-              { title: <Link style={{ textAlign: 'center' }} to="/events">К другим дегустациям<Avatar shape={'square'} size={20} src={forwardIcon}/></Link> }
-            ]}
-          />
-        </Flex>*/}
-        <Divider/>
         <ProductLayout>
             <ProductInfo>
               <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                   <ProductName>{selectedEvent.name}</ProductName>
                 </Flex> 
                 <Flex style={{ width: '100%', padding: '8px 16px 24px'}} align={'flex-start'} gap={8}>
-                  <div style={{ padding: 0, margin: 0, width: 130}}>
+                  <div style={{ padding: 0, margin: 0, width: 140}}>
                       <Avatar 
                         alt="SX" 
                         src={selectedEvent.image}
-                        style={{ width: "130px", height: "130px" }} 
+                        style={{ width: "140px", height: "140px" }} 
                       />
                   </div>
                   <Flex 
@@ -395,6 +402,12 @@ const EventDetailPage = () => {
         <TabsSection>
             <Tabs items={getTabs()} defaultActiveKey="description" />
         </TabsSection>
+        <BottomButtonWrapper>
+          <BackButton onClick={() => window.history.back()}>
+            <Avatar size={35} src={backIcon}/>
+            {' К другим дегустациям'}
+          </BackButton>
+        </BottomButtonWrapper>
       </Container>
     )
   }
@@ -405,7 +418,6 @@ const EventDetailPage = () => {
           <main>
               {getContent()}
           </main>
-          <Footer />
       </PageWrapper>
   )
 }

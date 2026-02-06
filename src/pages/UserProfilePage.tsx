@@ -1,4 +1,4 @@
-import { Tabs, List, Avatar, Tag, Breadcrumb, Typography, Rate, Divider, Spin, Flex } from 'antd'
+import { Tabs, List, Avatar, Tag, Button, Typography, Rate, Divider, Spin, Flex } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -21,8 +21,32 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 10px 16px 48px;
+  padding: 24px 16px 48px;
+  padding-bottom: 80px;
 `
+
+const BottomButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+    padding: 8px;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+`
+
+const BackButton = styled(Button)`
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+`
+
 
 const ProfileHeader = styled.div`
   display: flex;
@@ -36,7 +60,7 @@ const AvatarWrapper = styled.div`
   height: 96px;
   border-radius: 50%;
   overflow: hidden;
-  background: ${theme.colors.lightBg};
+  background: #E5E5E5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,17 +111,6 @@ const StyledTabs = styled(Tabs)`
   }
 `
 
-const BreadcrumbWrapper = styled.div`
-  margin-bottom: 24px;
-  
-  .ant-breadcrumb-link a {
-    color: ${theme.colors.muted};
-    
-    &:hover {
-      color: ${theme.colors.primary};
-    }
-  }
-`
 const PageHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -117,6 +130,7 @@ const DrawerLogo = styled.div`
   
   span {
     color: ${theme.colors.primary};
+    font-weight: bold;
   }
 `
 
@@ -248,14 +262,6 @@ const UserProfilePage = () => {
       <Header />
       <main>
         <Container>
-          <BreadcrumbWrapper>
-            <Breadcrumb
-              items={[
-                { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-              ]}
-            />
-          </BreadcrumbWrapper>
-          <Divider/>
           <PageHeader>
               <div>
                 <PageTitle level={3}>{'Личный кабинет'}</PageTitle>
@@ -287,9 +293,14 @@ const UserProfilePage = () => {
             )}
           </ProfileHeader>
           <StyledTabs items={tabItems} defaultActiveKey="favorites" />
+          <BottomButtonWrapper>
+            <BackButton onClick={() => window.location.href = '/'}>
+              <Avatar size={50} src={backIcon}/>
+              На главную страницу
+            </BackButton>
+          </BottomButtonWrapper>
         </Container>
       </main>
-      <Footer />
     </PageWrapper>
   )
 }

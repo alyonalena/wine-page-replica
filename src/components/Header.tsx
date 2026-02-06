@@ -58,6 +58,7 @@ const MainHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const LeftSection = styled.div`

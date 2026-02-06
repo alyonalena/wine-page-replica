@@ -19,7 +19,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 10px 16px;
+  padding: 24px 16px;
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -125,7 +125,6 @@ const AboutClubPage = () => {
               ]}
             />
           </BreadcrumbWrapper>
-          <Divider />
           <ProductsGrid>
             {blocks.map((member) => (
               <Flex vertical style={{ padding: '20px', backgroundColor: '#E7014C' }} gap={16}>
@@ -145,7 +144,6 @@ const AboutClubPage = () => {
           </ProductsGrid>
         </Container>
       </main>
-      <Footer />
     </PageWrapper>
   )
 }

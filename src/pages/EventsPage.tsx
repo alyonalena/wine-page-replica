@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Breadcrumb, Typography, Image, Button, Space, Flex, Spin, Avatar, Divider } from 'antd'
+import { Typography, Image, Button, Space, Flex, Spin, Avatar, Divider } from 'antd'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -22,20 +22,32 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 10px 16px;
+  padding: 24px 16px;
+  padding-bottom: 80px;
 `
 
-const BreadcrumbWrapper = styled.div`
-  margin-bottom: 24px;
-  
-  .ant-breadcrumb-link a {
-    color: ${theme.colors.muted};
-    
-    &:hover {
-      color: ${theme.colors.primary};
-    }
-  }
+const BottomButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
 `
+
+const BackButton = styled(Button)`
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+flex: 1;
+`
+
 
 const PageHeader = styled.div`
   display: flex;
@@ -44,20 +56,6 @@ const PageHeader = styled.div`
   margin-bottom: 32px;
   flex-wrap: wrap;
   line-height: 0.8;
-`
-
-const PageTitle = styled.div`
-  animation: slideUp 0.4s ease;
-  color: ${theme.colors.foreground};
-  font-weight: bold;
-  font-size: 2.2rem;
-  margin: 8px 16px;
-`
-
-const ResultsCount = styled.span`
-  color: ${theme.colors.muted};
-  font-size: 0.8rem;
-  margin: 0 32px;
 `
 
 const ProductsGrid = styled.div`
@@ -78,6 +76,20 @@ const ProductsGrid = styled.div`
   }
 `
 
+const PageTitle = styled.div`
+  animation: slideUp 0.4s ease;
+  color: ${theme.colors.foreground};
+  font-weight: bold;  
+  font-size: 1.6rem;
+  margin: 8px 16px;
+`
+
+const ResultsCount = styled.span`
+  color: ${theme.colors.muted};
+  font-size: 0.8rem;
+  margin: 0 32px;
+`
+
 const ProductCard = styled(Link)`
   background: ${theme.colors.lightBg};
   border-radius: 3px;
@@ -94,8 +106,7 @@ const AddToCartButton = styled(Button)`
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  font-weight: bold;
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin: 8px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -211,14 +222,6 @@ const EventsPage = () => {
             content={notificationModal.content}
             icon={notificationModal.icon}
           />
-          <BreadcrumbWrapper>
-            <Breadcrumb
-              items={[
-                { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-              ]}
-            />
-          </BreadcrumbWrapper>  
-          <Divider/>
           <PageHeader>
             <div>
               <PageTitle>Дегустации</PageTitle>              
@@ -262,6 +265,12 @@ const EventsPage = () => {
               </ProductCard>
             ))}
           </ProductsGrid>
+          <BottomButtonWrapper>
+            <BackButton onClick={() => window.location.href = '/'}>
+              <Avatar size={50} src={backIcon}/>
+              На главную страницу
+            </BackButton>
+          </BottomButtonWrapper>
         </Container>
       )
     }
@@ -273,7 +282,6 @@ const EventsPage = () => {
         <main>
           {getContent()}
         </main>
-        <Footer />
       </PageWrapper>
   )
 }

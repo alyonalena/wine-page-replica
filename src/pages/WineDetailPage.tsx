@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Breadcrumb, Button, Tabs, Avatar, Space, Typography, Flex, Spin, Divider } from 'antd'
+import { Button, Tabs, Avatar, Space, Typography, Flex, Spin, Divider } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -24,13 +24,36 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 12px 16px;
+  padding: 24px 16px;
+  padding-bottom: 80px;
   backgroundPosition: 'top center, top center',
   backgroundImage: url('../pics/main/backWine.png'),
   backgroundSize: 'cover, contain',
   backgroundRepeat: 'no-repeat, no-repeat',
   backgroundColor: 'rgba(79, 77, 64, 0.3)', /* Black overlay with 50% opacity */
   backgroundBlendMode: 'overlay'
+`
+
+const BottomButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+`
+
+const BackButton = styled(Button)`
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
 `
 
 const ButtonsSection = styled.div`
@@ -81,7 +104,7 @@ const SpecValue = styled.span`
 `
 
 const TabsSection = styled.div`
-  margin-top: 24px;
+  margin-top: 8px;
   
   .ant-tabs-nav {
     margin-bottom: 24px;
@@ -114,7 +137,7 @@ const DescriptionText = styled.div`
 `
 
 const DescriptionTextBlock = styled.div`
-  padding: 24px 0 32px;
+  padding: 8px;
   display: flex;
   gap: 2px;
   font-size: 15px;
@@ -123,8 +146,8 @@ const DescriptionTextBlock = styled.div`
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
+  font-size: 1.8rem;
   font-weight: bold;
-  font-size: 1.2rem;
   margin: 8px 0 16px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -304,35 +327,19 @@ const WineDetailPage = () => {
           content={notificationModal.content}
           icon={notificationModal.icon}
         />
-        <Flex>
-          <Breadcrumb
-            items={[
-              { title: <Link style={{ textAlign: 'center' }} to="/wines"><Avatar size={30} src={backIcon}/>&nbsp;К другим винам</Link> },
-            ]}
-          />
-        </Flex>
-        {/*<Flex justify='space-between'>
-          <div></div>
-          <Breadcrumb
-            items={[
-              { title: <Link style={{ textAlign: 'center' }} to="/wines">К другим винам<Avatar shape={'square'} size={20} src={forwardIcon}/></Link> }
-            ]}
-          />
-        </Flex>*/}
-        <Divider/>
           <ProductInfo>
             <Flex vertical style={{ width: '100%', padding: '8px 16px'}} align={'start'}>
                   <ProductName>{selectedWine?.name}</ProductName>                  
                   <Flex style={{ width: '100%', padding: ''}} align={'start'} gap={16}>
-                    <div style={{ padding: 0, margin: 0, width: 100}}>
+                    <div style={{ padding: 0, margin: 0, width: 140}}>
                         {selectedWine?.image ? (
                           <Avatar
-                              size={100} 
-                              src={selectedWine.image}/>
+                              size={140} 
+                              src={selectedWine.image.replace('http', 'https')}/>
                           ): (
                             <Avatar 
                               style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
-                              size={100} 
+                              size={140} 
                               src={bottle}/>
                           )}
                     </div>                    
@@ -367,6 +374,12 @@ const WineDetailPage = () => {
           </DescriptionTextBlock>
           <Tabs items={getTabs()} defaultActiveKey="description" />
         </TabsSection>
+        <BottomButtonWrapper>
+          <BackButton onClick={() => window.history.back()}>
+            <Avatar size={50} src={backIcon}/>
+            К другим винам
+          </BackButton>
+        </BottomButtonWrapper>
       </Container>
     )
   }
@@ -377,7 +390,6 @@ const WineDetailPage = () => {
         <main>
           {getContent()}
         </main>
-        <Footer />
       </PageWrapper>
   )
 }

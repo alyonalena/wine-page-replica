@@ -17,7 +17,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 10px 16px;
+  padding: 24px 16px;
 `
 const BreadcrumbWrapper = styled.div`
   margin-bottom: 24px;
@@ -109,7 +109,6 @@ const TeamPage = () => {
               ]}
             />
           </BreadcrumbWrapper>
-          <Divider />
           <PageHeader>
            <PageTitle level={3}>Команда клуба</PageTitle>
           </PageHeader>
@@ -133,7 +132,6 @@ const TeamPage = () => {
           </ProductsGrid>
         </Container>
       </main>
-      <Footer />
     </PageWrapper>
   )
 }
