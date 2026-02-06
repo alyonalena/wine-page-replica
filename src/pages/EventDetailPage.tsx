@@ -288,10 +288,19 @@ const EventDetailPage = () => {
             renderItem={(item: any) => (
               <List.Item>
                   <List.Item.Meta
-                      avatar={<Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/>}
+                      avatar={ item.image ? (
+                        <Avatar
+                            size={140} 
+                            src={item.image.replace('http', 'https')}/>
+                        ): (
+                          <Avatar 
+                            style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
+                            size={50} 
+                            src={bottle}/>
+                        )}
                       title={<>
-                      <div>{item.name} • {item.aging}</div>
-                      <div>{item.producer.name}</div>
+                        <div>{item.name} • {item.aging}</div>
+                        <div>{item.producer.name}</div>
                       </>}
                       description={`${item.sugar?.name} • ${item.volume}`}
                   />
