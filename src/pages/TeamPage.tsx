@@ -15,7 +15,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 24px 48px;
 `
 
 const PageHeader = styled.div`
