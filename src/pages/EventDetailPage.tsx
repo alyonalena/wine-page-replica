@@ -36,7 +36,9 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.1);
+  background: white;
+  border-top: 1px solid ${theme.colors.lightBg};
+  box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
 `
 
 const BackButton = styled(Button)`
@@ -66,6 +68,7 @@ const ProductInfo = styled.div`
   border-radius: 3px;
   border: 1px solid ${theme.colors.border};
   text-decoration: none;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const ButtonsSection = styled.div`
@@ -116,6 +119,7 @@ const ProductName = styled.span`
   -webkit-box-orient: vertical;
   overflow: hidden;
 `
+
 const ImportantInfo = styled.span`
   color: ${theme.colors.primary};
   font-weight: bold;
@@ -393,9 +397,15 @@ const EventDetailPage = () => {
                   </Flex> 
                 </Flex>
                 <ButtonsSection>
-                    <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e)}>
-                      Хочу на эту дегустацию <Avatar src={cheers}/>
-                    </AddToCartButton>
+                    { new Date(selectedEvent.date) > new Date() && 
+                      (
+                        <AddToCartButton 
+                          type="primary" 
+                          onClick={(e) => handleAddToCart(e)}
+                        >
+                          Хочу на эту дегустацию <Avatar src={cheers}/>
+                        </AddToCartButton>
+                    )}
                 </ButtonsSection>
             </ProductInfo>
         </ProductLayout>

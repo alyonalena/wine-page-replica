@@ -43,7 +43,9 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.1);
+  background: white;
+  border-top: 1px solid ${theme.colors.lightBg};
+  box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
 `
 
 const BackButton = styled(Button)`
@@ -73,6 +75,7 @@ const ProductInfo = styled.div`
   border-radius: 3px;
   border: 1px solid ${theme.colors.border};
   text-decoration: none;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const SpecsGrid = styled.div`

@@ -36,7 +36,9 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.1);
+  background: white;
+  border-top: 1px solid ${theme.colors.lightBg};
+  box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
 `
 
 const BackButton = styled(Button)`
@@ -95,11 +97,12 @@ const ProductCard = styled(Link)`
   border-radius: 3px;
   border: 1px solid ${theme.colors.border};
   text-decoration: none;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   margin: 16px 0 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
