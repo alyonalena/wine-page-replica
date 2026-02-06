@@ -66,18 +66,6 @@ const LeftSection = styled.div`
   gap: 20px;
 `
 
-const LogoLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  font-weight: 700;
-  color: ${theme.colors.primary};
-  text-decoration: none;
-  
-  span {
-    color: ${theme.colors.foreground};
-  }
-`
 
 const ActionItem = styled.div`
   display: flex;
@@ -193,8 +181,8 @@ const Header = () => {
           <Flex align={"center"} gap={8}>
             <Avatar alt="SX" shape="square" src={LogoImage} style={{ width: "52px", height: "52px" }} />
             <Col flex="auto" style={{ textAlign: "left" }}>
-                <Typography.Title level={3} style={{ margin: 0, color: "black", lineHeight: 1}}>SX Wine</Typography.Title>
-                <Typography.Text type='secondary' style={{ fontSize: '0.7em', color: '#E7014C' }}>Champagne Lovers Club</Typography.Text>
+                <Typography.Title level={3} style={{ margin: 0, color: "black", lineHeight: 1.2}}>SX Wine</Typography.Title>
+                <Typography.Text style={{ fontSize: '0.9em'}}>Champagne Lovers Club</Typography.Text>
             </Col>
           </Flex>
         </LeftSection>

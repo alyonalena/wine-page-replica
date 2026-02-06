@@ -77,7 +77,8 @@ const PromoTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.3em;
+  font-weight: bold;
+  font-size: 1.6rem;
 `
 
 const PromoSubtitle = styled.p`

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Breadcrumb, Avatar, Button, Typography, Flex, Spin, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { useQuery, useMutation, useQueryClient  } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -47,15 +47,6 @@ const PageHeader = styled.div`
   line-height: 0.8;
 `
 
-const PageTitle = styled(Typography.Title)`
-  animation: slideUp 0.4s ease;
-`
-
-const ResultsCount = styled.span`
-  color: ${theme.colors.muted};
-  font-size: 12px;
-`
-
 const ProductsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -74,31 +65,57 @@ const ProductsGrid = styled.div`
   }
 `
 
-const ProductCard = styled(Link)`
-  background: ${theme.colors.background};
-  border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  text-decoration: none;
+const PageTitle = styled.div`
+  animation: slideUp 0.4s ease;
+  color: ${theme.colors.foreground};
+  font-weight: bold;
+  font-size: 2.2rem;
+  margin: 8px 16px;
 `
 
-const ProductInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+const ResultsCount = styled.span`
+  color: ${theme.colors.muted};
+  font-size: 0.8rem;
+  margin: 0 32px;
+`
+
+const ProductCard = styled(Link)`
+  background: ${theme.colors.lightBg};
+  border-radius: 3px;
+  border: 1px solid ${theme.colors.border};
+  text-decoration: none;
 `
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  margin: 0 0 16px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 16px 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
+const ProducerName = styled.span`
+  color: ${theme.colors.foreground};
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `
 
 const ImportantInfo = styled.span`
   color: ${theme.colors.primary};
   margin: 0 0 16px;
+  overflow: hidden;
+  font-weight: bold;
 `
 
 const AddToCartButton = styled(Button)`
-  margin: 8px;
+  margin: 0;
   width: 100%;
   height: 40px;
   font-weight: 500;
@@ -219,7 +236,7 @@ const WinesPage = () => {
           <Divider/>
           <PageHeader>
             <div>
-              <PageTitle level={3}>Коллекция вин</PageTitle>
+              <PageTitle>Коллекция вин</PageTitle>
               <ResultsCount>Всего: {wines.length}</ResultsCount>
             </div>
           </PageHeader>
@@ -227,8 +244,9 @@ const WinesPage = () => {
           <ProductsGrid>
   
             {wines.map((wine) => (
-                <ProductCard key={wine.id} to={`/wine/${wine.id}`}>
-                  <Flex style={{ width: '100%', padding: '16px '}} align={'center'} gap={8}>
+                <ProductCard key={wine.id} to={`/wine/${wine.id}`}>                  
+                  <ProductName>{wine?.name}</ProductName>                  
+                  <Flex style={{ width: '100%', padding: '16px '}} align={'start'} gap={16}>
                     <div style={{ padding: 0, margin: 0, width: 100}}>
                         {wine?.image ? (
                           <Avatar
@@ -243,14 +261,12 @@ const WinesPage = () => {
                     </div>
                     <Flex 
                         vertical
-                        style={{ height: '100%',textAlign: 'left' }}
+                        style={{ height: '100%', textAlign: 'left' }}
                       >
-                        <ProductInfo>
-                          <ProductName>{wine?.name}</ProductName>
-                          <ProductName>{wine?.producer?.name} • {wine?.aging} г.</ProductName>
-                          <Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume}л.</Typography.Text>   
-                          <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
-                        </ProductInfo>
+                        <ProducerName>{wine?.producer?.name}</ProducerName>
+                        <ImportantInfo>{wine?.aging ? `${wine.aging} г.`: ''}</ImportantInfo>
+                        <Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume}л.</Typography.Text>   
+                        <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
                     </Flex> 
                   </Flex>
                 <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, wine.id)}>

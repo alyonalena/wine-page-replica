@@ -39,8 +39,10 @@ const ProductLayout = styled.div`
 `
 
 const ProductInfo = styled.div`
-  display: flex;
-  flex-direction: column;
+  background: ${theme.colors.lightBg};
+  border-radius: 3px;
+  border: 1px solid ${theme.colors.border};
+  text-decoration: none;
 `
 
 const ButtonsSection = styled.div`
@@ -55,7 +57,7 @@ const AddToCartButton = styled(Button)`
 `
 
 const TabsSection = styled.div`
-  margin-top: 48px;
+  margin: 24px 0 0;
   
   .ant-tabs-nav {
     margin-bottom: 24px;
@@ -81,16 +83,23 @@ const TabsSection = styled.div`
     height: 3px;
   }
 `
-
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  margin: 0 0 16px;
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `
-
 const ImportantInfo = styled.span`
   color: ${theme.colors.primary};
+  font-weight: bold;
   margin: 0 0 16px;
+  overflow: hidden;
 `
+
 
 const EventDetailPage = () => {
   const { id } = useParams()
@@ -246,9 +255,9 @@ const EventDetailPage = () => {
         key: 'description',
         label: 'Описание',
         children: (
-          <>
-            Описание дегустации
-          </>
+          <div>
+            {selectedEvent.description || '...'}
+          </div>
         )
       },
       {
@@ -349,8 +358,8 @@ const EventDetailPage = () => {
         <Divider/>
         <ProductLayout>
             <ProductInfo>
-                <Flex style={{ width: '100%' }} align={'center'}>
-                    <ProductName>{selectedEvent.name}</ProductName>
+              <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
+                  <ProductName>{selectedEvent.name}</ProductName>
                 </Flex> 
                 <Flex style={{ width: '100%', padding: '8px 16px 24px'}} align={'flex-start'} gap={8}>
                   <div style={{ padding: 0, margin: 0, width: 130}}>
@@ -364,16 +373,16 @@ const EventDetailPage = () => {
                       vertical
                       style={{ height: '100%',textAlign: 'left' }}
                     >
-                        <div>
-                            <ImportantInfo>{selectedEvent.city.name}</ImportantInfo>
-                            <Space style={{ gap:4, lineHeight: '0.9' }}>
-                              <Typography.Text type='secondary'>{selectedEvent.place} • {selectedEvent.address}</Typography.Text>
-                            </Space>
-                            <br />  <br /> 
-                            <ImportantInfo>
-                              {formatDateTime(selectedEvent.date, selectedEvent.time)}
-                            </ImportantInfo>
-                        </div>
+                      <div>
+                        <b>{selectedEvent.city.name}</b><br/>
+                        <ImportantInfo>
+                          {formatDateTime(selectedEvent.date, selectedEvent.time || '19:00')}
+                        </ImportantInfo><br/><br/> 
+                        
+                        <Space style={{ gap:4, lineHeight: '0.9' }}>
+                          <Typography.Text type='secondary'>{selectedEvent.place} • {selectedEvent.address}</Typography.Text>
+                        </Space>
+                      </div>
                   </Flex> 
                 </Flex>
                 <ButtonsSection>

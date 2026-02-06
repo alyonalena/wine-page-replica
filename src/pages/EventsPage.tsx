@@ -46,13 +46,18 @@ const PageHeader = styled.div`
   line-height: 0.8;
 `
 
-const PageTitle = styled(Typography.Title)`
+const PageTitle = styled.div`
   animation: slideUp 0.4s ease;
+  color: ${theme.colors.foreground};
+  font-weight: bold;
+  font-size: 2.2rem;
+  margin: 8px 16px;
 `
 
 const ResultsCount = styled.span`
-  color: ${theme.colors.primary};
-  font-size: 0.9rem;
+  color: ${theme.colors.muted};
+  font-size: 0.8rem;
+  margin: 0 32px;
 `
 
 const ProductsGrid = styled.div`
@@ -72,20 +77,16 @@ const ProductsGrid = styled.div`
     grid-template-columns: 1fr;
   }
 `
-const Title = styled.span`
-  color: ${theme.colors.primary};
-  font-size: 1.3rem;
-`
 
 const ProductCard = styled(Link)`
-  background: ${theme.colors.background};
+  background: ${theme.colors.lightBg};
   border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid ${theme.colors.border};
   text-decoration: none;
 `
 
 const AddToCartButton = styled(Button)`
-  margin: 8px;
+  margin: 0;
   width: 100%;
   height: 40px;
   font-weight: 500;
@@ -93,7 +94,9 @@ const AddToCartButton = styled(Button)`
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  margin: 16px 0 16px;
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin: 8px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -104,6 +107,7 @@ const ImportantInfo = styled.span`
   color: ${theme.colors.primary};
   margin: 0 0 16px;
   overflow: hidden;
+  font-weight: bold;
 `
 
 const EventsPage = () => {
@@ -217,7 +221,7 @@ const EventsPage = () => {
           <Divider/>
           <PageHeader>
             <div>
-              <PageTitle level={3}>{'Дегустации'}</PageTitle>              
+              <PageTitle>Дегустации</PageTitle>              
               <ResultsCount>в Москве и Санкт-Петербурге</ResultsCount>
             </div>
           </PageHeader> 
@@ -239,17 +243,20 @@ const EventsPage = () => {
                       vertical
                       style={{ height: '100%',textAlign: 'left' }}
                     >
-                      <div>                         
+                      <div>        
+                          <b>{event.city.name}</b><br/>
                           <ImportantInfo>
                             {formatDateTime(event.date, event.time || '19:00')}
-                          </ImportantInfo>
+                          </ImportantInfo><br/><br/> 
+                          
                           <Space style={{ gap:4, lineHeight: '0.9' }}>
-                            <Typography.Text type='secondary'>{event.city.name} • {event.place} • {event.address}</Typography.Text>
-                          </Space><br/>
+                            <Typography.Text type='secondary'>{event.place} • {event.address}</Typography.Text>
+                          </Space>
                       </div>
-                  </Flex> 
+                  </Flex>                  
                 </Flex>
-                <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, event.id)}>
+                <br/>
+                <AddToCartButton size="large" type="primary" onClick={(e) => handleAddToCart(e, event.id)}>
                   Хочу на эту дегустацию <Avatar src={cheers}/>
                 </AddToCartButton>
               </ProductCard>

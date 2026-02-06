@@ -33,18 +33,6 @@ const Container = styled.div`
   backgroundBlendMode: 'overlay'
 `
 
-const ProductLayout = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 48px;
-  
-  @media (max-width: ${theme.breakpoints.tablet}) {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-`
-
 const ButtonsSection = styled.div`
   display: flex;
   gap: 12px;
@@ -57,19 +45,11 @@ const AddToCartButton = styled(Button)`
   font-weight: 600;
 `
 
-const ProductImage = styled.div`
-  width: 30%;
-`
-
 const ProductInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`
-
-const ProductName = styled.span`
-  color: ${theme.colors.foreground};
-  margin: 0;
+  background: ${theme.colors.lightBg};
+  border-radius: 3px;
+  border: 1px solid ${theme.colors.border};
+  text-decoration: none;
 `
 
 const SpecsGrid = styled.div`
@@ -101,7 +81,7 @@ const SpecValue = styled.span`
 `
 
 const TabsSection = styled.div`
-  margin-top: 48px;
+  margin-top: 24px;
   
   .ant-tabs-nav {
     margin-bottom: 24px;
@@ -127,11 +107,46 @@ const TabsSection = styled.div`
     height: 3px;
   }
 `
+const DescriptionText = styled.div`
+  background: ${theme.colors.wineRose};
+  border-left: 1px solid ${theme.colors.primary};
+  text-decoration: none;
+`
 
-const DescriptionText = styled.p`
+const DescriptionTextBlock = styled.div`
+  padding: 24px 0 32px;
+  display: flex;
+  gap: 2px;
   font-size: 15px;
   line-height: 1.8;
+`
+
+const ProductName = styled.span`
   color: ${theme.colors.foreground};
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 8px 0 16px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
+const ProducerName = styled.span`
+  color: ${theme.colors.foreground};
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
+const ImportantInfo = styled.span`
+  color: ${theme.colors.primary};
+  margin: 0 0 16px;
+  overflow: hidden;
+  font-weight: bold;
 `
 
 const WineDetailPage = () => {
@@ -239,14 +254,6 @@ const WineDetailPage = () => {
     ]
     return [
       {
-        key: 'description',
-        label: 'Комментарий от SX',
-        children: <DescriptionText>
-          <Avatar alt="SX" src={Danil} style={{ width: "70px", height: "70px" }} />&nbsp;&nbsp;
-          {selectedWine.description || "..."}
-        </DescriptionText>,
-      },
-      {
         key: 'specs',
         label: 'Характеристики',
         children: (
@@ -313,36 +320,51 @@ const WineDetailPage = () => {
           />
         </Flex>*/}
         <Divider/>
-        <ProductLayout>
           <ProductInfo>
-            <Space style={{ gap: 24, marginBottom: 24}}>
-              <ProductImage>
-                {selectedWine?.image ? (
-                  <Avatar
-                      size={100} 
-                      src={selectedWine.image}/>
-                  ): (
-                    <Avatar 
-                      style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
-                      size={100} 
-                      src={bottle}/>
-                  )}
-              </ProductImage>
-              <ProductInfo>
-                <ProductName>{selectedWine?.name}</ProductName>
-                <ProductName>{selectedWine?.producer?.name} • {selectedWine?.aging} г.</ProductName>
-                <Typography.Text type='secondary'>{selectedWine?.color?.name} • {selectedWine?.sugar?.name} • {selectedWine?.volume}л.</Typography.Text>   
-                <Typography.Text type='secondary'>{selectedWine?.country?.name} • {selectedWine?.region?.name}</Typography.Text>                              
-              </ProductInfo>
-            </Space>
+            <Flex vertical style={{ width: '100%', padding: '8px 16px'}} align={'start'}>
+                  <ProductName>{selectedWine?.name}</ProductName>                  
+                  <Flex style={{ width: '100%', padding: ''}} align={'start'} gap={16}>
+                    <div style={{ padding: 0, margin: 0, width: 100}}>
+                        {selectedWine?.image ? (
+                          <Avatar
+                              size={100} 
+                              src={selectedWine.image}/>
+                          ): (
+                            <Avatar 
+                              style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
+                              size={100} 
+                              src={bottle}/>
+                          )}
+                    </div>                    
+                    <Flex 
+                        vertical
+                        style={{ height: '100%', textAlign: 'left' }}
+                      >
+                        <ProducerName>{selectedWine?.producer?.name}</ProducerName>
+                        <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: ''}</ImportantInfo>
+                        <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume}л.</Typography.Text>   
+                        <Typography.Text type='secondary'>{selectedWine.country?.name} • {selectedWine.region?.name}</Typography.Text>                              
+                    </Flex> 
+                  </Flex><br/>
+              </Flex>
             <ButtonsSection>
               <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, selectedWine.id)}>
                 Хочу это вино <Avatar shape='square' src={glass}/>
               </AddToCartButton>
             </ButtonsSection>
           </ProductInfo>
-        </ProductLayout>
         <TabsSection>
+          <DescriptionTextBlock>            
+            <Avatar alt="SX" src={Danil} style={{ minWidth: "70px", minHeight: "70px" }} />&nbsp;&nbsp;
+            <DescriptionText>
+              <Space style={{ padding: '8px 16px'}}>
+                <ImportantInfo>Комментарий от SX</ImportantInfo>
+              </Space>
+              <Space style={{ padding: '0 16px 16px 16px'}}>
+                {selectedWine.description || "..."}
+              </Space>
+            </DescriptionText>
+          </DescriptionTextBlock>
           <Tabs items={getTabs()} defaultActiveKey="description" />
         </TabsSection>
       </Container>
