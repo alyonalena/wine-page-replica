@@ -279,15 +279,6 @@ const EventDetailPage = () => {
     }
     return [
       {
-        key: 'description',
-        label: 'Описание',
-        children: (
-          <div>
-            {selectedEvent.description || '...'}
-          </div>
-        )
-      },
-      {
         key: 'set',
         label: 'Винный сет',
         children: (
@@ -298,12 +289,24 @@ const EventDetailPage = () => {
               <List.Item>
                   <List.Item.Meta
                       avatar={<Avatar style={{backgroundColor: '#F5F5F5', padding: '10px'}} size={50} src={bottle}/>}
-                      title={item.name}
+                      title={<>
+                      <div>{item.name} • {item.aging}</div>
+                      <div>{item.producer.name}</div>
+                      </>}
                       description={`${item.sugar?.name} • ${item.volume}`}
                   />
               </List.Item>
             )}
           />
+        )
+      },
+      {
+        key: 'description',
+        label: 'Описание',
+        children: (
+          <div>
+            {selectedEvent.description || '...'}
+          </div>
         )
       },
       {
@@ -410,7 +413,7 @@ const EventDetailPage = () => {
             </ProductInfo>
         </ProductLayout>
         <TabsSection>
-            <Tabs items={getTabs()} defaultActiveKey="description" />
+            <Tabs items={getTabs()} defaultActiveKey="set" />
         </TabsSection>
         <BottomButtonWrapper>
           <BackButton onClick={() => window.history.back()}>
