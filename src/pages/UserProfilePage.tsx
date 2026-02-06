@@ -1,13 +1,12 @@
 import { Tabs, List, Avatar, Tag, Button, Typography, Rate, Divider, Spin, Flex } from 'antd'
+import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import backIcon from '../pics/actions/back.svg'
-import glass from '../pics/actions/glass.svg'
+import bottle from '../pics/actions/pink.png'
 import cheers from '../pics/actions/cheers.svg'
 import { formatDateTime } from '../lib/date'
 import { TG_API_BASE_URL } from '../lib/api'
@@ -216,13 +215,25 @@ const UserProfilePage = () => {
           itemLayout="horizontal"
           dataSource={favoriteWines || []}
           renderItem={(wine: any) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar style={{backgroundColor: '#E7014C', padding: '10px'}} size={50} src={glass}/>}
-                title={wine.name}
-                description={`${wine.region?.name || ''} • ${wine.volume || ''}л.`}
-              />
-            </List.Item>
+             <List.Item>
+             <List.Item.Meta
+                 avatar={ wine.image ? (
+                   <Avatar
+                       size={50} 
+                       src={wine.image.replace('http', 'https')}/>
+                   ): (
+                     <Avatar 
+                       style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
+                       size={50} 
+                       src={bottle}/>
+                   )}
+                 title={<>
+                   <div>{wine.aging ? `${wine.name} • ${wine.aging}г.`: wine.name}</div>
+                   <div>{wine.producer.name}</div>
+                 </>}
+                 description={`${wine.sugar?.name} • ${wine.volume}`}
+             />
+         </List.Item>
           )}
         />
       ),
@@ -241,9 +252,25 @@ const UserProfilePage = () => {
           itemLayout="horizontal"
           dataSource={attendedEvents || []}
           renderItem={(event: any) => (
-            <List.Item>
+            <List.Item
+              extra={
+                new Date(event.date) < new Date() ? (
+                  <Tag color="success" icon={<CheckCircleOutlined/>} />) : (
+                  <Tag color="processing" icon={<ClockCircleOutlined/>} />
+                )
+              }
+            >
               <List.Item.Meta
-                avatar={<Avatar style={{ backgroundColor: '#E7014C', padding: '10px' }} size={50} src={cheers}/>}
+                avatar={event.image ? (
+                  <Avatar
+                      size={50} 
+                      src={event.image.replace('http', 'https')}/>
+                  ): (
+                    <Avatar 
+                      style={{backgroundColor: '#E7014C', padding: '10px'}} 
+                      size={50} 
+                      src={cheers}/>
+                  )}
                 title={event.name}
                 description={
                   <>
