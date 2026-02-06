@@ -1,4 +1,4 @@
-import { Breadcrumb, Avatar, Flex, Divider } from 'antd'
+import { Breadcrumb, Avatar, Flex, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -66,6 +66,30 @@ const Name = styled.h3`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+`
+
+const BottomButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: center;
+  background: white;
+  border-top: 1px solid ${theme.colors.lightBg};
+  box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
+`
+
+const BackButton = styled(Button)`
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
 `
 
 
@@ -142,6 +166,12 @@ const AboutClubPage = () => {
               </Flex>
             ))}
           </ProductsGrid>
+          <BottomButtonWrapper>
+            <BackButton onClick={() => window.history.back()}>
+              <Avatar size={35} src={backIcon}/>
+              {' На главную страницу'}
+            </BackButton>
+          </BottomButtonWrapper>
         </Container>
       </main>
     </PageWrapper>

@@ -1,8 +1,6 @@
-import { Breadcrumb, Avatar, Typography, Flex, Divider } from 'antd'
-import { Link } from 'react-router-dom'
+import { Avatar, Typography, Flex, Button } from 'antd'
 import styled from 'styled-components'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import image0 from '../pics/team/image_0.png'
 import image1 from '../pics/team/image_1.png'
@@ -18,17 +16,6 @@ const Container = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px 16px;
-`
-const BreadcrumbWrapper = styled.div`
-  margin-bottom: 24px;
-  
-  .ant-breadcrumb-link a {
-    color: ${theme.colors.muted};
-    
-    &:hover {
-      color: ${theme.colors.primary};
-    }
-  }
 `
 
 const PageHeader = styled.div`
@@ -79,6 +66,29 @@ const Name = styled.h3`
   overflow: hidden;
 `
 
+const BottomButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: center;
+  background: white;
+  border-top: 1px solid ${theme.colors.lightBg};
+  box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
+`
+
+const BackButton = styled(Button)`
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+`
 
 const TeamPage = () => {
 
@@ -102,13 +112,6 @@ const TeamPage = () => {
       <Header />
       <main>
         <Container>
-          <BreadcrumbWrapper>
-            <Breadcrumb
-              items={[
-                { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-              ]}
-            />
-          </BreadcrumbWrapper>
           <PageHeader>
            <PageTitle level={3}>Команда клуба</PageTitle>
           </PageHeader>
@@ -130,6 +133,12 @@ const TeamPage = () => {
               </Flex>
             ))}
           </ProductsGrid>
+          <BottomButtonWrapper>
+            <BackButton onClick={() => window.history.back()}>
+              <Avatar size={35} src={backIcon}/>
+              {' На главную страницу'}
+            </BackButton>
+          </BottomButtonWrapper>
         </Container>
       </main>
     </PageWrapper>
