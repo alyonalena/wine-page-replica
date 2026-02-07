@@ -35,7 +35,7 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: ${theme.colors.lightBg};
+  background: rgba(0, 0, 0, 0.2);
   border-top: 1px solid ${theme.colors.lightBg};
   box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
 `
@@ -47,10 +47,10 @@ const BackButton = styled(Button)`
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   border-radius: 2rem;
 `
+
 
 const ProductLayout = styled.div`
   display: grid;
@@ -129,10 +129,12 @@ const ImportantInfo = styled.span`
 `
 
 const Alert = styled.span`
-  background: ${theme.colors.primary};
-  color: white;
-  border-radius: 3px;
-  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  background: ${theme.colors.wineRose};
+  border-left: 1px solid ${theme.colors.primary};
+  text-decoration: none;
+  box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  padding: 16px;
 `
 
 const EventDetailPage = () => {
@@ -387,15 +389,9 @@ const EventDetailPage = () => {
           icon={notificationModal.icon}
         />
         <ProductLayout>
-            {new Date(selectedEvent.date) < new Date() && (
-              <Alert>Это мероприятие уже завершилось. Будем рады видеть Вас на других дегустациях!</Alert>
-            )}
             <ProductInfo>
               <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
-                <div>
-                  <ProductName>Дегустация</ProductName>
-                  &nbsp;&nbsp;&nbsp;<ProductName>{selectedEvent.name}</ProductName>
-                </div>
+                <ProductName>{selectedEvent.name}</ProductName>
                 </Flex> 
                 <Flex style={{ width: '100%', padding: '8px 16px 24px'}} align={'flex-start'} gap={16}>
                   <div style={{ padding: 0, margin: 0, width: 140}}>
@@ -433,6 +429,9 @@ const EventDetailPage = () => {
                     )}
                 </ButtonsSection>
             </ProductInfo>
+            {new Date(selectedEvent.date) < new Date() && (
+              <Alert>Это мероприятие уже завершилось</Alert>
+            )}
         </ProductLayout>
         <TabsSection>
             <Tabs items={getTabs()} defaultActiveKey="set" />

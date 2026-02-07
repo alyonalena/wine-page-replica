@@ -35,7 +35,7 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: ${theme.colors.lightBg};
+  background: rgba(0, 0, 0, 0.2);
   border-top: 1px solid ${theme.colors.lightBg};
   box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
 `
@@ -47,8 +47,8 @@ const BackButton = styled(Button)`
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
 `
 
 const PageHeader = styled.div`
@@ -274,7 +274,7 @@ const EventsPage = () => {
           </ProductsGrid>
           <BottomButtonWrapper>
             <BackButton onClick={() => window.location.href = '/'}>
-              <Avatar size={50} src={backIcon}/>
+              <Avatar size={35} src={backIcon}/>
               На главную страницу
             </BackButton>
           </BottomButtonWrapper>
