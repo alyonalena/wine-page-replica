@@ -36,7 +36,7 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: white;
+  background: ${theme.colors.lightBg};
   border-top: 1px solid ${theme.colors.lightBg};
   box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
 `
@@ -49,6 +49,7 @@ const BackButton = styled(Button)`
   align-items: center;
   gap: 8px;
   flex: 1;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const PageHeader = styled.div`
@@ -256,7 +257,9 @@ const WinesPage = () => {
                         {wine?.image ? (
                           <Avatar
                               size={100} 
-                              src={wine.image.replace('http', 'https')}/>
+                              src={wine.image.replace('http', 'https')}
+                              style={{ boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }}
+                              />
                           ): (
                             <Avatar 
                               style={{backgroundColor: '#F5F5F5', padding: '10px'}} 

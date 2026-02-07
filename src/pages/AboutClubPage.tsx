@@ -19,7 +19,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 48px;
+  padding: 24px 24px 48px;
 `
 
 const BreadcrumbWrapper = styled.div`
@@ -77,7 +77,7 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: white;
+  background: ${theme.colors.lightBg};
   border-top: 1px solid ${theme.colors.lightBg};
   box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
 `
@@ -90,8 +90,8 @@ const BackButton = styled(Button)`
   align-items: center;
   gap: 8px;
   flex: 1;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
-
 
 const AboutClubPage = () => {
 
@@ -150,7 +150,7 @@ const AboutClubPage = () => {
                     <Avatar 
                         alt="SX" 
                         src={member.image}
-                        style={{ width: "130px", height: "130px" }} 
+                        style={{ width: "130px", height: "130px", boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)' }} 
                     />
                   </div>
                   <Name>{member.name}</Name>
@@ -160,7 +160,7 @@ const AboutClubPage = () => {
             ))}
           </ProductsGrid>
           <BottomButtonWrapper>
-            <BackButton onClick={() => window.history.back()}>
+            <BackButton onClick={() => window.location.href = '/'}>
               <Avatar size={35} src={backIcon}/>
               {' На главную страницу'}
             </BackButton>

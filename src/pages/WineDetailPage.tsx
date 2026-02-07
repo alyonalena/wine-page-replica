@@ -43,7 +43,7 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: white;
+  background: ${theme.colors.lightBg};
   border-top: 1px solid ${theme.colors.lightBg};
   box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
 `
@@ -56,6 +56,7 @@ const BackButton = styled(Button)`
   align-items: center;
   gap: 8px;
   flex: 1;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const ButtonsSection = styled.div`
@@ -137,6 +138,7 @@ const DescriptionText = styled.div`
   background: ${theme.colors.wineRose};
   border-left: 1px solid ${theme.colors.primary};
   text-decoration: none;
+  box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const DescriptionTextBlock = styled.div`
@@ -145,7 +147,6 @@ const DescriptionTextBlock = styled.div`
   gap: 2px;
   font-size: 15px;
   line-height: 1.8;
-  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const ProductName = styled.span`
@@ -368,7 +369,7 @@ const WineDetailPage = () => {
           </ProductInfo>
         <TabsSection>
           <DescriptionTextBlock>            
-            <Avatar alt="SX" src={Danil} style={{ minWidth: "70px", minHeight: "70px" }} />&nbsp;&nbsp;
+            <Avatar alt="SX" src={Danil} style={{ minWidth: "70px", minHeight: "70px",  boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} />&nbsp;&nbsp;
             <DescriptionText>
               <Space style={{ padding: '8px 16px'}}>
                 <ImportantInfo>Комментарий от SX</ImportantInfo>

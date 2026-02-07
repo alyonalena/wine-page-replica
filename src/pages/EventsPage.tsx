@@ -35,7 +35,7 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: white;
+  background: ${theme.colors.lightBg};
   border-top: 1px solid ${theme.colors.lightBg};
   box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
 `
@@ -48,6 +48,7 @@ const BackButton = styled(Button)`
   align-items: center;
   gap: 8px;
   flex: 1;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const PageHeader = styled.div`
@@ -236,12 +237,12 @@ const EventsPage = () => {
                 <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                   <ProductName>{event.name}</ProductName>
                 </Flex> 
-                <Flex style={{ width: '100%', padding: '8px 16px'}} align={'flex-start'} gap={8}>
+                <Flex style={{ width: '100%', padding: '8px 16px'}} align={'flex-start'} gap={16}>
                   <div style={{ padding: 0, margin: 0, minWidth: 130}}>
                       <Avatar 
                         alt="SX" 
                         src={event.image.replace('http', 'https')}
-                        style={{ width: 130, height: 130 }} 
+                        style={{ width: 130, height: 130, boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} 
                       />
                   </div>
                   <Flex 
