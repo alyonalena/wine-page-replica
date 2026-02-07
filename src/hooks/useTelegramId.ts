@@ -13,7 +13,6 @@ export const useTelegramId = (): number => {
     } else {
       console.error("User data not available in initData")
     }
-    const telegramId = 1739711843
 
     return Number(telegramId)
   }, [])
