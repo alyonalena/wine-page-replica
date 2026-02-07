@@ -22,8 +22,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 16px;
-  padding-bottom: 80px;
+  padding: 24px 16px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -231,7 +230,7 @@ const EventsPage = () => {
             </div>
           </PageHeader> 
           <ProductsGrid>  
-            {events.sort((a, b) => new Date(a.date) < new Date(b.date)).map((event) => (
+            {events.sort((a, b) => new Date(a.date) > new Date(b.date)).map((event) => (
               <ProductCard key={event.id} to={`/event/${event.id}`}>
                 <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                   <ProductName>{event.name}</ProductName>

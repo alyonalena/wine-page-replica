@@ -22,14 +22,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 16px;
-  padding-bottom: 80px;
-  backgroundPosition: 'top center, top center',
-  backgroundImage: url('../pics/main/backWine.png'),
-  backgroundSize: 'cover, contain',
-  backgroundRepeat: 'no-repeat, no-repeat',
-  backgroundColor: 'rgba(79, 77, 64, 0.3)', /* Black overlay with 50% opacity */
-  backgroundBlendMode: 'overlay'
+  padding: 24px 16px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -378,7 +371,7 @@ const WineDetailPage = () => {
         </TabsSection>
         <BottomButtonWrapper>
           <BackButton size="large" onClick={() => window.history.back()}>
-            <Avatar shape="square" size={35} src={backIcon}/>
+            <Avatar size={35} src={backIcon}/>
             К другим винам
           </BackButton>
         </BottomButtonWrapper>
