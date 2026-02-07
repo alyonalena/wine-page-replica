@@ -32,12 +32,11 @@ const BottomButtonWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 8px 16px;
+  padding: 16px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid ${theme.colors.lightBg};
-  box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 `
 
 const BackButton = styled(Button)`
@@ -50,7 +49,6 @@ const BackButton = styled(Button)`
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   border-radius: 2rem;
 `
-
 
 const ProductLayout = styled.div`
   display: grid;

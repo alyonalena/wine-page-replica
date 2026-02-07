@@ -41,9 +41,8 @@ const BottomButtonWrapper = styled.div`
   padding: 16px;
   display: flex;
   justify-content: center;
-  background: ${theme.colors.lightBg};
-  border-top: 1px solid ${theme.colors.lightBg};
-  box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 `
 
 const BackButton = styled(Button)`
@@ -54,6 +53,7 @@ const BackButton = styled(Button)`
   align-items: center;
   gap: 8px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
 `
 
 const ButtonsSection = styled.div`
@@ -64,8 +64,6 @@ const ButtonsSection = styled.div`
 const AddToCartButton = styled(Button)`
   flex: 1;
   height: 52px;
-  font-size: 16px;
-  font-weight: 600;
 `
 
 const ProductInfo = styled.div`

@@ -191,7 +191,6 @@ const AddToCartButton = styled(Button)`
   width: 100%;
   height: 40px;
   border-radius: 8px;
-  font-weight: 500;
 `;
 
 const ProductSection = () => {
