@@ -145,6 +145,7 @@ const DescriptionTextBlock = styled.div`
   gap: 2px;
   font-size: 15px;
   line-height: 1.8;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const ProductName = styled.span`
@@ -332,20 +333,22 @@ const WineDetailPage = () => {
         />
           <ProductInfo>
             <Flex vertical style={{ width: '100%', padding: '8px 16px'}} align={'start'}>
-                  <ProductName>{selectedWine?.name}</ProductName>                  
+                <ProductName>{selectedWine?.name}</ProductName>                  
                   <Flex style={{ width: '100%', padding: ''}} align={'start'} gap={16}>
                     <div style={{ padding: 0, margin: 0, width: 140}}>
                         {selectedWine?.image ? (
                           <Avatar
                               size={140} 
-                              src={selectedWine.image.replace('http', 'https')}/>
+                              src={selectedWine.image.replace('http', 'https')}
+                              style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                            />
                           ): (
                             <Avatar 
                               style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
                               size={140} 
                               src={bottle}/>
                           )}
-                    </div>                    
+                    </div>
                     <Flex 
                         vertical
                         style={{ height: '100%', textAlign: 'left' }}
