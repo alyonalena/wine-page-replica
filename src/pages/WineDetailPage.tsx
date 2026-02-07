@@ -22,7 +22,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 16px 100px;
+  padding: 24px 8px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -60,7 +60,7 @@ const AddToCartButton = styled(Button)`
 `
 
 const ProductInfo = styled.div`
-  background: ${theme.colors.lightBg};
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 3px;
   border: 1px solid ${theme.colors.border};
   text-decoration: none;

@@ -22,7 +22,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 16px 100px;
+  padding: 24px 8px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -81,7 +81,6 @@ const PageTitle = styled.div`
   color: ${theme.colors.foreground};
   font-weight: bold;  
   font-size: 1.6rem;
-  margin: 8px 16px;
 `
 
 const ResultsCount = styled.span`
@@ -230,7 +229,7 @@ const EventsPage = () => {
             </div>
           </PageHeader> 
           <ProductsGrid>  
-            {events.sort((a, b) => { if (new Date(a.date) < new Date(b.date)) return -1; return 1; }).map((event) => (
+            {events.sort((a, b) => { if (new Date(a.date) < new Date(b.date)) return 1; return -1; }).map((event) => (
               <ProductCard key={event.id} to={`/event/${event.id}`}>
                 <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                   <ProductName>{event.name}</ProductName>

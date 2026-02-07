@@ -23,7 +23,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 16px 100px;
+  padding: 24px 8px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -82,7 +82,6 @@ const PageTitle = styled.div`
   color: ${theme.colors.foreground};
   font-weight: bold;  
   font-size: 1.6rem;
-  margin: 8px 16px;
 `
 
 const ResultsCount = styled.span`
@@ -92,7 +91,7 @@ const ResultsCount = styled.span`
 `
 
 const ProductCard = styled(Link)`
-  background: ${theme.colors.lightBg};
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 3px;
   border: 1px solid ${theme.colors.border};
   text-decoration: none;
