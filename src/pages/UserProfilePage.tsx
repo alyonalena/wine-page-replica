@@ -10,6 +10,7 @@ import bottle from '../pics/actions/pink.png'
 import cheers from '../pics/actions/cheers.svg'
 import { formatDateTime } from '../lib/date'
 import { TG_API_BASE_URL } from '../lib/api'
+import { useLaunchParams } from '@telegram-apps/sdk-react'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -48,7 +49,6 @@ const BackButton = styled(Button)`
   flex: 1;
 `
 
-
 const ProfileHeader = styled.div`
   display: flex;
   align-items: center;
@@ -57,8 +57,8 @@ const ProfileHeader = styled.div`
 `
 
 const AvatarWrapper = styled.div`
-  width: 96px;
-  height: 96px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   overflow: hidden;
   background: #E5E5E5;
@@ -66,6 +66,25 @@ const AvatarWrapper = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 40px;
+`
+
+const ProductInfo = styled.div`
+  background: ${theme.colors.lightBg};
+  border-radius: 3px;
+  border: 1px solid ${theme.colors.border};
+  text-decoration: none;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+`
+
+const ProductName = styled.span`
+  color: ${theme.colors.foreground};
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 8px 0 16px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `
 
 const UserInfo = styled.div`
@@ -121,6 +140,17 @@ const PageHeader = styled.div`
   gap: 16px;
 `
 
+const Name = styled.span`
+  color: ${theme.colors.foreground};
+  font-weight: bold;
+  font-size: 1.6rem;
+  margin: 0 0 8px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
 const PageTitle = styled(Typography.Title)`
   animation: slideUp 0.4s ease;
 `
@@ -137,6 +167,8 @@ const DrawerLogo = styled.div`
 
 const UserProfilePage = () => {
   const telegramId = useTelegramId()
+
+  const launchParams = useLaunchParams()
 
   const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
     queryKey: ['persons'],
@@ -291,11 +323,6 @@ const UserProfilePage = () => {
       <Header />
       <main>
         <Container>
-          <PageHeader>
-              <div>
-                <PageTitle level={3}>{'Личный кабинет'}</PageTitle>
-              </div>
-            </PageHeader>
           <ProfileHeader>
             {isLoadingPerson ? (
               <Flex style={{ alignItems: 'center', gap: 24, width: '100%' }}>
@@ -303,22 +330,38 @@ const UserProfilePage = () => {
                 <Typography.Text>Загрузка профиля...</Typography.Text>
               </Flex>
             ) : (
-              <>
-                <AvatarWrapper>
-                  {user.initials}
-                </AvatarWrapper>
-                <UserInfo>
-                  <UserName>{user.fullName}</UserName>
-                  <UserStatus>
-                    <DrawerLogo>Приветствуем Вас! <br/>Ваш статус:&nbsp;
-                        {currentUser?.grade?.name && (
-                          <span>{user.status}</span>
-                        )}
-                    </DrawerLogo>
-                    {/*<br/><Rate character={<HeartFilled/>} count={3} defaultValue={1} />*/}
-                  </UserStatus>
-                </UserInfo>
-              </>
+              <ProductInfo>
+                <Flex vertical style={{ width: '100%', padding: '8px 16px'}} align={'start'}>
+                    <ProductName>Личный кабинет</ProductName>                  
+                      <Flex style={{ width: '100%', padding: ''}} align={'start'} gap={16}>
+                        <div style={{ padding: 0, margin: 0, width: 140}}>
+                            {launchParams.tgWebAppData?.user?.photo_url ? (
+                              <Avatar
+                                  size={140} 
+                                  src={launchParams.tgWebAppData?.user?.photo_url}/>
+                              ): (
+                                <AvatarWrapper>
+                                  {user.initials}
+                                </AvatarWrapper>
+                              )}
+                        </div>
+                        <Flex 
+                            vertical
+                            style={{ height: '100%', textAlign: 'left' }}
+                          >
+                            <Name>{user.fullName}</Name>
+                            <UserStatus>
+                              <DrawerLogo>Приветствуем Вас! <br/>Ваш статус:&nbsp;
+                                  {currentUser?.grade?.name && (
+                                    <span>{user.status}</span>
+                                  )}
+                              </DrawerLogo>
+                              {/*<br/><Rate character={<HeartFilled/>} count={3} defaultValue={1} />*/}
+                            </UserStatus>
+                        </Flex> 
+                      </Flex><br/>
+                  </Flex>
+              </ProductInfo>
             )}
           </ProfileHeader>
           <StyledTabs items={tabItems} defaultActiveKey="favorites" />
