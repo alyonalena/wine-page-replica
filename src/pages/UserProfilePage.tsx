@@ -131,28 +131,15 @@ const StyledTabs = styled(Tabs)`
   }
 `
 
-const PageHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 16px;
-`
-
 const Name = styled.span`
-  color: ${theme.colors.foreground};
+  color: ${theme.colors.primary};
   font-weight: bold;
   font-size: 1.6rem;
-  margin: 0 0 8px 0;
+  margin: 0 0 16px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-`
-
-const PageTitle = styled(Typography.Title)`
-  animation: slideUp 0.4s ease;
 `
 
 const DrawerLogo = styled.div`
@@ -338,7 +325,9 @@ const UserProfilePage = () => {
                             {launchParams.tgWebAppData?.user?.photo_url ? (
                               <Avatar
                                   size={140} 
-                                  src={launchParams.tgWebAppData?.user?.photo_url}/>
+                                  src={launchParams.tgWebAppData?.user?.photo_url}
+                                  style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                                />
                               ): (
                                 <AvatarWrapper>
                                   {user.initials}
