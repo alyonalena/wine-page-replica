@@ -36,9 +36,8 @@ const BottomButtonWrapper = styled.div`
   padding: 8px 16px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid ${theme.colors.lightBg};
-  box-shadow: 0 -5px 8px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 `
 
 const BackButton = styled(Button)`
@@ -284,8 +283,8 @@ const WinesPage = () => {
             ))}
           </ProductsGrid>
           <BottomButtonWrapper>
-            <BackButton size="large" onClick={() => window.location.href = '/'}>
-              <Avatar size={35} src={backIcon}/>
+            <BackButton icon={backIcon} size="large" onClick={() => window.location.href = '/'}>
+
               На главную страницу
             </BackButton>
           </BottomButtonWrapper>

@@ -232,7 +232,7 @@ const EventsPage = () => {
             </div>
           </PageHeader> 
           <ProductsGrid>  
-            {events.sort((a, b) => a.date > b.date).map((event) => (
+            {events.sort((a, b) => new Date(a.date) < new Date(b.date)).map((event) => (
               <ProductCard key={event.id} to={`/event/${event.id}`}>
                 <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                   <ProductName>{event.name}</ProductName>
