@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import { theme } from '../styles/theme'
 import image0 from '../pics/team/image_0.png'
 import image1 from '../pics/team/image_1.png'
-import backIcon from '../pics/actions/back.svg'
+import backIcon from '../pics/logo.png'
 
 const PageWrapper = styled.div`
   min-height: 100vh;

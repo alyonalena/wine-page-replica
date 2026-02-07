@@ -49,6 +49,7 @@ const BackButton = styled(Button)`
   gap: 8px;
   flex: 1;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
 `
 
 const ProductLayout = styled.div`
@@ -128,7 +129,7 @@ const ImportantInfo = styled.span`
 `
 
 const Alert = styled.span`
-  bachground: ${theme.colors.primary};
+  background: ${theme.colors.primary};
   color: white;
   border-radius: 3px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
@@ -391,8 +392,10 @@ const EventDetailPage = () => {
             )}
             <ProductInfo>
               <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
+                <div>
                   <ProductName>Дегустация</ProductName>
                   &nbsp;&nbsp;&nbsp;<ProductName>{selectedEvent.name}</ProductName>
+                </div>
                 </Flex> 
                 <Flex style={{ width: '100%', padding: '8px 16px 24px'}} align={'flex-start'} gap={16}>
                   <div style={{ padding: 0, margin: 0, width: 140}}>

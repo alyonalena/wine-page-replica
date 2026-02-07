@@ -5,7 +5,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { allProducts } from '../data/products'
-import backIcon from '../pics/actions/back.svg'
+import backIcon from '../pics/logo.png'
 
 const PageWrapper = styled.div`
   min-height: 100vh;

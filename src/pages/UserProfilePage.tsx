@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
-import backIcon from '../pics/actions/back.svg'
+import backIcon from '../pics/logo.png'
 import bottle from '../pics/actions/pink.png'
 import cheers from '../pics/actions/cheers.svg'
 import { formatDateTime } from '../lib/date'
@@ -357,7 +357,7 @@ const UserProfilePage = () => {
           <StyledTabs items={tabItems} defaultActiveKey="favorites" />
           <BottomButtonWrapper>
             <BackButton onClick={() => window.location.href = '/'}>
-              <Avatar size={50} src={backIcon}/>
+              <Avatar size={35} src={backIcon}/>
               На главную страницу
             </BackButton>
           </BottomButtonWrapper>

@@ -4,7 +4,6 @@ import { Button, Tabs, Avatar, Space, Typography, Flex, Spin, Divider } from 'an
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
@@ -12,7 +11,6 @@ import { TG_API_BASE_URL } from '../lib/api'
 import backIcon from '../pics/actions/wines.png'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
-import forwardIcon from '../pics/actions/forward.svg'
 import Danil from '../pics/main/danil.jpg'
 
 const PageWrapper = styled.div`
@@ -55,7 +53,6 @@ const BackButton = styled(Button)`
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
@@ -383,7 +380,7 @@ const WineDetailPage = () => {
         </TabsSection>
         <BottomButtonWrapper>
           <BackButton onClick={() => window.history.back()}>
-            <Avatar size={50} src={backIcon}/>
+            <Avatar shape="square" size={35} src={backIcon}/>
             К другим винам
           </BackButton>
         </BottomButtonWrapper>

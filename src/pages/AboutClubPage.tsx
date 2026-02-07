@@ -8,7 +8,7 @@ import image0 from '../pics/about/image_0.png'
 import image1 from '../pics/about/image_1.png'
 import image2 from '../pics/about/image_2.png'
 import image3 from '../pics/about/image_3.png'
-import backIcon from '../pics/actions/back.svg'
+import backIcon from '../pics/logo.png'
 
 const PageWrapper = styled.div`
   min-height: 100vh;

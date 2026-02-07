@@ -11,7 +11,7 @@ import NotificationModal from '../components/NotificationModal'
 import { TG_API_BASE_URL } from '../lib/api'
 import { formatDateTime } from '../lib/date'
 import cheers from '../pics/actions/cheers.svg'
-import backIcon from '../pics/actions/back.svg'
+import backIcon from '../pics/logo.png'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
