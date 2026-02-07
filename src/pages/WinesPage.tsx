@@ -23,7 +23,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 8px 100px;
+  padding: 16px 8px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -35,12 +35,12 @@ const BottomButtonWrapper = styled.div`
   padding: 16px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 `
 
 const BackButton = styled(Button)`
-  height: 48px;
+  height: 52px;
   font-size: 16px;
   font-weight: 500;
   display: flex;
@@ -48,15 +48,18 @@ const BackButton = styled(Button)`
   gap: 8px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   border-radius: 2rem;
+  padding: 12px 20px 12px 10px;
+  color: #E3E3E3;
+  background: #333333;
 `
 
 const PageHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
-  line-height: 0.8;
+  margin-bottom: 16px;
+  flex-wrap: wrap;  
+  line-height: 0.9;
 `
 
 const ProductsGrid = styled.div`
@@ -240,7 +243,7 @@ const WinesPage = () => {
           <PageHeader>
             <div>
               <PageTitle>Коллекция вин</PageTitle>
-              <ResultsCount>Всего: {wines.length}</ResultsCount>
+              <ResultsCount>Всего собрано: {wines.length}</ResultsCount>
             </div>
           </PageHeader>
   
@@ -282,7 +285,7 @@ const WinesPage = () => {
           </ProductsGrid>
           <BottomButtonWrapper>
             <BackButton size="large" onClick={() => window.location.href = '/'}>
-              <Avatar size={35} src={backIcon}/>
+            <Avatar size={35} src={backIcon} style={{ border: '1px solid #606060'}}/>
               На главную страницу
             </BackButton>
           </BottomButtonWrapper>

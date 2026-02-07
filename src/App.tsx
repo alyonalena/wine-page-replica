@@ -48,7 +48,7 @@ const App = () => (
       >
         <Toaster />
         <Sonner />
-        <TelegramVerificationModal />
+       {/*} <TelegramVerificationModal />*/}
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />

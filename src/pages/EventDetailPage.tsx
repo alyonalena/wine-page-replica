@@ -22,7 +22,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 8px 100px;
+  padding: 16px 8px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -34,12 +34,12 @@ const BottomButtonWrapper = styled.div`
   padding: 16px;
   display: flex;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 `
 
 const BackButton = styled(Button)`
-  height: 48px;
+  height: 52px;
   font-size: 16px;
   font-weight: 500;
   display: flex;
@@ -47,6 +47,9 @@ const BackButton = styled(Button)`
   gap: 8px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   border-radius: 2rem;
+  padding: 12px 20px 12px 10px;
+  color: #E3E3E3;
+  background: #333333;
 `
 
 const ProductLayout = styled.div`
@@ -128,7 +131,7 @@ const Alert = styled.span`
   border-left: 1px solid ${theme.colors.primary};
   text-decoration: none;
   box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.1);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   padding: 16px;
 `
 
@@ -388,7 +391,7 @@ const EventDetailPage = () => {
               <Flex style={{ width: '100%', padding: '16px 16px'}} align={'center'}>
                 <ProductName>{selectedEvent.name}</ProductName>
                 </Flex> 
-                <Flex style={{ width: '100%', padding: '16px 16px 24px'}} align={'flex-start'} gap={16}>
+                <Flex style={{ width: '100%', padding: '0 16px 24px'}} align={'flex-start'} gap={16}>
                   <div style={{ padding: 0, margin: 0, width: 140}}>
                       <Avatar 
                         alt="SX" 
@@ -433,7 +436,7 @@ const EventDetailPage = () => {
         </TabsSection>
         <BottomButtonWrapper>
           <BackButton size="large" onClick={() => window.history.back()}>
-            <Avatar size={35} src={backIcon}/>
+            <Avatar size={35} src={backIcon} style={{ border: '1px solid #606060'}}/>
             {' К другим дегустациям'}
           </BackButton>
         </BottomButtonWrapper>

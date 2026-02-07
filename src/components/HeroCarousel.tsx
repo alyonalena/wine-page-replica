@@ -97,7 +97,7 @@ const HeroCarousel = () => {
           <PromoCard to={`/events`}
             style={{ 
               backgroundImage: `url(${eventsImage})`, 
-              backgroundSize: '40% auto', 
+              backgroundSize: '45% auto', 
               backgroundPosition: 'top right', 
               backgroundRepeat: 'no-repeat', 
             }}
@@ -112,7 +112,7 @@ const HeroCarousel = () => {
           <PromoCard to={`/wines?category=white-wine`}
             style={{ 
               backgroundImage: `url(${winesImage})`, 
-              backgroundSize: '40% auto', 
+              backgroundSize: '45% auto', 
               backgroundPosition: 'top right', 
               backgroundRepeat: 'no-repeat', 
             }}
