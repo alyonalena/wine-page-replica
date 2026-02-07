@@ -31,7 +31,7 @@ const BottomButtonWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 8px 16px;
+  padding: 16px;
   display: flex;
   justify-content: center;
   background: rgba(0, 0, 0, 0.2);
@@ -357,7 +357,7 @@ const UserProfilePage = () => {
           </ProfileHeader>
           <StyledTabs items={tabItems} defaultActiveKey="favorites" />
           <BottomButtonWrapper>
-            <BackButton onClick={() => window.location.href = '/'}>
+            <BackButton size="large" onClick={() => window.location.href = '/'}>
               <Avatar size={35} src={backIcon}/>
               На главную страницу
             </BackButton>

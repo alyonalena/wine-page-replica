@@ -38,7 +38,7 @@ const BottomButtonWrapper = styled.div`
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 8px 16px;
+  padding: 16px;
   display: flex;
   justify-content: center;
   background: ${theme.colors.lightBg};
@@ -379,7 +379,7 @@ const WineDetailPage = () => {
           <Tabs items={getTabs()} defaultActiveKey="description" />
         </TabsSection>
         <BottomButtonWrapper>
-          <BackButton onClick={() => window.history.back()}>
+          <BackButton size="large" onClick={() => window.history.back()}>
             <Avatar shape="square" size={35} src={backIcon}/>
             К другим винам
           </BackButton>

@@ -437,7 +437,7 @@ const EventDetailPage = () => {
             <Tabs items={getTabs()} defaultActiveKey="set" />
         </TabsSection>
         <BottomButtonWrapper>
-          <BackButton onClick={() => window.history.back()}>
+          <BackButton size="large" onClick={() => window.history.back()}>
             <Avatar size={35} src={backIcon}/>
             {' К другим дегустациям'}
           </BackButton>

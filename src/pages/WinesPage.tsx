@@ -284,7 +284,7 @@ const WinesPage = () => {
             ))}
           </ProductsGrid>
           <BottomButtonWrapper>
-            <BackButton onClick={() => window.location.href = '/'}>
+            <BackButton size="large" onClick={() => window.location.href = '/'}>
               <Avatar size={35} src={backIcon}/>
               На главную страницу
             </BackButton>
