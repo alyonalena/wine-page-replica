@@ -4,14 +4,13 @@ import { Avatar, Button, Tabs, List, Flex, Space, Typography, Spin, Divider } fr
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
 import { TG_API_BASE_URL } from '../lib/api'
 import { formatDateTime } from '../lib/date'
 import cheers from '../pics/actions/cheers.svg'
-import backIcon from '../pics/actions/back.svg'
+import backIcon from '../pics/actions/events.png'
 import bottle from '../pics/actions/pink.png'
 
 const PageWrapper = styled.div`
@@ -128,6 +127,12 @@ const ImportantInfo = styled.span`
   overflow: hidden;
 `
 
+const Alert = styled.span`
+  bachground: ${theme.colors.primary};
+  color: white;
+  border-radius: 3px;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+`
 
 const EventDetailPage = () => {
   const { id } = useParams()
@@ -381,11 +386,15 @@ const EventDetailPage = () => {
           icon={notificationModal.icon}
         />
         <ProductLayout>
+            {new Date(selectedEvent.date) < new Date() && (
+              <Alert>Это мероприятие уже завершилось. Будем рады видеть Вас на других дегустациях!</Alert>
+            )}
             <ProductInfo>
               <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
-                  <ProductName>{selectedEvent.name}</ProductName>
+                  <ProductName>Дегустация</ProductName>
+                  &nbsp;&nbsp;&nbsp;<ProductName>{selectedEvent.name}</ProductName>
                 </Flex> 
-                <Flex style={{ width: '100%', padding: '8px 16px 24px'}} align={'flex-start'} gap={8}>
+                <Flex style={{ width: '100%', padding: '8px 16px 24px'}} align={'flex-start'} gap={16}>
                   <div style={{ padding: 0, margin: 0, width: 140}}>
                       <Avatar 
                         alt="SX" 
