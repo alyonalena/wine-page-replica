@@ -91,11 +91,11 @@ const ResultsCount = styled.span`
 `
 
 const ProductCard = styled(Link)`
-  background: ${theme.colors.lightBg};
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 3px;
   border: 1px solid ${theme.colors.border};
   text-decoration: none;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 `
 
 const AddToCartButton = styled(Button)`
@@ -230,7 +230,7 @@ const EventsPage = () => {
             </div>
           </PageHeader> 
           <ProductsGrid>  
-            {events.sort((a, b) => new Date(a.date) > new Date(b.date)).map((event) => (
+            {events.sort((a, b) => { if (new Date(a.date) < new Date(b.date)) return -1; return 1; }).map((event) => (
               <ProductCard key={event.id} to={`/event/${event.id}`}>
                 <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                   <ProductName>{event.name}</ProductName>

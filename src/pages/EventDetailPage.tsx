@@ -62,7 +62,7 @@ const ProductLayout = styled.div`
 `
 
 const ProductInfo = styled.div`
-    background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 3px;
   border: 1px solid ${theme.colors.border};
   text-decoration: none;
@@ -76,8 +76,6 @@ const ButtonsSection = styled.div`
 const AddToCartButton = styled(Button)`
   flex: 1;
   height: 52px;
-  font-size: 16px;
-  font-weight: 600;
 `
 
 const TabsSection = styled.div`
@@ -387,10 +385,10 @@ const EventDetailPage = () => {
         />
         <ProductLayout>
             <ProductInfo>
-              <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
+              <Flex style={{ width: '100%', padding: '16px 16px'}} align={'center'}>
                 <ProductName>{selectedEvent.name}</ProductName>
                 </Flex> 
-                <Flex style={{ width: '100%', padding: '8px 16px 24px'}} align={'flex-start'} gap={16}>
+                <Flex style={{ width: '100%', padding: '16px 16px 24px'}} align={'flex-start'} gap={16}>
                   <div style={{ padding: 0, margin: 0, width: 140}}>
                       <Avatar 
                         alt="SX" 
