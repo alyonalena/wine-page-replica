@@ -62,7 +62,7 @@ const ProductLayout = styled.div`
 `
 
 const ProductInfo = styled.div`
-  background: ${theme.colors.lightBg};
+    background: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
   border: 1px solid ${theme.colors.border};
   text-decoration: none;
