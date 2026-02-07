@@ -389,7 +389,7 @@ const EventDetailPage = () => {
                       <Avatar 
                         alt="SX" 
                         src={selectedEvent.image.replace('http', 'https')}
-                        style={{ width: "140px", height: "140px" }} 
+                        style={{ width: "140px", height: "140px", boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
                       />
                   </div>
                   <Flex 
