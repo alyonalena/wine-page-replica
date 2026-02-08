@@ -13,6 +13,7 @@ import eventIcon from '../pics/actions/events.png'
 import { formatDateTime } from '../lib/date'
 import { TG_API_BASE_URL } from '../lib/api'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
+import { useNavigate } from 'react-router-dom'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -148,6 +149,7 @@ const UserProfilePage = () => {
   const telegramId = useTelegramId()
 
   const launchParams = useLaunchParams()
+  const navigate = useNavigate()
 
   const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
     queryKey: ['persons'],
@@ -353,13 +355,13 @@ const UserProfilePage = () => {
               </ProductInfo>
             )}
           <ButtonWrapper>
-            <BackButton size="large" onClick={() => window.location.href = '/wines'}>
+            <BackButton size="large" onClick={() => navigate('/wines')}>
             <Avatar size={35} src={wineIcon} style={{ border: '1px solid #606060'}}/>
               Выбрать вино
             </BackButton>
           </ButtonWrapper>
           <ButtonWrapper>
-            <BackButton size="large" onClick={() => window.location.href = '/events'}>
+            <BackButton size="large" onClick={() => navigate('/events')}>
             <Avatar size={35} src={eventIcon} style={{ border: '1px solid #606060'}}/>
               Выбрать дегустацию
             </BackButton>
