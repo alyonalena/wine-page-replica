@@ -147,6 +147,18 @@ const Alert = styled.span`
   padding: 16px;
 `
 
+const TotalBlock = styled.div`
+  margin: 4px 0;
+  padding 0;
+  
+  .span {
+    margin: 4px 0;
+    background-color: ${theme.colors.primary};
+    border-radius: 2rem;
+    color: white;
+  }
+`
+
 const EventDetailPage = () => {
   const { id } = useParams()
   const [selectedEvent, setSelectedEvent] = useState(null)
@@ -305,34 +317,37 @@ const EventDetailPage = () => {
         key: 'set',
         label: 'Винный сет',
         children: (
-          <List
-            itemLayout="horizontal"
-            dataSource={selectedEvent?.wine_list || []}
-            renderItem={(item: any) => (
-              <List.Item>
-                  <List.Item.Meta
-                      avatar={ item.image ? (
-                        <Avatar
-                            size={50} 
-                            src={item.image.replace('http', 'https')}
-                            style={{ boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}/>
-                        ): (
-                          <Avatar 
-                            style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
-                            size={50} 
-                            src={bottle}
-                          />
-                        )}
-                      title={<>
-                        <div>{item.name}</div>
-                        {item.aging ? <div style={{color: "#E7014C"}}>{item.aging} г.</div>: ''}
-                        <div>{item.producer.name}</div>
-                      </>}
-                      description={`${item.sugar?.name} • ${item.volume}`}
-                  />
-              </List.Item>
-            )}
-          />
+          <>
+            <TotalBlock>Всего позиций: <span>{selectedEvent?.wine_list?.length || 0}</span></TotalBlock>
+            <List
+              itemLayout="horizontal"
+              dataSource={selectedEvent?.wine_list || []}
+              renderItem={(item: any) => (
+                <List.Item>
+                    <List.Item.Meta
+                        avatar={ item.image ? (
+                          <Avatar
+                              size={50} 
+                              src={item.image.replace('http', 'https')}
+                              style={{ boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}/>
+                          ): (
+                            <Avatar 
+                              style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
+                              size={50} 
+                              src={bottle}
+                            />
+                          )}
+                        title={<>
+                          <div>{item.name}</div>
+                          {item.aging ? <div style={{color: "#E7014C"}}>{item.aging} г.</div>: ''}
+                          <div>{item.producer.name}</div>
+                        </>}
+                        description={`${item.sugar?.name} • ${item.volume}`}
+                    />
+                </List.Item>
+              )}
+            />
+          </>
         )
       },
       {
@@ -353,6 +368,7 @@ const EventDetailPage = () => {
           </Flex>
         ) : (
           <>
+            <TotalBlock>Всего участников: <span>{eventMembers?.length || 0}</span></TotalBlock>
             {eventMembers && eventMembers.length > 0 ? (
               eventMembers.map((member: any) => {
                 const initials = `${member.firstname?.[0] || ''}${member.lastname?.[0] || ''}`.toUpperCase() || member.nickname?.[0]?.toUpperCase() || 'U'
@@ -368,9 +384,7 @@ const EventDetailPage = () => {
                   </>
                 )
               })
-            ) : (
-              <Typography.Text type="secondary">Пока нет информации</Typography.Text>
-            )}
+            ) : ''}
           </>
         ),
       },
