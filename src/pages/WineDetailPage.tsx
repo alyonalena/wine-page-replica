@@ -333,7 +333,7 @@ const WineDetailPage = () => {
           icon={notificationModal.icon}
         />
           <ProductInfo>
-            <Flex vertical style={{ width: '100%', padding: '8px 16px'}} align={'start'}>
+            <Flex vertical style={{ width: '100%', padding: '8px 16px 16px'}} align={'start'}>
                 <ProductName>{selectedWine?.name}</ProductName>                  
                   <Flex style={{ width: '100%', padding: ''}} align={'center'} gap={16}>
                     <div style={{ padding: 0, margin: 0, width: 140}}>
@@ -356,7 +356,7 @@ const WineDetailPage = () => {
                       >
                         <ProducerName>{selectedWine?.producer?.name}</ProducerName>
                         <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: ''}</ImportantInfo>
-                        <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume}л.</Typography.Text>   
+                        <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume} л.</Typography.Text>   
                         <Typography.Text type='secondary'>{selectedWine.country?.name} • {selectedWine.region?.name}</Typography.Text>                              
                     </Flex> 
                   </Flex>
