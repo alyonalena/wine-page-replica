@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Avatar, Button, Typography, Flex, Spin, Divider } from 'antd'
+import { Avatar, Button, Typography, Flex, Spin } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
@@ -62,6 +61,13 @@ const PageHeader = styled.div`
   line-height: 0.9;
 `
 
+const PageTitle = styled.div`
+  animation: slideUp 0.4s ease;
+  color: ${theme.colors.foreground};
+  font-size: 1.4rem;
+  padding: 0 8px;
+`
+
 const ProductsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -78,13 +84,6 @@ const ProductsGrid = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
   }
-`
-
-const PageTitle = styled.div`
-  animation: slideUp 0.4s ease;
-  color: ${theme.colors.foreground};
-  font-size: 1.4rem;
-  padding: 0 8px;
 `
 
 const ResultsCount = styled.span`

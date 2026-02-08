@@ -1,8 +1,6 @@
-import { Breadcrumb, Avatar, Flex, Button } from 'antd'
-import { Link } from 'react-router-dom'
+import { Avatar, Flex, Button } from 'antd'
 import styled from 'styled-components'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
 import image0 from '../pics/about/image_0.png'
 import image1 from '../pics/about/image_1.png'
@@ -19,24 +17,29 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 16px 8px 100px;
+  padding: 8px 8px 100px;
 `
 
-const BreadcrumbWrapper = styled.div`
-  margin-bottom: 24px;
-  
-  .ant-breadcrumb-link a {
-    color: ${theme.colors.muted};
-    
-    &:hover {
-      color: ${theme.colors.primary};
-    }
-  }
+const PageHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;  
+  line-height: 0.9;
 `
+
+const PageTitle = styled.div`
+  animation: slideUp 0.4s ease;
+  color: ${theme.colors.foreground};
+  font-size: 1.4rem;
+  padding: 0 8px;
+`
+
 const ProductsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 16px;
   
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(3, 1fr);
@@ -144,9 +147,12 @@ const AboutClubPage = () => {
       <Header />
       <main>
         <Container>
+          <PageHeader>
+           <PageTitle>О клубе</PageTitle>
+          </PageHeader> 
           <ProductsGrid>
             {blocks.map((member) => (
-              <Flex vertical style={{ padding: '20px', backgroundColor: '#E7014C' }} gap={16}>
+              <Flex vertical style={{ padding: '20px', backgroundColor: '#E7014C', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)' }} gap={16}>
                 <Flex style={{ width: '100%', backgroundColor: '#E7014C' }} align={'flex-start'} gap={16}>
                   <div style={{ padding: 0, margin: 0, width: 130}}>
                     <Avatar 

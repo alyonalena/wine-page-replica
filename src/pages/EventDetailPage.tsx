@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Avatar, Button, Tabs, List, Flex, Space, Typography, Spin, Divider } from 'antd'
+import { Avatar, Button, Tabs, List, Flex, Space, Typography, Spin } from 'antd'
 import { useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'

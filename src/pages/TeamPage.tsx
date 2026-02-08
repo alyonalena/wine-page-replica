@@ -1,4 +1,4 @@
-import { Avatar, Typography, Flex, Button } from 'antd'
+import { Avatar, Flex, Button } from 'antd'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
@@ -15,26 +15,29 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 16px 8px 100px;
+  padding: 8px 8px 100px;
 `
 
 const PageHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;  
+  line-height: 0.9;
 `
 
-const PageTitle = styled(Typography.Title)`
+const PageTitle = styled.div`
   animation: slideUp 0.4s ease;
+  color: ${theme.colors.foreground};
+  font-size: 1.4rem;
+  padding: 0 8px;
 `
 
 const ProductsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 16px;
   
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(3, 1fr);
@@ -116,12 +119,11 @@ const TeamPage = () => {
       <main>
         <Container>
           <PageHeader>
-           <PageTitle level={3}>Команда клуба</PageTitle>
-          </PageHeader>
-          
+           <PageTitle>Команда клуба</PageTitle>
+          </PageHeader>          
           <ProductsGrid>
             {team.map((member) => (
-              <Flex vertical style={{ padding: '20px', backgroundColor: '#E7014C' }} gap={16}>
+              <Flex vertical style={{ padding: '20px', backgroundColor: '#E7014C', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)' }} gap={16}>
                 <Flex style={{ width: '100%', backgroundColor: '#E7014C' }} align={'flex-start'} gap={16}>
                   <div style={{ padding: 0, margin: 0, width: 130}}>
                       <Avatar 

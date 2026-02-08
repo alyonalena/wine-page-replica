@@ -1,4 +1,4 @@
-import { Tabs, List, Avatar, Tag, Button, Typography, Rate, Divider, Spin, Flex } from 'antd'
+import { Tabs, List, Avatar, Tag, Button, Typography, Spin, Flex } from 'antd'
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
 import styled from 'styled-components'
