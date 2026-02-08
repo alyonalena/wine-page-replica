@@ -86,12 +86,14 @@ const ProductInfo = styled.div`
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   margin: 8px 0 16px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  width: 100%;
+  text-align: center;
 `
 
 const UserStatus = styled.span`
@@ -328,7 +330,7 @@ const UserProfilePage = () => {
               <ProductInfo>
                 <Flex vertical style={{ width: '100%', padding: '8px 16px'}} align={'start'}>
                     <ProductName>Личный кабинет</ProductName>                  
-                      <Flex style={{ width: '100%', padding: ''}} align={'start'} gap={16}>
+                      <Flex style={{ width: '100%', padding: ''}} align={'center'} gap={16}>
                         <div style={{ padding: 0, margin: 0, width: 140}}>
                             {launchParams.tgWebAppData?.user?.photo_url ? (
                               <Avatar
