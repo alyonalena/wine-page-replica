@@ -21,7 +21,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 16px 8px 100px;
+  padding: 8px 8px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -73,27 +73,12 @@ const ProductInfo = styled.div`
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  font-size: 1.4rem;
-  font-weight: bold;
+  font-size: 1.6rem;
   margin: 8px 0 16px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-`
-
-const UserInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`
-
-const UserName = styled.h3`
-  margin: 0;
-  font-size: 28px;
-  font-weight: 600;
-  color: ${theme.colors.foreground};
-    color: ${theme.colors.primary};
 `
 
 const UserStatus = styled.span`
@@ -234,15 +219,18 @@ const UserProfilePage = () => {
                  avatar={ wine.image ? (
                    <Avatar
                        size={50} 
-                       src={wine.image.replace('http', 'https')}/>
+                       src={wine.image.replace('http', 'https')}
+                       style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                    />
                    ): (
                      <Avatar 
-                       style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
+                       style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
                        size={50} 
                        src={bottle}/>
                    )}
                  title={<>
-                   <div>{wine.aging ? `${wine.name} • ${wine.aging}г.`: wine.name}</div>
+                   <div>{wine.name}</div>
+                   {wine.aging && <div style={{color: "#E7014C"}}>{wine.aging} г.</div>}
                    <div>{wine.producer.name}</div>
                  </>}
                  description={`${wine.sugar?.name} • ${wine.volume}`}
@@ -278,18 +266,21 @@ const UserProfilePage = () => {
                 avatar={event.image ? (
                   <Avatar
                       size={50} 
-                      src={event.image.replace('http', 'https')}/>
+                      src={event.image.replace('http', 'https')}
+                      style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                    />
                   ): (
                     <Avatar 
-                      style={{backgroundColor: '#E7014C', padding: '10px'}} 
+                      style={{backgroundColor: '#E7014C', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
                       size={50} 
                       src={cheers}/>
                   )}
                 title={event.name}
                 description={
                   <>
-                    <div>{formatDateTime(event.date, event.time)}</div>
-                    <div>{event.city?.name} {event.place ? `• ${event.place}` : ''} {event.address ? `• ${event.address}` : ''}</div>
+                    <div><b>{event.city?.name}</b></div>
+                    <div style={{color: "#E7014C"}}>{formatDateTime(event.date, event.time)}</div>
+                    <div>{event.place} {event.address ? `• ${event.address}` : ''}</div>
                   </>
                 }
               />

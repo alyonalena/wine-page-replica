@@ -78,7 +78,7 @@ const PromoTitle = styled.div`
   justify-content: space-between;
   align-items: center;
   font-weight: bold;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 `
 
 const PromoSubtitle = styled.p`
@@ -97,7 +97,7 @@ const HeroCarousel = () => {
           <PromoCard to={`/events`}
             style={{ 
               backgroundImage: `url(${eventsImage})`, 
-              backgroundSize: '45% auto', 
+              backgroundSize: '43% auto', 
               backgroundPosition: 'top right', 
               backgroundRepeat: 'no-repeat', 
             }}
@@ -112,7 +112,7 @@ const HeroCarousel = () => {
           <PromoCard to={`/wines?category=white-wine`}
             style={{ 
               backgroundImage: `url(${winesImage})`, 
-              backgroundSize: '45% auto', 
+              backgroundSize: '43% auto', 
               backgroundPosition: 'top right', 
               backgroundRepeat: 'no-repeat', 
             }}

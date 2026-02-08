@@ -63,7 +63,7 @@ const PageHeader = styled.div`
 const ProductsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 16px;
   
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(3, 1fr);
@@ -79,9 +79,9 @@ const ProductsGrid = styled.div`
 `
 
 const PageTitle = styled.div`
+  padding: 0 8px;
   animation: slideUp 0.4s ease;
-  color: #383838;
-  font-weight: bold;  
+  color: #383838; 
   font-size: 1.4rem;
 `
 
@@ -100,20 +100,29 @@ const ProductCard = styled(Link)`
 `
 
 const AddToCartButton = styled(Button)`
-  margin: 0;
-  width: 100%;
+  margin: 0 8px 8px 8px;
   height: 40px;
-  font-weight: 500;
+  box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
+  width: 100%;
+`
+
+const AddToCartButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  font-size: 2rem;
+  font-weight: bold;
+  font-size: 1.8rem;
   margin: 8px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  width: 100%;
+  text-align: center;
 `
 
 const ImportantInfo = styled.span`
@@ -233,10 +242,10 @@ const EventsPage = () => {
           <ProductsGrid>  
             {events.sort((a, b) => { if (new Date(a.date) < new Date(b.date)) return 1; return -1; }).map((event) => (
               <ProductCard key={event.id} to={`/event/${event.id}`}>
-                <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
+                <Flex style={{ width: '100%', padding: '0 16px'}} align={'center'}>
                   <ProductName>{event.name}</ProductName>
                 </Flex> 
-                <Flex style={{ width: '100%', padding: '0 16px'}} align={'flex-start'} gap={16}>
+                <Flex style={{ width: '100%', padding: '0 16px 16px'}} align={'center'} gap={16}>
                   <div style={{ padding: 0, margin: 0, minWidth: 130}}>
                       <Avatar 
                         alt="SX" 
@@ -260,12 +269,13 @@ const EventsPage = () => {
                       </div>
                   </Flex>                  
                 </Flex>
-                <br/>
                 { new Date(event.date) > new Date() && 
                     (
-                      <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, event.id)}>
-                        Хочу на эту дегустацию <Avatar src={cheers}/>
-                      </AddToCartButton>
+                      <AddToCartButtonWrapper>
+                        <AddToCartButton size="large" type="primary" onClick={(e) => handleAddToCart(e, event.id)}>
+                          Хочу на эту дегустацию <Avatar src={cheers}/>
+                        </AddToCartButton>
+                      </AddToCartButtonWrapper>
                     )
                 }
               </ProductCard>

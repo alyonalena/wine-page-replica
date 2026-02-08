@@ -22,7 +22,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 16px 8px 100px;
+  padding: 8px 8px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -52,14 +52,17 @@ const BackButton = styled(Button)`
   background: #333333;
 `
 
-const ButtonsSection = styled.div`
-  display: flex;
-  gap: 12px;
+const AddToCartButton = styled(Button)`
+  margin: 0 8px 8px 8px;
+  height: 40px;
+  box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
+  width: 100%;
 `
 
-const AddToCartButton = styled(Button)`
-  flex: 1;
-  height: 52px;
+const AddToCartButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const ProductInfo = styled.div`
@@ -99,7 +102,7 @@ const SpecValue = styled.span`
 `
 
 const TabsSection = styled.div`
-  margin-top: 8px;
+  margin: 8px;
   
   .ant-tabs-nav {
     margin-bottom: 24px;
@@ -133,7 +136,7 @@ const DescriptionText = styled.div`
 `
 
 const DescriptionTextBlock = styled.div`
-  padding: 8px;
+  padding: 16px 8px 0;
   display: flex;
   gap: 2px;
   font-size: 15px;
@@ -142,19 +145,21 @@ const DescriptionTextBlock = styled.div`
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: bold;
   margin: 8px 0 16px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  width: 100%;
+  text-align: center;
 `
 
 const ProducerName = styled.span`
   color: ${theme.colors.foreground};
   font-weight: bold;
-  margin: 0 0 8px 0;
+  margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -326,7 +331,7 @@ const WineDetailPage = () => {
           <ProductInfo>
             <Flex vertical style={{ width: '100%', padding: '8px 16px'}} align={'start'}>
                 <ProductName>{selectedWine?.name}</ProductName>                  
-                  <Flex style={{ width: '100%', padding: ''}} align={'start'} gap={16}>
+                  <Flex style={{ width: '100%', padding: ''}} align={'center'} gap={16}>
                     <div style={{ padding: 0, margin: 0, width: 140}}>
                         {selectedWine?.image ? (
                           <Avatar
@@ -336,7 +341,7 @@ const WineDetailPage = () => {
                             />
                           ): (
                             <Avatar 
-                              style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
+                              style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
                               size={140} 
                               src={bottle}/>
                           )}
@@ -352,13 +357,12 @@ const WineDetailPage = () => {
                     </Flex> 
                   </Flex><br/>
               </Flex>
-            <ButtonsSection>
-              <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, selectedWine.id)}>
+            <AddToCartButtonWrapper>
+              <AddToCartButton size="large" type="primary" onClick={(e) => handleAddToCart(e, selectedWine.id)}>
                 Хочу это вино <Avatar shape='square' src={glass}/>
               </AddToCartButton>
-            </ButtonsSection>
+            </AddToCartButtonWrapper>
           </ProductInfo>
-        <TabsSection>
           <DescriptionTextBlock>            
             <Avatar alt="SX" src={Danil} style={{ minWidth: "70px", minHeight: "70px",  boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} />&nbsp;&nbsp;
             <DescriptionText>
@@ -366,10 +370,11 @@ const WineDetailPage = () => {
                 <ImportantInfo>Комментарий от SX</ImportantInfo>
               </Space>
               <Space style={{ padding: '0 16px 16px 16px'}}>
-                {selectedWine.description || "..."}
+                {selectedWine.description || <div><br/>...</div>}
               </Space>
             </DescriptionText>
           </DescriptionTextBlock>
+        <TabsSection>
           <Tabs items={getTabs()} defaultActiveKey="description" />
         </TabsSection>
         <BottomButtonWrapper>

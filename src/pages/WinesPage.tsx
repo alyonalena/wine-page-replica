@@ -65,7 +65,7 @@ const PageHeader = styled.div`
 const ProductsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 16px;
   
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(3, 1fr);
@@ -83,8 +83,8 @@ const ProductsGrid = styled.div`
 const PageTitle = styled.div`
   animation: slideUp 0.4s ease;
   color: ${theme.colors.foreground};
-  font-weight: bold;  
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  padding: 0 8px;
 `
 
 const ResultsCount = styled.span`
@@ -103,7 +103,9 @@ const ProductCard = styled(Link)`
 
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
-  font-size: 1.3rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
   margin: 16px 0 0 16px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -114,7 +116,7 @@ const ProductName = styled.span`
 const ProducerName = styled.span`
   color: ${theme.colors.foreground};
   font-weight: bold;
-  margin: 0 0 8px 0;
+  margin: 0 0 0 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -129,10 +131,16 @@ const ImportantInfo = styled.span`
 `
 
 const AddToCartButton = styled(Button)`
-  margin: 0;
-  width: 100%;
+  margin: 0 8px 8px 8px;
   height: 40px;
-  font-weight: 500;
+  box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
+  width: 100%;
+`
+
+const AddToCartButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const WinesPage = () => {
@@ -252,18 +260,18 @@ const WinesPage = () => {
             {wines.map((wine) => (
                 <ProductCard key={wine.id} to={`/wine/${wine.id}`}>                  
                   <ProductName>{wine?.name}</ProductName>                  
-                  <Flex style={{ width: '100%', padding: '16px '}} align={'start'} gap={16}>
-                    <div style={{ padding: 0, margin: 0, width: 100}}>
+                  <Flex style={{ width: '100%', padding: '16px '}} align={'center'} gap={16}>
+                    <div style={{ padding: 0, margin: 0, width: 130}}>
                         {wine?.image ? (
                           <Avatar
-                              size={100} 
+                              size={130} 
                               src={wine.image.replace('http', 'https')}
                               style={{ boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }}
                               />
                           ): (
                             <Avatar 
-                              style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
-                              size={100} 
+                              style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} 
+                              size={130} 
                               src={bottle}/>
                           )}
                     </div>
@@ -277,9 +285,11 @@ const WinesPage = () => {
                         <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
                     </Flex> 
                   </Flex>
-                <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, wine.id)}>
-                  Хочу это вино <Avatar shape='square' src={glass}/>
-                </AddToCartButton>
+                  <AddToCartButtonWrapper>
+                    <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, wine.id)}>
+                      Хочу это вино <Avatar shape='square' src={glass}/>
+                    </AddToCartButton>
+                  </AddToCartButtonWrapper>
               </ProductCard>
             ))}
           </ProductsGrid>

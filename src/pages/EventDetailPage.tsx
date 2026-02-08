@@ -22,7 +22,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 16px 8px 100px;
+  padding: 8px 8px 100px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -77,12 +77,22 @@ const ButtonsSection = styled.div`
 `
 
 const AddToCartButton = styled(Button)`
-  flex: 1;
-  height: 52px;
+  margin: 0 8px 8px 8px;
+  height: 40px;
+  box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
+  width: 100%;
 `
 
+const AddToCartButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`
+
+
 const TabsSection = styled.div`
-  margin: 24px 0 0;
+  margin: 24px 8px 0;
   
   .ant-tabs-nav {
     margin-bottom: 24px;
@@ -111,12 +121,14 @@ const TabsSection = styled.div`
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.8rem;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  width: 100%;
+  text-align: center;
 `
 
 const ImportantInfo = styled.span`
@@ -298,15 +310,18 @@ const EventDetailPage = () => {
                       avatar={ item.image ? (
                         <Avatar
                             size={50} 
-                            src={item.image.replace('http', 'https')}/>
+                            src={item.image.replace('http', 'https')}
+                            style={{ boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}/>
                         ): (
                           <Avatar 
-                            style={{backgroundColor: '#F5F5F5', padding: '10px'}} 
+                            style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
                             size={50} 
-                            src={bottle}/>
+                            src={bottle}
+                          />
                         )}
                       title={<>
-                        <div>{item.aging ? `${item.name} • ${item.aging}г.`: item.name}</div>
+                        <div>{item.name}</div>
+                        {item.aging && <div style={{color: "#E7014C"}}>{item.aging} г.</div>}
                         <div>{item.producer.name}</div>
                       </>}
                       description={`${item.sugar?.name} • ${item.volume}`}
@@ -350,7 +365,7 @@ const EventDetailPage = () => {
                 )
               })
             ) : (
-              <Typography.Text type="secondary">Пока нет участников</Typography.Text>
+              <Typography.Text type="secondary">Пока нет информации</Typography.Text>
             )}
           </>
         ),
@@ -388,10 +403,10 @@ const EventDetailPage = () => {
         />
         <ProductLayout>
             <ProductInfo>
-              <Flex style={{ width: '100%', padding: '16px 16px'}} align={'center'}>
+              <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                 <ProductName>{selectedEvent.name}</ProductName>
                 </Flex> 
-                <Flex style={{ width: '100%', padding: '0 16px 24px'}} align={'flex-start'} gap={16}>
+                <Flex style={{ width: '100%', padding: '0 16px 24px'}} align={'center'} gap={16}>
                   <div style={{ padding: 0, margin: 0, width: 140}}>
                       <Avatar 
                         alt="SX" 
@@ -418,12 +433,11 @@ const EventDetailPage = () => {
                 <ButtonsSection>
                     { new Date(selectedEvent.date) > new Date() && 
                       (
-                        <AddToCartButton 
-                          type="primary" 
-                          onClick={(e) => handleAddToCart(e)}
-                        >
-                          Хочу на эту дегустацию <Avatar src={cheers}/>
-                        </AddToCartButton>
+                        <AddToCartButtonWrapper>
+                          <AddToCartButton type="primary" size="large" onClick={(e) => handleAddToCart(e)}>
+                            Хочу на эту дегустацию <Avatar src={cheers}/>
+                          </AddToCartButton>
+                        </AddToCartButtonWrapper>
                     )}
                 </ButtonsSection>
             </ProductInfo>
