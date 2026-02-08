@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 import { theme } from '../styles/theme'
 import winesImage from '../pics/main/wines.png'
 import eventsImage from '../pics/main/events.png'
-import arrowRight from '../pics/actions/arrow-right.svg'
-import { Avatar } from 'antd'
 
 const CarouselSection = styled.section`
   max-width: 1280px;
@@ -92,7 +90,7 @@ const HeroCarousel = () => {
 
   return (
     <>
-      <CarouselSection>      
+      <CarouselSection>
         <SidePromos>
           <PromoCard to={`/events`}
             style={{ 

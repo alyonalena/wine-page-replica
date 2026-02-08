@@ -10,6 +10,7 @@ import { theme } from '../styles/theme'
 import LogoImage from '../pics/logo.png'
 import menu from '../pics/actions/menu.svg'
 import user from '../pics/actions/user.svg'
+import { useLaunchParams } from '@telegram-apps/sdk-react'
 
 const HeaderWrapper = styled.header`
   background: ${theme.colors.background};
@@ -66,7 +67,6 @@ const LeftSection = styled.div`
   align-items: center;
   gap: 20px;
 `
-
 
 const ActionItem = styled.div`
   display: flex;
@@ -154,7 +154,7 @@ const DrawerLink = styled.a`
 
 const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
-
+  const launchParams = useLaunchParams()
   const navItems = [
     { label: 'Дегустации', href: '/events'},
     { label: 'Коллекция вин', href: '/wines' },
@@ -190,7 +190,10 @@ const Header = () => {
         <Flex align={"center"} gap={16}>
           <Link to="/profile" style={{ textDecoration: 'none' }}>
             <ActionItem>
-              <Avatar shape="square" style={{ width: "25px", height: "25px" }} src={user} />
+              <Avatar 
+                src={launchParams.tgWebAppData?.user?.photo_url || user}
+                style={{ width: "25px", height: "25px", boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)' }} 
+              />
             </ActionItem>
           </Link>
           <ActionItem onClick={() => setDrawerOpen(true)}>

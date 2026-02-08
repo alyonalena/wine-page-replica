@@ -4,6 +4,7 @@ import "./index.css"
 import { init, miniApp } from '@telegram-apps/sdk'
 import { StrictMode } from 'react'
 
+
 const initializeTelegramSDK = async () => {
   try {
       await init()

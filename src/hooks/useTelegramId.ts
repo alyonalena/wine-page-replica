@@ -17,4 +17,3 @@ export const useTelegramId = (): number => {
     return Number(telegramId)
   }, [])
 }
-

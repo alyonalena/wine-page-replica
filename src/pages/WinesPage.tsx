@@ -17,7 +17,6 @@ const PageWrapper = styled.div`
   min-height: 100vh;
   background: #ffffff;
 `
-
 const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
@@ -304,12 +303,12 @@ const WinesPage = () => {
   }
 
   return (
-      <PageWrapper>
-        <Header />
-        <main>
-          {getContent()}
-        </main>
-      </PageWrapper>
+    <PageWrapper>
+      <Header />
+      <main>
+        {getContent()}
+      </main>
+    </PageWrapper>
   )
 }
 

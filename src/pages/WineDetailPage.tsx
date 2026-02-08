@@ -388,12 +388,12 @@ const WineDetailPage = () => {
   }
 
   return (
-      <PageWrapper>
-        <Header />
-        <main>
-          {getContent()}
-        </main>
-      </PageWrapper>
+    <PageWrapper>
+      <Header />
+      <main>
+        {getContent()}
+      </main>
+    </PageWrapper>
   )
 }
 
