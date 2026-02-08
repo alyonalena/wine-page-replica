@@ -180,7 +180,7 @@ const Header = () => {
       </TopBar>
       
       <MainHeader>
-        <LeftSection onClick={() => navigate('/events')}>
+        <LeftSection onClick={() => navigate('/')}>
           <Flex align={"center"} gap={8}>
             <Avatar alt="SX" shape="square" src={LogoImage} style={{ width: "52px", height: "52px" }} />
             <Col flex="auto" style={{ textAlign: "left" }}>
