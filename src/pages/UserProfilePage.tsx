@@ -8,6 +8,8 @@ import { useTelegramId } from '../hooks/useTelegramId'
 import backIcon from '../pics/logo.png'
 import bottle from '../pics/actions/pink.png'
 import cheers from '../pics/actions/cheers.svg'
+import wineIcon from '../pics/actions/wines.png'
+import eventIcon from '../pics/actions/events.png'
 import { formatDateTime } from '../lib/date'
 import { TG_API_BASE_URL } from '../lib/api'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
@@ -37,6 +39,13 @@ const BottomButtonWrapper = styled.div`
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 `
 
+const ButtonWrapper = styled.div`
+  z-index: 100;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+`
+
 const BackButton = styled(Button)`
   height: 52px;
   font-size: 16px;
@@ -47,6 +56,7 @@ const BackButton = styled(Button)`
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   border-radius: 2rem;
   padding: 12px 20px 12px 10px;
+  margin: 4px 0 0 0;
   color: #E3E3E3;
   background: #333333;
 `
@@ -69,6 +79,7 @@ const ProductInfo = styled.div`
   border: 1px solid ${theme.colors.border};
   text-decoration: none;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 0 8px;
 `
 
 const ProductName = styled.span`
@@ -211,34 +222,36 @@ const UserProfilePage = () => {
       ) : isErrorWines ? (
         <Typography.Text type="danger">Ошибка при загрузке коллекции вин</Typography.Text>
       ) : (
-        <List
-          itemLayout="horizontal"
-          dataSource={favoriteWines || []}
-          renderItem={(wine: any) => (
-             <List.Item>
-             <List.Item.Meta
-                 avatar={ wine.image ? (
-                   <Avatar
-                       size={50} 
-                       src={wine.image.replace('http', 'https')}
-                       style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
-                    />
-                   ): (
-                     <Avatar 
-                       style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
-                       size={50} 
-                       src={bottle}/>
-                   )}
-                 title={<>
-                   <div>{wine.name}</div>
-                   <div>{wine.producer.name}</div>
-                   {wine.aging ? <div style={{color: "#E7014C"}}>{wine.aging} г.</div>: ''}
-                 </>}
-                 description={`${wine.sugar?.name} • ${wine.volume}`}
-             />
-         </List.Item>
-          )}
-        />
+        <>
+          <List
+            itemLayout="horizontal"
+            dataSource={favoriteWines || []}
+            renderItem={(wine: any) => (
+              <List.Item>
+              <List.Item.Meta
+                  avatar={ wine.image ? (
+                    <Avatar
+                        size={50} 
+                        src={wine.image.replace('http', 'https')}
+                        style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                      />
+                    ): (
+                      <Avatar 
+                        style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
+                        size={50} 
+                        src={bottle}/>
+                    )}
+                  title={<>
+                    <div>{wine.name}</div>
+                    <div>{wine.producer.name}</div>
+                    {wine.aging ? <div style={{color: "#E7014C"}}>{wine.aging} г.</div>: ''}
+                  </>}
+                  description={`${wine.sugar?.name} • ${wine.volume}`}
+                  />
+              </List.Item>
+            )}
+          />
+        </>
       ),
     },
     {
@@ -251,43 +264,45 @@ const UserProfilePage = () => {
       ) : isErrorEvents ? (
         <Typography.Text type="danger">Ошибка при загрузке дегустаций</Typography.Text>
       ) : (
-        <List
-          itemLayout="horizontal"
-          dataSource={attendedEvents || []}
-          renderItem={(event: any) => (
-            <List.Item
-              extra={
-                new Date(event.date) < new Date() ? (
-                  <Tag color="success" icon={<CheckCircleOutlined/>} />) : (
-                  <Tag color="processing" icon={<ClockCircleOutlined/>} />
-                )
-              }
-            >
-              <List.Item.Meta
-                avatar={event.image ? (
-                  <Avatar
-                      size={50} 
-                      src={event.image.replace('http', 'https')}
-                      style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
-                    />
-                  ): (
-                    <Avatar 
-                      style={{backgroundColor: '#E7014C', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
-                      size={50} 
-                      src={cheers}/>
-                  )}
-                title={event.name}
-                description={
-                  <>
-                    <div><b>{event.city?.name}</b></div>
-                    <div style={{color: "#E7014C"}}>{formatDateTime(event.date, event.time)}</div>
-                    <div>{event.place} {event.address ? `• ${event.address}` : ''}</div>
-                  </>
+        <>
+          <List
+            itemLayout="horizontal"
+            dataSource={attendedEvents || []}
+            renderItem={(event: any) => (
+              <List.Item
+                extra={
+                  new Date(event.date) < new Date() ? (
+                    <Tag color="success" icon={<CheckCircleOutlined/>} />) : (
+                    <Tag color="processing" icon={<ClockCircleOutlined/>} />
+                  )
                 }
-              />
-            </List.Item>
-          )}
-        />
+              >
+                <List.Item.Meta
+                  avatar={event.image ? (
+                    <Avatar
+                        size={50} 
+                        src={event.image.replace('http', 'https')}
+                        style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                      />
+                    ): (
+                      <Avatar 
+                        style={{backgroundColor: '#E7014C', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
+                        size={50} 
+                        src={cheers}/>
+                    )}
+                  title={event.name}
+                  description={
+                    <>
+                      <div><b>{event.city?.name}</b></div>
+                      <div style={{color: "#E7014C"}}>{formatDateTime(event.date, event.time)}</div>
+                      <div>{event.place} {event.address ? `• ${event.address}` : ''}</div>
+                    </>
+                  }
+                />
+              </List.Item>
+            )}
+          />
+        </>
       ),
     },
   ]
@@ -331,13 +346,24 @@ const UserProfilePage = () => {
                                     <span>{user.status}</span>
                                   )}
                               </DrawerLogo>
-                              {/*<br/><Rate character={<HeartFilled/>} count={3} defaultValue={1} />*/}
                             </UserStatus>
                         </Flex> 
                       </Flex><br/>
                   </Flex>
               </ProductInfo>
             )}
+          <ButtonWrapper>
+            <BackButton size="large" onClick={() => window.location.href = '/wines'}>
+            <Avatar size={35} src={wineIcon} style={{ border: '1px solid #606060'}}/>
+              Выбрать вино
+            </BackButton>
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <BackButton size="large" onClick={() => window.location.href = '/events'}>
+            <Avatar size={35} src={eventIcon} style={{ border: '1px solid #606060'}}/>
+              Выбрать дегустацию
+            </BackButton>
+          </ButtonWrapper>
           <StyledTabs items={tabItems} defaultActiveKey="favorites" />
           <BottomButtonWrapper>
             <BackButton size="large" onClick={() => window.location.href = '/'}>

@@ -190,10 +190,14 @@ const Header = () => {
         <Flex align={"center"} gap={16}>
           <Link to="/profile" style={{ textDecoration: 'none' }}>
             <ActionItem>
-              <Avatar 
-                src={launchParams.tgWebAppData?.user?.photo_url || user}
-                style={{ width: "45px", height: "45px", boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)' }} 
-              />
+              { launchParams.tgWebAppData?.user?.photo_url ? (
+                <Avatar 
+                  src={launchParams.tgWebAppData?.user?.photo_url}
+                  style={{ width: "40px", height: "40px", boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)' }} 
+                />
+              ): (
+                <Avatar shape="square" src={user} />
+              )}
             </ActionItem>
           </Link>
           <ActionItem onClick={() => setDrawerOpen(true)}>
