@@ -85,7 +85,7 @@ const ClubRulesPage = () => {
       <main>
         <Container>
           <PageHeader>
-           <PageTitle>О клубе</PageTitle>
+           <PageTitle>Правила клуба</PageTitle>
           </PageHeader> 
           <ProductsGrid>
             <div>

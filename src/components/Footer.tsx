@@ -89,7 +89,7 @@ const NewsletterForm = styled.div`
 const SocialLinks = styled.div`
   display: flex;
   gap: 12px;
-  margin-top: 16px;
+  margin: 0 0 16px;
 `;
 
 const SocialIcon = styled.a`
@@ -146,7 +146,7 @@ const Footer = () => {
       <FooterContainer>
         <FooterGrid>   
           <FooterColumn>
-          <SocialLinks>
+            <SocialLinks>
               <SocialIcon href="https://www.instagram.com/sx_wine"><InstagramOutlined /></SocialIcon>
             </SocialLinks>
             <FooterTitle>Подписка на новости</FooterTitle>
@@ -158,8 +158,7 @@ const Footer = () => {
               <Button type="primary">Подписаться</Button>
             </NewsletterForm>            
           </FooterColumn>
-        </FooterGrid>
-        
+        </FooterGrid>        
         <FooterBottom>
           <FooterBottomLinks>
             <a href="#" onClick={(e) => { e.stopPropagation(); navigate('/rules') }}>Правила клуба</a>
