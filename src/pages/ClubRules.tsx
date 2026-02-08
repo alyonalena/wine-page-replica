@@ -1,14 +1,8 @@
-import { Breadcrumb, Avatar } from 'antd'
-import { Link } from 'react-router-dom'
+import { Avatar, Button } from 'antd'
 import styled from 'styled-components'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { theme } from '../styles/theme'
-import image0 from '../pics/about/image_0.png'
-import image1 from '../pics/about/image_1.png'
-import image2 from '../pics/about/image_2.png'
-import image3 from '../pics/about/image_3.png'
-import backIcon from '../pics/actions/back.svg'
+import backIcon from '../pics/logo.png'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -19,24 +13,29 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 24px 8px 100px;
+  padding: 16px 8px 100px;
 `
 
-const BreadcrumbWrapper = styled.div`
-  margin-bottom: 24px;
-  
-  .ant-breadcrumb-link a {
-    color: ${theme.colors.muted};
-    
-    &:hover {
-      color: ${theme.colors.primary};
-    }
-  }
+const PageHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;  
+  line-height: 0.9;
 `
+
+const PageTitle = styled.div`
+  animation: slideUp 0.4s ease;
+  color: ${theme.colors.foreground};
+  font-size: 1.4rem;
+  padding: 8px;
+`
+
 const ProductsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 8px;
   
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(3, 1fr);
@@ -51,86 +50,61 @@ const ProductsGrid = styled.div`
   }
 `
 
-const ItemInfo = styled.div`
+
+const BottomButtonWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+`
+
+const BackButton = styled(Button)`
+  height: 52px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
   gap: 8px;
-  color: white;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
+  padding: 12px 20px 12px 10px;
+  color: #E3E3E3;
+  background: #333333;
 `
-
-const Name = styled.h3`
-  font-size: 24px;
-  margin: 20px 0;
-  color: white;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-`
-
 
 const ClubRulesPage = () => {
-
-  const blocks = [
-    {
-        id: 0,
-        name: 'Философия клуба',
-        info: [
-          'Редкие вина. Живое общение.',
-          'Атмосфера, в которую хочется погружаться снова.'
-        ],        
-        image: image0,
-    },
-    {
-        id: 1,
-        name: 'Кто мы такие?',
-        info: [
-          'SX Wine — винный клуб для тех, кто ценит вкус, хочет разбираться глубже и находит удовольствие в настоящем диалоге.',
-          'Мы создаём пространство, где можно пробовать, обсуждать, делиться и быть в кругу “своих”.'
-        ],
-        image: image1
-    },
-    {
-        id: 2,
-        name: 'Что получают участники?',
-        info: [
-          '— доступ к редким винам, которых нет в открытой продаже',
-          '— камерные дегустации в Москве и Санкт-Петербурге',
-          '— живое общение с единомышленниками',
-          '— участие в совершенно новых форматах: мобильный Champagne Bar (Санкт-Петербург), школа Шампани',
-          '— возможность присоединиться кколлаборациям с другими клубами: гедонистическими, сигарными и др'
-        ],
-        image: image2
-    },    
-    {
-        id: 3,
-        name: 'Подход',
-        info: [
-          'Мы собираем вокруг себя людей, которые ценят редкие вина, любят узнавать новое и получают удовольствие не только от напитка, но и от контекста.',
-          'SX Wine — это не про внешний эффект, а про внутренний интерес и вкус к жизни.'
-        ],
-        image: image3
-    },
-  ]
-
   return (
     <PageWrapper>
       <Header />
       <main>
         <Container>
-          <BreadcrumbWrapper>
-            <Breadcrumb
-              items={[
-                { title: <Link style={{ textAlign: 'center' }} to="/"><Avatar size={30} src={backIcon}/>&nbsp;На главную страницу</Link> },
-              ]}
-            />
-          </BreadcrumbWrapper>
-            Правила клуба
+          <PageHeader>
+           <PageTitle>О клубе</PageTitle>
+          </PageHeader> 
+          <ProductsGrid>
+            <div>
+              Мы действуем в соответствии с законодательством РФ и не занимаемся онлайн-продажей или рекламой алкоголя.
+              <br/><br/>
+              Материалы сайта носят сугубо ознакомительный характер.
+            </div>
+          </ProductsGrid>
+          <BottomButtonWrapper>
+            <BackButton size="large" onClick={() => window.location.href = '/'}>
+            <Avatar size={35} src={backIcon} style={{ border: '1px solid #606060'}}/>
+              {' На главную страницу'}
+            </BackButton>
+          </BottomButtonWrapper>
         </Container>
       </main>
-      <Footer />
     </PageWrapper>
   )
 }
 
 export default ClubRulesPage
+

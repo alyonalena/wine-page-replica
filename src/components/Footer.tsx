@@ -1,14 +1,10 @@
 import styled from 'styled-components';
 import { Input, Button } from 'antd';
 import {
-  PhoneOutlined,
-  MailOutlined,
-  EnvironmentOutlined,
   InstagramOutlined,
-  FacebookOutlined,
-  YoutubeOutlined,
 } from '@ant-design/icons';
 import { theme } from '../styles/theme';
+import { useNavigate } from 'react-router-dom'
 
 const FooterWrapper = styled.footer`
   background: ${theme.colors.foreground};
@@ -143,11 +139,16 @@ const FooterBottomLinks = styled.div`
 `;
 
 const Footer = () => {
+  const navigate = useNavigate()
+
   return (
     <FooterWrapper>
       <FooterContainer>
         <FooterGrid>   
           <FooterColumn>
+          <SocialLinks>
+              <SocialIcon href="https://www.instagram.com/sx_wine"><InstagramOutlined /></SocialIcon>
+            </SocialLinks>
             <FooterTitle>Подписка на новости</FooterTitle>
             <FooterText>
               Получайте информацию о новинках, акциях и эксклюзивных предложениях
@@ -155,16 +156,13 @@ const Footer = () => {
             <NewsletterForm>
               <Input placeholder="Ваш email" />
               <Button type="primary">Подписаться</Button>
-            </NewsletterForm>
-            <SocialLinks>
-              <SocialIcon href="https://www.instagram.com/sx_wine"><InstagramOutlined /></SocialIcon>
-            </SocialLinks>
+            </NewsletterForm>            
           </FooterColumn>
         </FooterGrid>
         
         <FooterBottom>
           <FooterBottomLinks>
-            <a href="#">Правила клуба</a>
+            <a href="#" onClick={(e) => { e.stopPropagation(); navigate('/rules') }}>Правила клуба</a>
           </FooterBottomLinks>
         </FooterBottom>
       </FooterContainer>

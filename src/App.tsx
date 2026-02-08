@@ -15,7 +15,7 @@ import NotFound from "./pages/NotFound"
 import ProducersPage from "./pages/ProducersPage"
 import EventDetailPage from "./pages/EventDetailPage"
 import ProducerDetailPage from "./pages/ProducerDetailPage"
-import TelegramVerificationModal from "./components/TelegramVerificationModal"
+import ClubRulesPage from './pages/ClubRules'
 
 const queryClient = new QueryClient()
 const App = () => (
@@ -61,6 +61,7 @@ const App = () => (
             <Route path="/about" element={<AboutClubPage />} />
             <Route path="/event/:id" element={<EventDetailPage />} />
             <Route path="/producer/:id" element={<ProducerDetailPage />} />
+            <Route path="/rules" element={<ClubRulesPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>      
