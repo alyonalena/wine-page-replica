@@ -234,6 +234,10 @@ const EventDetailPage = () => {
     const event = events?.find(w => w.id === Number(id))
     setSelectedEvent(event)
   }, [ events, id ])
+  
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
 
   const showSuccessNotification = () => {
     setNotificationModal({

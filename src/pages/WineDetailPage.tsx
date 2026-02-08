@@ -219,7 +219,11 @@ const WineDetailPage = () => {
       title: 'Спасибо за интерес!',
       icon: <Avatar src={glass} style={{backgroundColor: '#E7014C', padding: '10px'}} size={70}/>,
     });
-  };
+  }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
 
   const mutation = useMutation({
     mutationFn: async ({ wineId, telegramId }: { wineId: number; telegramId: number }) => {

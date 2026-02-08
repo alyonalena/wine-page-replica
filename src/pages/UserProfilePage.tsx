@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Tabs, List, Avatar, Tag, Button, Typography, Spin, Flex } from 'antd'
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
@@ -166,6 +167,10 @@ const UserProfilePage = () => {
       return response.json()
     },
   })
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
 
   // Find the current user by telegram_id
   const currentUser = persons?.find((person: any) => person.telegram_id === telegramId)
