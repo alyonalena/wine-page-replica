@@ -337,7 +337,7 @@ const EventDetailPage = () => {
                           {item.aging ? <div style={{color: "#E7014C"}}>{item.aging} г.</div>: ''}
                           <div>{item.producer.name}</div>
                         </>}
-                        description={`${item.sugar?.name} • ${item.volume}`}
+                        description={`${item.sugar?.name} • ${item.volume} л.`}
                     />
                 </List.Item>
               )}

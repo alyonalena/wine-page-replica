@@ -255,7 +255,7 @@ const UserProfilePage = () => {
                     <div>{wine.producer.name}</div>
                     {wine.aging ? <div style={{color: "#E7014C"}}>{wine.aging} г.</div>: ''}
                   </>}
-                  description={`${wine.sugar?.name} • ${wine.volume}`}
+                  description={`${wine.sugar?.name} • ${wine.volume} л.`}
                   />
               </List.Item>
             )}
