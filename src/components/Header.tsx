@@ -192,7 +192,7 @@ const Header = () => {
             <ActionItem>
               <Avatar 
                 src={launchParams.tgWebAppData?.user?.photo_url || user}
-                style={{ width: "25px", height: "25px", boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)' }} 
+                style={{ width: "45px", height: "45px", boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)' }} 
               />
             </ActionItem>
           </Link>
