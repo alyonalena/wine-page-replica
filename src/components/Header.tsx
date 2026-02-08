@@ -11,6 +11,7 @@ import LogoImage from '../pics/logo.png'
 import menu from '../pics/actions/menu.svg'
 import user from '../pics/actions/user.svg'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
+import { useNavigate } from 'react-router-dom'
 
 const HeaderWrapper = styled.header`
   background: ${theme.colors.background};
@@ -155,6 +156,7 @@ const DrawerLink = styled.a`
 const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const launchParams = useLaunchParams()
+  const navigate = useNavigate()
   const navItems = [
     { label: 'Дегустации', href: '/events'},
     { label: 'Коллекция вин', href: '/wines' },
@@ -178,7 +180,7 @@ const Header = () => {
       </TopBar>
       
       <MainHeader>
-        <LeftSection>
+        <LeftSection onClick={() => navigate('/events')}>
           <Flex align={"center"} gap={8}>
             <Avatar alt="SX" shape="square" src={LogoImage} style={{ width: "52px", height: "52px" }} />
             <Col flex="auto" style={{ textAlign: "left" }}>
