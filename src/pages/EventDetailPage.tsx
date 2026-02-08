@@ -150,13 +150,8 @@ const Alert = styled.span`
 const TotalBlock = styled.div`
   margin: 4px 0;
   padding 0;
-  
-  .span {
-    margin: 4px 0;
-    background-color: ${theme.colors.primary};
-    border-radius: 2rem;
-    color: white;
-  }
+  color: ${theme.colors.muted};
+  font-weight: 0.9rem;
 `
 
 const EventDetailPage = () => {
@@ -318,7 +313,7 @@ const EventDetailPage = () => {
         label: 'Винный сет',
         children: (
           <>
-            <TotalBlock>Всего позиций: <span>{selectedEvent?.wine_list?.length || 0}</span></TotalBlock>
+            <TotalBlock>Всего позиций: {selectedEvent?.wine_list?.length || 0}</TotalBlock>
             <List
               itemLayout="horizontal"
               dataSource={selectedEvent?.wine_list || []}
@@ -368,7 +363,7 @@ const EventDetailPage = () => {
           </Flex>
         ) : (
           <>
-            <TotalBlock>Всего участников: <span>{eventMembers?.length || 0}</span></TotalBlock>
+            <TotalBlock>Всего участников: {eventMembers?.length || 0}</TotalBlock>
             {eventMembers && eventMembers.length > 0 ? (
               eventMembers.map((member: any) => {
                 const initials = `${member.firstname?.[0] || ''}${member.lastname?.[0] || ''}`.toUpperCase() || member.nickname?.[0]?.toUpperCase() || 'U'
