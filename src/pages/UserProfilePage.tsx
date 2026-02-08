@@ -86,6 +86,7 @@ const UserStatus = styled.span`
 `
 
 const StyledTabs = styled(Tabs)`
+  margin: 8px;
   .ant-tabs-nav {
     margin-bottom: 24px;
 
@@ -230,8 +231,8 @@ const UserProfilePage = () => {
                    )}
                  title={<>
                    <div>{wine.name}</div>
-                   {wine.aging && <div style={{color: "#E7014C"}}>{wine.aging} г.</div>}
                    <div>{wine.producer.name}</div>
+                   {wine.aging ? <div style={{color: "#E7014C"}}>{wine.aging} г.</div>: ''}
                  </>}
                  description={`${wine.sugar?.name} • ${wine.volume}`}
              />
