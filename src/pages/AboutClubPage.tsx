@@ -17,7 +17,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 8px 8px 100px;
+  padding: 16px 8px 100px;
 `
 
 const PageHeader = styled.div`
@@ -33,13 +33,13 @@ const PageTitle = styled.div`
   animation: slideUp 0.4s ease;
   color: ${theme.colors.foreground};
   font-size: 1.4rem;
-  padding: 0 8px;
+  padding: 8px;
 `
 
 const ProductsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 8px;
   
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(3, 1fr);

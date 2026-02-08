@@ -355,7 +355,7 @@ const WineDetailPage = () => {
                         <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume}л.</Typography.Text>   
                         <Typography.Text type='secondary'>{selectedWine.country?.name} • {selectedWine.region?.name}</Typography.Text>                              
                     </Flex> 
-                  </Flex><br/>
+                  </Flex>
               </Flex>
             <AddToCartButtonWrapper>
               <AddToCartButton size="large" type="primary" onClick={(e) => handleAddToCart(e, selectedWine.id)}>

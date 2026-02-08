@@ -321,7 +321,7 @@ const EventDetailPage = () => {
                         )}
                       title={<>
                         <div>{item.name}</div>
-                        {item.aging && <div style={{color: "#E7014C"}}>{item.aging} г.</div>}
+                        {item.aging ? <div style={{color: "#E7014C"}}>{item.aging} г.</div>: ''}
                         <div>{item.producer.name}</div>
                       </>}
                       description={`${item.sugar?.name} • ${item.volume}`}
@@ -356,11 +356,11 @@ const EventDetailPage = () => {
                   <>
                   <Avatar 
                     key={member.id} 
-                    style={{backgroundColor: '#E7014C', padding: '10px', margin: '10px'}} 
+                    style={{backgroundColor: '#E7014C', padding: '15px', margin: '15px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
                     size={30}
                   >
                     {initials}
-                  </Avatar>&nbsp;{member.firstname}&nbsp;{member.lastname}
+                  </Avatar>&nbsp;&nbsp;{member.firstname}&nbsp;{member.lastname}
                   </>
                 )
               })
