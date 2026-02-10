@@ -200,42 +200,6 @@ const EventDetailPage = () => {
     },
   })
 
-  // Fetch interested events for each person and filter those interested in current event
-  const { data: eventMembers, isLoading: isLoadingMembers } = useQuery({
-    queryKey: ['eventMembers', selectedEvent?.id],
-    queryFn: async () => {
-      if (!selectedEvent?.id || !allPersons) {
-        return []
-      }
-
-      // Fetch interested events for each person who has a telegram_id
-      const personsWithTelegram = allPersons.filter((person: any) => person.telegram_id !== null)
-      
-      const memberPromises = personsWithTelegram.map(async (person: any) => {
-        try {
-          const response = await fetch(`${TG_API_BASE_URL}/events/?interested_telegram_id=${person.telegram_id}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-          if (!response.ok) {
-            return null
-          }
-          const interestedEvents = await response.json()
-          // Check if current event is in their interested events
-          const isInterested = interestedEvents.some((event: any) => event.id === selectedEvent.id)
-          return isInterested ? person : null
-        } catch (error) {
-          return null
-        }
-      })
-
-      const results = await Promise.all(memberPromises)
-      return results.filter((person) => person !== null)
-    },
-    enabled: !!selectedEvent?.id && !!allPersons,
-  })
 
   useEffect(() => {
     const event = events?.find(w => w.id === Number(id))
@@ -357,15 +321,16 @@ const EventDetailPage = () => {
       {
         key: 'members',
         label: 'Участники',
-        children: isLoadingMembers || isLoadingPersons ? (
+        children: isLoadingPersons ? (
           <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
             <Spin />
           </Flex>
         ) : (
           <>
-            <TotalBlock>Всего участников: {eventMembers?.length || 0}</TotalBlock>
-            {eventMembers && eventMembers.length > 0 ? (
-              eventMembers.map((member: any) => {
+            <TotalBlock>Всего участников: {selectedEvent?.participants?.length || 0}</TotalBlock>
+            {selectedEvent?.participants && selectedEvent?.participants.length > 0 ? (
+              selectedEvent?.participants.map((memberId: any) => {
+                const member = allPersons.find(({ id }) => id == memberId) || {firstname: 'Неизвестный пользователь'}
                 const initials = `${member.firstname?.[0] || ''}${member.lastname?.[0] || ''}`.toUpperCase() || member.nickname?.[0]?.toUpperCase() || 'U'
                 return (
                   <>
