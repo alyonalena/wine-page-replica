@@ -333,15 +333,15 @@ const EventDetailPage = () => {
                 const member = allPersons.find(({ id }) => id == memberId) || {firstname: 'Неизвестный пользователь'}
                 const initials = `${member.firstname?.[0] || ''}${member.lastname?.[0] || ''}`.toUpperCase() || member.nickname?.[0]?.toUpperCase() || 'U'
                 return (
-                  <>
-                  <Avatar 
-                    key={member.id} 
-                    style={{backgroundColor: '#E7014C', padding: '15px', margin: '15px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
-                    size={30}
-                  >
-                    {initials}
-                  </Avatar>&nbsp;&nbsp;{member.firstname}&nbsp;{member.lastname}
-                  </>
+                  <div>
+                    <Avatar 
+                      key={member.id} 
+                      style={{backgroundColor: '#E7014C', padding: '15px', margin: '15px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
+                      size={30}
+                    >
+                      {initials}
+                    </Avatar>&nbsp;&nbsp;{member.firstname}&nbsp;{member.lastname}
+                  </div>
                 )
               })
             ) : ''}
