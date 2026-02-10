@@ -301,7 +301,7 @@ const WineDetailPage = () => {
             <SpecItem key={'grape_variety'}>
               <SpecLabel>Выдержка на осадке</SpecLabel>
               <SpecValue>
-                { selectedWine.sur_lie_years ? `${selectedWine.sur_lie_years} г. ` : '' + (selectedWine.sur_lie_months ? `${selectedWine.sur_lie_months} м. ` : '')}
+                { (selectedWine.sur_lie_years ? `${selectedWine.sur_lie_years} г. ` : '') + (selectedWine.sur_lie_months ? `${selectedWine.sur_lie_months} м. ` : '')}
               </SpecValue>            
             </SpecItem>
           </SpecsGrid>
