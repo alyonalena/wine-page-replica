@@ -23,7 +23,7 @@ const FooterGrid = styled.div`
   display: grid;
   grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr;
   gap: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(3, 1fr);
