@@ -160,9 +160,9 @@ const Footer = () => {
           </FooterColumn>
         </FooterGrid>        
         <FooterBottom>
-          <FooterBottomLinks>
-           По вопросам разработки обращаться:&nbsp;info@we-solve.ru
-          </FooterBottomLinks>
+          <FooterText>
+            По вопросам разработки обращаться:&nbsp;<br/><strong>info@we-solve.ru</strong>
+          </FooterText>
         </FooterBottom>
       </FooterContainer>
     </FooterWrapper>
