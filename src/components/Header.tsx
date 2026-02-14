@@ -153,6 +153,7 @@ const DrawerLink = styled.a`
   }
 `
 
+
 const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const launchParams = useLaunchParams()
@@ -249,6 +250,13 @@ const Header = () => {
               onClick={() => setDrawerOpen(false)}
             >
               О клубе
+            </DrawerNavItem>
+            <DrawerNavItem 
+              key={'rules'} 
+              to={'/rules'}
+              onClick={() => setDrawerOpen(false)}
+            >
+              Правила клуба
             </DrawerNavItem>
           </DrawerSection>
           <DrawerSection>

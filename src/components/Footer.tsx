@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 const FooterWrapper = styled.footer`
   background: ${theme.colors.foreground};
   color: white;
-  padding: 48px 0 24px;
+  padding: 16px 0 ;
   margin-top: 48px;
 `;
 
@@ -60,7 +60,7 @@ const FooterText = styled.p`
 const FooterTitle = styled.h4`
   font-size: 14px;
   font-weight: 600;
-  margin: 0 0 20px;
+  margin: 0 0 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 `;
@@ -161,7 +161,7 @@ const Footer = () => {
         </FooterGrid>        
         <FooterBottom>
           <FooterBottomLinks>
-            <a href="#" onClick={(e) => { e.stopPropagation(); navigate('/rules') }}>Правила клуба</a>
+           По вопросам разработки обращаться:&nbsp;info@we-solve.ru
           </FooterBottomLinks>
         </FooterBottom>
       </FooterContainer>

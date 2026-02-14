@@ -266,7 +266,6 @@ const WineDetailPage = () => {
     })
   }
 
-
   const getTabs = () => {
     if (!selectedWine) {
       return []
@@ -373,17 +372,21 @@ const WineDetailPage = () => {
               </AddToCartButton>
             </AddToCartButtonWrapper>
           </ProductInfo>
-          <DescriptionTextBlock>            
-            <Avatar alt="SX" src={Danil} style={{ minWidth: "70px", minHeight: "70px",  boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} />&nbsp;&nbsp;
-            <DescriptionText>
-              <Space style={{ padding: '8px 16px'}}>
-                <ImportantInfo>Комментарий от SX</ImportantInfo>
-              </Space>
-              <Space style={{ padding: '0 16px 16px 16px'}}>
-                {selectedWine.description || <div><br/>...</div>}
-              </Space>
-            </DescriptionText>
-          </DescriptionTextBlock>
+          {
+            selectedWine.description ? (
+              <DescriptionTextBlock>            
+                <Avatar alt="SX" src={Danil} style={{ minWidth: "70px", minHeight: "70px",  boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} />&nbsp;&nbsp;
+                <DescriptionText>
+                  <Space style={{ padding: '8px 16px'}}>
+                    <ImportantInfo>Комментарий от SX</ImportantInfo>
+                  </Space>
+                  <Space style={{ padding: '0 16px 16px 16px'}}>
+                    {selectedWine.description || <div><br/>...</div>}
+                  </Space>
+                </DescriptionText>
+              </DescriptionTextBlock>
+            ) : ''
+          }          
         <TabsSection>
           <Tabs items={getTabs()} defaultActiveKey="description" />
         </TabsSection>
