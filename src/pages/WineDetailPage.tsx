@@ -266,7 +266,6 @@ const WineDetailPage = () => {
     })
   }
 
-
   const getTabs = () => {
     if (!selectedWine) {
       return []
@@ -276,7 +275,6 @@ const WineDetailPage = () => {
       { label: 'Регион', value: selectedWine.region?.name },      
       { label: 'Цвет', value: selectedWine.color?.name },
       { label: 'Сахар', value: selectedWine.sugar?.name },
-      /*{ label: 'Выдержка на осадке', value: selectedWine.volume },*/
       { label: 'Крепость', value: selectedWine.alcohol?.name },
       { label: 'Год урожая', value: selectedWine.aging },
       { label: 'Объём', value: selectedWine.volume },
@@ -288,10 +286,10 @@ const WineDetailPage = () => {
         children: (
           <SpecsGrid>
             <SpecItem key={'grape_variety'}>
-            <SpecLabel>Виноград</SpecLabel>
-            <SpecValue>
-              { selectedWine.grape_variety?.map(({name, percentage}) => (<div>{percentage ? `${percentage}% ${name}` : `${name}`}</div>)) }
-            </SpecValue>            
+              <SpecLabel>Виноград</SpecLabel>
+              <SpecValue>
+                { selectedWine.grape_variety?.map(({name, percentage}) => (<div>{percentage ? `${percentage}% ${name}` : `${name}`}</div>)) }
+              </SpecValue>            
             </SpecItem>
             {specs.map((spec) => (
               <SpecItem key={spec.label}>
@@ -299,6 +297,12 @@ const WineDetailPage = () => {
                 <SpecValue>{spec.value}</SpecValue>
               </SpecItem>
             ))}
+            <SpecItem key={'grape_variety'}>
+              <SpecLabel>Выдержка на осадке</SpecLabel>
+              <SpecValue>
+                { (selectedWine.sur_lie_years ? `${selectedWine.sur_lie_years} г. ` : '') + (selectedWine.sur_lie_months ? `${selectedWine.sur_lie_months} м. ` : '')}
+              </SpecValue>            
+            </SpecItem>
           </SpecsGrid>
         ),
       },
@@ -368,17 +372,21 @@ const WineDetailPage = () => {
               </AddToCartButton>
             </AddToCartButtonWrapper>
           </ProductInfo>
-          <DescriptionTextBlock>            
-            <Avatar alt="SX" src={Danil} style={{ minWidth: "70px", minHeight: "70px",  boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} />&nbsp;&nbsp;
-            <DescriptionText>
-              <Space style={{ padding: '8px 16px'}}>
-                <ImportantInfo>Комментарий от SX</ImportantInfo>
-              </Space>
-              <Space style={{ padding: '0 16px 16px 16px'}}>
-                {selectedWine.description || <div><br/>...</div>}
-              </Space>
-            </DescriptionText>
-          </DescriptionTextBlock>
+          {
+            selectedWine.description ? (
+              <DescriptionTextBlock>            
+                <Avatar alt="SX" src={Danil} style={{ minWidth: "70px", minHeight: "70px",  boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} />&nbsp;&nbsp;
+                <DescriptionText>
+                  <Space style={{ padding: '8px 16px'}}>
+                    <ImportantInfo>Комментарий от SX</ImportantInfo>
+                  </Space>
+                  <Space style={{ padding: '0 16px 16px 16px'}}>
+                    {selectedWine.description || <div><br/>...</div>}
+                  </Space>
+                </DescriptionText>
+              </DescriptionTextBlock>
+            ) : ''
+          }          
         <TabsSection>
           <Tabs items={getTabs()} defaultActiveKey="description" />
         </TabsSection>

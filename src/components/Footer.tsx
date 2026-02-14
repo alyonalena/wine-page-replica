@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 const FooterWrapper = styled.footer`
   background: ${theme.colors.foreground};
   color: white;
-  padding: 48px 0 24px;
+  padding: 16px 0 ;
   margin-top: 48px;
 `;
 
@@ -23,7 +23,7 @@ const FooterGrid = styled.div`
   display: grid;
   grid-template-columns: 1.5fr repeat(3, 1fr) 1.5fr;
   gap: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   
   @media (max-width: ${theme.breakpoints.desktop}) {
     grid-template-columns: repeat(3, 1fr);
@@ -60,7 +60,7 @@ const FooterText = styled.p`
 const FooterTitle = styled.h4`
   font-size: 14px;
   font-weight: 600;
-  margin: 0 0 20px;
+  margin: 0 0 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 `;
@@ -114,7 +114,7 @@ const SocialIcon = styled.a`
 
 const FooterBottom = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 24px;
+  padding-top: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -122,21 +122,6 @@ const FooterBottom = styled.div`
   gap: 16px;
 `;
 
-const FooterBottomLinks = styled.div`
-  display: flex;
-  gap: 24px;
-  
-  a {
-    color: white;
-    opacity: 0.5;
-    text-decoration: none;
-    font-size: 13px;
-    
-    &:hover {
-      opacity: 1;
-    }
-  }
-`;
 
 const Footer = () => {
   const navigate = useNavigate()
@@ -149,7 +134,6 @@ const Footer = () => {
             <SocialLinks>
               <SocialIcon href="https://www.instagram.com/sx_wine"><InstagramOutlined /></SocialIcon>
             </SocialLinks>
-            <FooterTitle>Подписка на новости</FooterTitle>
             <FooterText>
               Получайте информацию о новинках, акциях и эксклюзивных предложениях
             </FooterText>
@@ -160,9 +144,9 @@ const Footer = () => {
           </FooterColumn>
         </FooterGrid>        
         <FooterBottom>
-          <FooterBottomLinks>
-            <a href="#" onClick={(e) => { e.stopPropagation(); navigate('/rules') }}>Правила клуба</a>
-          </FooterBottomLinks>
+          <FooterText>
+            По вопросам разработки обращаться:&nbsp;<br/><strong>info@we-solve.ru</strong>
+          </FooterText>
         </FooterBottom>
       </FooterContainer>
     </FooterWrapper>
