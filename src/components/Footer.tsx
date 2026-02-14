@@ -134,7 +134,6 @@ const Footer = () => {
             <SocialLinks>
               <SocialIcon href="https://www.instagram.com/sx_wine"><InstagramOutlined /></SocialIcon>
             </SocialLinks>
-            <FooterTitle>Подписка на новости</FooterTitle>
             <FooterText>
               Получайте информацию о новинках, акциях и эксклюзивных предложениях
             </FooterText>
