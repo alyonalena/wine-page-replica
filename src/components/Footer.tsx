@@ -114,7 +114,7 @@ const SocialIcon = styled.a`
 
 const FooterBottom = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 24px;
+  padding-top: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -122,21 +122,6 @@ const FooterBottom = styled.div`
   gap: 16px;
 `;
 
-const FooterBottomLinks = styled.div`
-  display: flex;
-  gap: 24px;
-  
-  a {
-    color: white;
-    opacity: 0.5;
-    text-decoration: none;
-    font-size: 13px;
-    
-    &:hover {
-      opacity: 1;
-    }
-  }
-`;
 
 const Footer = () => {
   const navigate = useNavigate()
