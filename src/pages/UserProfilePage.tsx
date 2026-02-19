@@ -154,7 +154,7 @@ const UserProfilePage = () => {
   const telegramId = useTelegramId()
   const { state } = useLocation()
 
-  const launchParams = /*useLaunchParams()*/ {}
+  const launchParams = useLaunchParams()
   const navigate = useNavigate()
 
   const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
