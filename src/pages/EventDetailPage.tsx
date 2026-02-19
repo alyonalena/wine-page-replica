@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { Avatar, Button, Tabs, List, Flex, Space, Typography, Spin } from 'antd'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
@@ -12,6 +12,8 @@ import { formatDateTime } from '../lib/date'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/events.png'
 import bottle from '../pics/actions/pink.png'
+import backtoLKIcon from '../pics/actions/back.svg'
+import arrowRight from '../pics/actions/arrow-right.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -22,7 +24,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 8px 8px 100px;
+  padding: 8px 8px 140px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -33,7 +35,8 @@ const BottomButtonWrapper = styled.div`
   z-index: 100;
   padding: 16px;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background: rgba(0, 0, 0, 0.1);
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 `
@@ -156,6 +159,9 @@ const TotalBlock = styled.div`
 
 const EventDetailPage = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
+  const { state } = useLocation()
+
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [notificationModal, setNotificationModal] = useState<{
     isVisible: boolean;
@@ -282,7 +288,10 @@ const EventDetailPage = () => {
               itemLayout="horizontal"
               dataSource={selectedEvent?.wine_list || []}
               renderItem={(item: any) => (
-                <List.Item>
+                <List.Item
+                  extra={<Avatar src={arrowRight} size={30}/>}
+                  onClick = {() => navigate(`/wine/${item.id}`, {state: {from: 'event', id: selectedEvent.id, context: state?.context}})}
+                >
                     <List.Item.Meta
                         avatar={ item.image ? (
                           <Avatar
@@ -427,10 +436,20 @@ const EventDetailPage = () => {
             <Tabs items={getTabs()} defaultActiveKey="set" />
         </TabsSection>
         <BottomButtonWrapper>
-          <BackButton size="large" onClick={() => window.history.back()}>
-            <Avatar size={35} src={backIcon} style={{ border: '1px solid #606060'}}/>
-            {' К другим дегустациям'}
-          </BackButton>
+          <div>
+            <BackButton size="large" onClick={() => navigate(`/events`)}>
+              <Avatar size={35} src={backIcon} style={{ border: '1px solid #606060'}}/>
+                К другим дегустациям
+            </BackButton>
+          </div>
+          { state?.from == 'profile' && (
+            <div>
+              <BackButton size="large" onClick={() => navigate(`/profile`, {state: {from: 'events'}})}>
+                <Avatar size={35} src={backtoLKIcon} style={{ border: '1px solid #606060', background: 'white'}}/>
+                  В личный кабинет
+              </BackButton>
+            </div>
+          )}
         </BottomButtonWrapper>
       </Container>
     )

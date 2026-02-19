@@ -2,6 +2,9 @@ import { useEffect } from 'react'
 import { Tabs, List, Avatar, Tag, Button, Typography, Spin, Flex } from 'antd'
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
+import { useLaunchParams } from '@telegram-apps/sdk-react'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
+
 import styled from 'styled-components'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
@@ -13,8 +16,8 @@ import wineIcon from '../pics/actions/wines.png'
 import eventIcon from '../pics/actions/events.png'
 import { formatDateTime } from '../lib/date'
 import { TG_API_BASE_URL } from '../lib/api'
-import { useLaunchParams } from '@telegram-apps/sdk-react'
-import { useNavigate } from 'react-router-dom'
+
+import arrowRight from '../pics/actions/arrow-right.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -128,9 +131,8 @@ const StyledTabs = styled(Tabs)`
 `
 
 const Name = styled.span`
-  color: ${theme.colors.primary};
   font-weight: bold;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   margin: 0 0 16px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -139,7 +141,7 @@ const Name = styled.span`
 `
 
 const DrawerLogo = styled.div`
-  font-size: 14px;
+  font-size: 12px;
   color: ${theme.colors.muted};
   
   span {
@@ -150,8 +152,9 @@ const DrawerLogo = styled.div`
 
 const UserProfilePage = () => {
   const telegramId = useTelegramId()
+  const { state } = useLocation()
 
-  const launchParams = useLaunchParams()
+  const launchParams = /*useLaunchParams()*/ {}
   const navigate = useNavigate()
 
   const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
@@ -222,7 +225,7 @@ const UserProfilePage = () => {
 
   const tabItems = [
     {
-      key: 'favorites',
+      key: 'wines',
       label: 'Ваша коллекция вин',
       children: isLoadingWines ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
@@ -236,7 +239,10 @@ const UserProfilePage = () => {
             itemLayout="horizontal"
             dataSource={favoriteWines || []}
             renderItem={(wine: any) => (
-              <List.Item>
+              <List.Item              
+                extra={<Avatar src={arrowRight} size={30}/>}
+                onClick={() => navigate(`/wine/${wine.id}`, {state: {from: 'profile', context: 'profile'}})}
+              >
               <List.Item.Meta
                   avatar={ wine.image ? (
                     <Avatar
@@ -279,14 +285,10 @@ const UserProfilePage = () => {
             dataSource={attendedEvents || []}
             renderItem={(event: any) => (
               <List.Item
-                extra={
-                  new Date(event.date) < new Date() ? (
-                    <Tag color="success" icon={<CheckCircleOutlined/>} />) : (
-                    <Tag color="processing" icon={<ClockCircleOutlined/>} />
-                  )
-                }
+                extra={<Avatar src={arrowRight} size={30}/>}
+                onClick = {() => navigate(`/event/${event.id}`, {state: {from: 'profile', context: 'profile'}})}
               >
-                <List.Item.Meta
+                <List.Item.Meta                 
                   avatar={event.image ? (
                     <Avatar
                         size={50} 
@@ -299,10 +301,17 @@ const UserProfilePage = () => {
                         size={50} 
                         src={cheers}/>
                     )}
-                  title={event.name}
+                  title={<>
+                    {event.name}&nbsp;
+                    {
+                      new Date(event.date) < new Date() ? (
+                        <Tag color="success" icon={<CheckCircleOutlined/>} />) : (
+                        <Tag color="processing" icon={<ClockCircleOutlined/>} />
+                    )}
+                  </>}
                   description={
                     <>
-                      <div><b>{event.city?.name}</b></div>
+                      <div style={{color: "black"}}>{event.city?.name}</div>
                       <div style={{color: "#E7014C"}}>{formatDateTime(event.date, event.time)}</div>
                       <div>{event.place} {event.address ? `• ${event.address}` : ''}</div>
                     </>
@@ -328,13 +337,12 @@ const UserProfilePage = () => {
               </Flex>
             ) : (
               <ProductInfo>
-                <Flex vertical style={{ width: '100%', padding: '8px 16px'}} align={'start'}>
-                    <ProductName>Личный кабинет</ProductName>                  
-                      <Flex style={{ width: '100%', padding: ''}} align={'center'} gap={16}>
+                <Flex vertical style={{ width: '100%', padding: '16px'}} align={'start'}>          
+                      <Flex style={{ width: '100%', padding: ''}} align={'center'} gap={8}>
                         <div style={{ padding: 0, margin: 0, width: 140}}>
                             {launchParams.tgWebAppData?.user?.photo_url ? (
                               <Avatar
-                                  size={140} 
+                                  size={120} 
                                   src={launchParams.tgWebAppData?.user?.photo_url}
                                   style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
                                 />
@@ -350,14 +358,14 @@ const UserProfilePage = () => {
                           >
                             <Name>{user.fullName}</Name>
                             <UserStatus>
-                              <DrawerLogo>Приветствуем Вас! <br/>Ваш статус:&nbsp;
+                              <DrawerLogo>Приветствуем Вас в личном кабинете <span>SX Wine</span> <br/><br/>Ваш статус:&nbsp;
                                   {currentUser?.grade?.name && (
                                     <span>{user.status}</span>
                                   )}
                               </DrawerLogo>
                             </UserStatus>
                         </Flex> 
-                      </Flex><br/>
+                      </Flex>
                   </Flex>
               </ProductInfo>
             )}
@@ -373,7 +381,7 @@ const UserProfilePage = () => {
               Выбрать дегустацию
             </BackButton>
           </ButtonWrapper>
-          <StyledTabs items={tabItems} defaultActiveKey="favorites" />
+          <StyledTabs items={tabItems} defaultActiveKey={state?.from || 'wines'} />
           <BottomButtonWrapper>
             <BackButton size="large" onClick={() => window.location.href = '/'}>
             <Avatar size={35} src={backIcon} style={{ border: '1px solid #606060'}}/>
