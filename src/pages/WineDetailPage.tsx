@@ -300,11 +300,18 @@ const WineDetailPage = () => {
                 <SpecValue>{spec.value}</SpecValue>
               </SpecItem>
             ))}
+            
+            <SpecItem key={'aging'}>
+              <SpecLabel>Год урожая</SpecLabel>
+              <SpecValue>
+                {selectedWine?.aging ? `${selectedWine.aging} г.`: (selectedWine?.aging_caption ? `Винтаж, ${selectedWine.aging_caption}`: '')}
+              </SpecValue>
+            </SpecItem>
             <SpecItem key={'grape_variety'}>
               <SpecLabel>Выдержка на осадке</SpecLabel>
               <SpecValue>
                 { (selectedWine.sur_lie_years ? `${selectedWine.sur_lie_years} г. ` : '') + (selectedWine.sur_lie_months ? `${selectedWine.sur_lie_months} м. ` : '')}
-              </SpecValue>            
+              </SpecValue>
             </SpecItem>
           </SpecsGrid>
         ),
@@ -363,8 +370,7 @@ const WineDetailPage = () => {
                         style={{ height: '100%', textAlign: 'left' }}
                       >
                         <ProducerName>{selectedWine?.producer?.name}</ProducerName>
-                        <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: 'Винтаж'}</ImportantInfo>
-                        <ImportantInfo>{selectedWine?.aging_caption ? `${selectedWine.aging_caption}`: ''}</ImportantInfo>
+                        <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: (selectedWine?.aging_caption ? `Винтаж, ${selectedWine.aging_caption}`: '')}</ImportantInfo>
                         <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume} л.</Typography.Text>   
                         <Typography.Text type='secondary'>{selectedWine.country?.name} • {selectedWine.region?.name}</Typography.Text>                              
                     </Flex> 
