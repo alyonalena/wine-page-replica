@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { Button, Tabs, Avatar, Space, Typography, Flex, Spin } from 'antd'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
@@ -12,6 +12,7 @@ import backIcon from '../pics/actions/wines.png'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
 import Danil from '../pics/main/danil.jpg'
+import backtoLKIcon from '../pics/actions/back.svg'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -22,7 +23,7 @@ const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 8px 8px 100px;
+  padding: 8px 8px 140px;
 `
 
 const BottomButtonWrapper = styled.div`
@@ -33,7 +34,8 @@ const BottomButtonWrapper = styled.div`
   z-index: 100;
   padding: 16px;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background: rgba(0, 0, 0, 0.1);
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
 `
@@ -44,7 +46,6 @@ const BackButton = styled(Button)`
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 8px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
   border-radius: 2rem;
   padding: 12px 20px 12px 10px;
@@ -175,7 +176,9 @@ const ImportantInfo = styled.span`
 
 const WineDetailPage = () => {
   const { id } = useParams()
-  
+  const navigate = useNavigate()
+  const { state } = useLocation()
+
   const [selectedWine, setSelectedWine] = useState(null)
   const [notificationModal, setNotificationModal] = useState<{
     isVisible: boolean;
@@ -297,11 +300,18 @@ const WineDetailPage = () => {
                 <SpecValue>{spec.value}</SpecValue>
               </SpecItem>
             ))}
+            
+            <SpecItem key={'aging'}>
+              <SpecLabel>Год урожая</SpecLabel>
+              <SpecValue>
+                {selectedWine?.aging ? `${selectedWine.aging} г.`: (selectedWine?.aging_caption ? `Винтаж, ${selectedWine.aging_caption}`: '')}
+              </SpecValue>
+            </SpecItem>
             <SpecItem key={'grape_variety'}>
               <SpecLabel>Выдержка на осадке</SpecLabel>
               <SpecValue>
                 { (selectedWine.sur_lie_years ? `${selectedWine.sur_lie_years} г. ` : '') + (selectedWine.sur_lie_months ? `${selectedWine.sur_lie_months} м. ` : '')}
-              </SpecValue>            
+              </SpecValue>
             </SpecItem>
           </SpecsGrid>
         ),
@@ -360,7 +370,7 @@ const WineDetailPage = () => {
                         style={{ height: '100%', textAlign: 'left' }}
                       >
                         <ProducerName>{selectedWine?.producer?.name}</ProducerName>
-                        <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: ''}</ImportantInfo>
+                        <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: (selectedWine?.aging_caption ? `Винтаж, ${selectedWine.aging_caption}`: '')}</ImportantInfo>
                         <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume} л.</Typography.Text>   
                         <Typography.Text type='secondary'>{selectedWine.country?.name} • {selectedWine.region?.name}</Typography.Text>                              
                     </Flex> 
@@ -391,10 +401,28 @@ const WineDetailPage = () => {
           <Tabs items={getTabs()} defaultActiveKey="description" />
         </TabsSection>
         <BottomButtonWrapper>
-          <BackButton size="large" onClick={() => window.history.back()}>
-          <Avatar size={35} src={backIcon} style={{ border: '1px solid #606060'}}/>
-            К другим винам
-          </BackButton>
+          <div>
+            <BackButton size="large" onClick={() => navigate(`/wines`)}>
+              <Avatar size={35} src={backIcon} style={{ border: '1px solid #606060'}}/>
+                К другим винам
+            </BackButton>
+          </div>
+          { state?.from == 'profile' && (
+            <div>
+              <BackButton size="large" onClick={() => navigate(`/profile`, {state: { from: 'wines' }})}>
+                <Avatar size={35} src={backtoLKIcon} style={{ border: '1px solid #606060', background: 'white'}}/>
+                  В личный кабинет
+              </BackButton>
+            </div>
+          )}
+          { state?.from == 'event' && (
+            <div>
+              <BackButton size="large" onClick={() => navigate(`/event/${state.id}`, {state: { from: state.context }})}>
+                <Avatar size={35} src={backtoLKIcon} style={{ border: '1px solid #606060', background: 'white'}}/>
+                  К дегустации
+              </BackButton>
+            </div>
+          )}
         </BottomButtonWrapper>
       </Container>
     )
