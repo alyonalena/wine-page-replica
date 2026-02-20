@@ -364,7 +364,7 @@ const WineDetailPage = () => {
                       >
                         <ProducerName>{selectedWine?.producer?.name}</ProducerName>
                         <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: 'Винтаж'}</ImportantInfo>
-                        <ImportantInfo>{selectedWine?.aging_capture ? `${selectedWine.aging_capture}`: ''}</ImportantInfo>
+                        <ImportantInfo>{selectedWine?.aging_caption ? `${selectedWine.aging_caption}`: ''}</ImportantInfo>
                         <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume} л.</Typography.Text>   
                         <Typography.Text type='secondary'>{selectedWine.country?.name} • {selectedWine.region?.name}</Typography.Text>                              
                     </Flex> 

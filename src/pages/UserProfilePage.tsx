@@ -260,7 +260,7 @@ const UserProfilePage = () => {
                     <div>{wine.name}</div>
                     <div>{wine.producer.name}</div>
                     {wine.aging ? <div style={{color: "#E7014C"}}>{wine.aging} г.</div>: 'Винтаж'}
-                    {wine.aging_capture ? <div style={{color: "#E7014C"}}>{wine.aging_capture}</div>: ''}
+                    {wine.aging_caption ? <div style={{color: "#E7014C"}}>{wine.aging_caption}</div>: ''}
                   </>}
                   description={`${wine.color?.name} • ${wine.sugar?.name} • ${wine.volume} л.`}
                   />
