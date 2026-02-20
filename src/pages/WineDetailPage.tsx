@@ -279,7 +279,6 @@ const WineDetailPage = () => {
       { label: 'Цвет', value: selectedWine.color?.name },
       { label: 'Сахар', value: selectedWine.sugar?.name },
       { label: 'Крепость', value: selectedWine.alcohol?.name },
-      { label: 'Год урожая', value: selectedWine.aging },
       { label: 'Объём', value: selectedWine.volume },
     ]
     return [
@@ -299,14 +298,27 @@ const WineDetailPage = () => {
                 <SpecLabel>{spec.label}</SpecLabel>
                 <SpecValue>{spec.value}</SpecValue>
               </SpecItem>
-            ))}
-            
-            <SpecItem key={'aging'}>
-              <SpecLabel>Год урожая</SpecLabel>
-              <SpecValue>
-                {selectedWine?.aging ? `${selectedWine.aging} г.`: (selectedWine?.aging_caption ? `Винтаж, ${selectedWine.aging_caption}`: '')}
-              </SpecValue>
-            </SpecItem>
+            ))}            
+            {
+              selectedWine?.aging && (
+                <SpecItem key={'aging'}>
+                  <SpecLabel>Год урожая</SpecLabel>
+                  <SpecValue>
+                    {selectedWine.aging ? `${selectedWine.aging} г.`: ''}
+                  </SpecValue>
+                </SpecItem>
+              )
+            }
+            {
+              selectedWine?.aging_caption && (
+                <SpecItem key={'aging'}>
+                  <SpecLabel>Винтаж</SpecLabel>
+                  <SpecValue>
+                    {selectedWine?.aging_caption ? `${selectedWine.aging_caption}`: ''}
+                  </SpecValue>
+                </SpecItem>
+              )
+            }
             <SpecItem key={'grape_variety'}>
               <SpecLabel>Выдержка на осадке</SpecLabel>
               <SpecValue>
@@ -370,7 +382,7 @@ const WineDetailPage = () => {
                         style={{ height: '100%', textAlign: 'left' }}
                       >
                         <ProducerName>{selectedWine?.producer?.name}</ProducerName>
-                        <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: (selectedWine?.aging_caption ? `Винтаж, ${selectedWine.aging_caption}`: '')}</ImportantInfo>
+                        <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: (selectedWine?.aging_caption ? `${selectedWine.aging_caption}`: '')}</ImportantInfo>
                         <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume} л.</Typography.Text>   
                         <Typography.Text type='secondary'>{selectedWine.country?.name} • {selectedWine.region?.name}</Typography.Text>                              
                     </Flex> 
