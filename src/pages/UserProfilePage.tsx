@@ -16,7 +16,7 @@ import wineIcon from '../pics/actions/wines.png'
 import eventIcon from '../pics/actions/events.png'
 import cardImage from '../pics/main/card.png'
 import { formatDateTime } from '../lib/date'
-import { TG_API_BASE_URL } from '../lib/api'
+import { getApiBaseUrl } from '../lib/api'
 
 import arrowRight from '../pics/actions/arrow-right.svg'
 import { Divide } from 'lucide-react'
@@ -167,7 +167,7 @@ const UserProfilePage = () => {
   const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
     queryKey: ['persons'],
     queryFn: async () => {
-      const response = await fetch(`${TG_API_BASE_URL}/persons`, {
+      const response = await fetch(`${getApiBaseUrl()}/persons`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -201,7 +201,7 @@ const UserProfilePage = () => {
   const { data: favoriteWines, isLoading: isLoadingWines, isError: isErrorWines } = useQuery({
     queryKey: ['wines', 'interested', telegramId],
     queryFn: async () => {
-      const response = await fetch(`${TG_API_BASE_URL}/wines/?interested_telegram_id=${telegramId}`, {
+      const response = await fetch(`${getApiBaseUrl()}/wines/?interested_telegram_id=${telegramId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ const UserProfilePage = () => {
   const { data: attendedEvents, isLoading: isLoadingEvents, isError: isErrorEvents } = useQuery({
     queryKey: ['events', 'interested', telegramId],
     queryFn: async () => {
-      const response = await fetch(`${TG_API_BASE_URL}/events/?interested_telegram_id=${telegramId}`, {
+      const response = await fetch(`${getApiBaseUrl()}/events/?interested_telegram_id=${telegramId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

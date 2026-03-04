@@ -8,7 +8,7 @@ import Header from '../components/Header'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
-import { TG_API_BASE_URL } from '../lib/api'
+import { getApiBaseUrl } from '../lib/api'
 import backIcon from '../pics/logo.png'
 import bottle from '../pics/actions/pink.png'
 import glass from '../pics/actions/glass.svg'
@@ -165,7 +165,7 @@ const WinesPage = () => {
 
   const mutation = useMutation({
     mutationFn: async ({ wineId, telegramId }: { wineId: number; telegramId: number }) => {
-      const response = await fetch(`${TG_API_BASE_URL}/notifications/wine-interest/`, {
+      const response = await fetch(`${getApiBaseUrl()}/notifications/wine-interest/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -208,7 +208,7 @@ const WinesPage = () => {
   const { data: wines, isLoading, isError } = useQuery({
     queryKey: ['wines'],
     queryFn: async () => {
-      const response = await fetch(`${TG_API_BASE_URL}/wines/`, {
+      const response = await fetch(`${getApiBaseUrl()}/wines/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

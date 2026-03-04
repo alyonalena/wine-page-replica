@@ -7,7 +7,7 @@ import Header from '../components/Header'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
-import { TG_API_BASE_URL } from '../lib/api'
+import { getApiBaseUrl } from '../lib/api'
 import { formatDateTime } from '../lib/date'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/logo.png'
@@ -146,7 +146,7 @@ const EventsPage = () => {
   const { data: events, isLoading, isError } = useQuery({
     queryKey: ['events'],
     queryFn: async () => {
-      const response = await fetch(`${TG_API_BASE_URL}/events/`, {
+      const response = await fetch(`${getApiBaseUrl()}/events/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ const EventsPage = () => {
 
   const mutation = useMutation({
     mutationFn: async ({ eventId, telegramId }: { eventId: number; telegramId: number }) => {
-      const response = await fetch(`${TG_API_BASE_URL}/notifications/event-interest/`, {
+      const response = await fetch(`${getApiBaseUrl()}/notifications/event-interest/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
