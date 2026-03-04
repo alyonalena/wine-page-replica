@@ -48,7 +48,7 @@ const BackButton = styled(Button)`
   border-radius: 2rem;
   padding: 12px 20px 12px 10px;
   color: #E3E3E3;
-  background: #333333;
+  background: rgba(0,0,0,0.8);
 `
 const PageHeader = styled.div`
   display: flex;

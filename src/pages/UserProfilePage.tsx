@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Tabs, List, Avatar, Tag, Button, Typography, Spin, Flex } from 'antd'
+import { Tabs, List, Avatar, Tag, Button, Typography, Spin, Flex, Progress, Card } from 'antd'
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
@@ -14,10 +14,12 @@ import bottle from '../pics/actions/pink.png'
 import cheers from '../pics/actions/cheers.svg'
 import wineIcon from '../pics/actions/wines.png'
 import eventIcon from '../pics/actions/events.png'
+import cardImage from '../pics/main/card.png'
 import { formatDateTime } from '../lib/date'
 import { TG_API_BASE_URL } from '../lib/api'
 
 import arrowRight from '../pics/actions/arrow-right.svg'
+import { Divide } from 'lucide-react'
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -63,7 +65,7 @@ const BackButton = styled(Button)`
   padding: 12px 20px 12px 10px;
   margin: 4px 0 0 0;
   color: #E3E3E3;
-  background: #333333;
+  background: rgba(0,0,0,0.8);
 `
 
 const AvatarWrapper = styled.div`
@@ -87,20 +89,25 @@ const ProductInfo = styled.div`
   margin: 0 0 8px;
 `
 
-const ProductName = styled.span`
+const PageHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;  
+  line-height: 0.9;
+`
+
+const PageTitle = styled.div`
+  animation: slideUp 0.4s ease;
   color: ${theme.colors.foreground};
   font-size: 1.4rem;
-  margin: 8px 0 16px 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  width: 100%;
-  text-align: center;
+  padding: 0 8px;
 `
 
 const UserStatus = styled.span`
-  font-size: 14px;
+  font-size: 11px;
+  color: ${theme.colors.primary};
 `
 
 const StyledTabs = styled(Tabs)`
@@ -154,7 +161,7 @@ const UserProfilePage = () => {
   const telegramId = useTelegramId()
   const { state } = useLocation()
 
-  const launchParams = useLaunchParams()
+  const launchParams = /*useLaunchParams()*/ {}
   const navigate = useNavigate()
 
   const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
@@ -337,51 +344,71 @@ const UserProfilePage = () => {
                 <Typography.Text>Загрузка профиля...</Typography.Text>
               </Flex>
             ) : (
-              <ProductInfo>
-                <Flex vertical style={{ width: '100%', padding: '16px'}} align={'start'}>          
-                      <Flex style={{ width: '100%', padding: ''}} align={'center'} gap={8}>
-                        <div style={{ padding: 0, margin: 0, width: 140}}>
-                            {launchParams.tgWebAppData?.user?.photo_url ? (
-                              <Avatar
-                                  size={120} 
-                                  src={launchParams.tgWebAppData?.user?.photo_url}
-                                  style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
-                                />
-                              ): (
-                                <AvatarWrapper>
-                                  {user.initials}
-                                </AvatarWrapper>
-                              )}
-                        </div>
-                        <Flex 
-                            vertical
-                            style={{ height: '100%', textAlign: 'left' }}
-                          >
-                            <Name>{user.fullName}</Name>
-                            <UserStatus>
-                              <DrawerLogo>Приветствуем Вас в личном кабинете <span>SX Wine</span> <br/><br/>Ваш статус:&nbsp;
-                                  {currentUser?.grade?.name && (
-                                    <span>{user.status}</span>
-                                  )}
-                              </DrawerLogo>
-                            </UserStatus>
-                        </Flex> 
-                      </Flex>
+              <>     
+                
+                <Flex 
+                  style={{ 
+                    width: '100%', 
+                    height: '180px',
+                    padding: '16px', 
+                    backgroundColor: '#333', 
+                    borderRadius: '0.3rem',
+                    border: '1px solid white',
+                    backgroundImage: `url(${cardImage})`,
+                    backgroundPosition: 'top center', 
+                    backgroundRepeat: 'no-repeat', 
+                    color: 'white',
+                  }} 
+                  align={'start'}
+                  justify='flex-between'
+                  vertical
+                >
+                  <div style={{ flexGrow: 1}}>
+                    <Typography.Title level={3} style={{ margin: 0, color: "white", lineHeight: 1.1}}>{user.fullName}</Typography.Title>
+                  </div>
+                  <div
+                    style={{ 
+                      width: '100%',
+                      padding: '0',
+                      color: 'white',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <Flex justify='space-between' style={{ paddingBottom: '4px'}}>
+                      <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem'}}>
+                        <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>Друг SX</Typography.Title>
+                        <UserStatus>2 дегустации</UserStatus>
+                      </div>
+                      <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem', textAlign: 'right'}}>
+                        <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>Эверест</Typography.Title>
+                        <UserStatus>5 дегустаций</UserStatus>
+                      </div>
+                    </Flex>
+                    <Progress 
+                      percent={40}
+                      percentPosition={{align: 'start', type: 'inner'}}
+                      size={['100%', 30]}
+                      strokeColor="#E7014C"
+                      format={(percent) => <div style={{paddingLeft: 5}}>{percent}%</div>}
+                    />
+                   </div>
                   </Flex>
-              </ProductInfo>
+                <ButtonWrapper>
+                  <BackButton size="large" onClick={() => navigate('/events')}>
+                    <Avatar size={35} src={eventIcon} style={{ border: '1px solid #606060'}}/>
+                      Выбрать дегустацию
+                    </BackButton>
+                  </ButtonWrapper>
+                  <ButtonWrapper>
+                  <BackButton size="large" onClick={() => navigate('/wines')}>
+                  <Avatar size={35} src={wineIcon} style={{ border: '1px solid #606060'}}/>
+                    Выбрать вино
+                  </BackButton>
+                </ButtonWrapper>
+              </>
             )}
-          <ButtonWrapper>
-            <BackButton size="large" onClick={() => navigate('/wines')}>
-            <Avatar size={35} src={wineIcon} style={{ border: '1px solid #606060'}}/>
-              Выбрать вино
-            </BackButton>
-          </ButtonWrapper>
-          <ButtonWrapper>
-            <BackButton size="large" onClick={() => navigate('/events')}>
-            <Avatar size={35} src={eventIcon} style={{ border: '1px solid #606060'}}/>
-              Выбрать дегустацию
-            </BackButton>
-          </ButtonWrapper>
           <StyledTabs items={tabItems} defaultActiveKey={state?.from || 'wines'} />
           <BottomButtonWrapper>
             <BackButton size="large" onClick={() => window.location.href = '/'}>
