@@ -5,7 +5,7 @@ import { Button, Input } from 'antd'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from './NotificationModal'
-import { TG_API_BASE_URL } from '../lib/api'
+import { getApiBaseUrl } from '../lib/api'
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -76,7 +76,7 @@ const TelegramVerificationModal = () => {
   const { data: persons, isLoading: isLoadingPersons } = useQuery({
     queryKey: ['persons'],
     queryFn: async () => {
-      const response = await fetch(`${TG_API_BASE_URL}/persons/`, {
+      const response = await fetch(`${getApiBaseUrl()}/persons/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const TelegramVerificationModal = () => {
   // Mutation to bind telegram (verifies user by key)
   const bindTelegramMutation = useMutation({
     mutationFn: async ({ telegramId, key }: { telegramId: number; key: string }) => {
-      const response = await fetch(`${TG_API_BASE_URL}/auth/bind-telegram/`, {
+      const response = await fetch(`${getApiBaseUrl()}/auth/bind-telegram/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
