@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Avatar, Button, Typography, Flex, Spin } from 'antd'
+import { Avatar, Button, Typography, Flex, Spin, Select, Space } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useQuery, useMutation } from '@tanstack/react-query'
@@ -251,8 +251,16 @@ const WinesPage = () => {
               <PageTitle>Коллекция вин</PageTitle>
               <ResultsCount>Всего собрано: {wines.length}</ResultsCount>
             </div>
-          </PageHeader>
-  
+          </PageHeader>  
+          <Space vertical style={{ width: '100%', marginBottom: '16px'}}>
+            <Select 
+              style={{ width: '100%'}}
+              defaultValue={-1} 
+              options={[{ value: -1, label: 'Все производители'}, {value: 1, label: 'Krug'}]}
+              onChange={(value) => { console.info(value) }}
+            />
+          </Space>
+
           <ProductsGrid>
   
             {wines.map((wine) => (

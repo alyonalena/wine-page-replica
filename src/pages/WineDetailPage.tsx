@@ -278,7 +278,6 @@ const WineDetailPage = () => {
       { label: 'Регион', value: selectedWine.region?.name },      
       { label: 'Цвет', value: selectedWine.color?.name },
       { label: 'Сахар', value: selectedWine.sugar?.name },
-      { label: 'Крепость', value: selectedWine.alcohol?.name },
       { label: 'Объём', value: selectedWine.volume },
     ]
     return [

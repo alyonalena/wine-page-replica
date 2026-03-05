@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { Tabs, List, Avatar, Tag, Button, Typography, Spin, Flex, Progress, Card } from 'antd'
+import { Tabs, List, Avatar, Tag, Button, Typography, Spin, Flex, Progress } from 'antd'
 import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -15,11 +15,12 @@ import cheers from '../pics/actions/cheers.svg'
 import wineIcon from '../pics/actions/wines.png'
 import eventIcon from '../pics/actions/events.png'
 import cardImage from '../pics/main/card.png'
-import { formatDateTime } from '../lib/date'
+import { formatDateTime, getEventLabel } from '../lib/date'
 import { getApiBaseUrl } from '../lib/api'
 
+
 import arrowRight from '../pics/actions/arrow-right.svg'
-import { Divide } from 'lucide-react'
+
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -192,6 +193,7 @@ const UserProfilePage = () => {
     fullName: `${currentUser.firstname || ''} ${currentUser.lastname || ''}`.trim() || currentUser.nickname || 'Пользователь',
     status: currentUser.grade?.name || 'Гость',
     initials: `${currentUser.firstname?.[0] || ''}${currentUser.lastname?.[0] || ''}`.toUpperCase() || currentUser.nickname?.[0]?.toUpperCase() || 'U',
+    ...currentUser
   } : {
     fullName: 'Пользователь',
     status: 'Гость',
@@ -349,13 +351,14 @@ const UserProfilePage = () => {
                 <Flex 
                   style={{ 
                     width: '100%', 
-                    height: '180px',
+                    height: '200px',
                     padding: '16px', 
                     backgroundColor: '#333', 
                     borderRadius: '0.3rem',
                     border: '1px solid white',
                     backgroundImage: `url(${cardImage})`,
-                    backgroundPosition: 'top center', 
+                    backgroundPosition: 'top center',
+                    backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat', 
                     color: 'white',
                   }} 
@@ -363,7 +366,7 @@ const UserProfilePage = () => {
                   justify='flex-between'
                   vertical
                 >
-                  <div style={{ flexGrow: 1}}>
+                  <div style={{ flexGrow: 1, width: '100%', textAlign: 'right'}}>
                     <Typography.Title level={3} style={{ margin: 0, color: "white", lineHeight: 1.1}}>{user.fullName}</Typography.Title>
                   </div>
                   <div
@@ -378,21 +381,23 @@ const UserProfilePage = () => {
                   >
                     <Flex justify='space-between' style={{ paddingBottom: '4px'}}>
                       <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem'}}>
-                        <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>Друг SX</Typography.Title>
-                        <UserStatus>2 дегустации</UserStatus>
+                        <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>{user.grade?.name}</Typography.Title>
+                        <UserStatus>{getEventLabel(Number(user.visited_tastings))}</UserStatus>
                       </div>
                       <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem', textAlign: 'right'}}>
-                        <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>Эверест</Typography.Title>
-                        <UserStatus>5 дегустаций</UserStatus>
+                        <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>{user.grade?.next_grade_name}</Typography.Title>
+                        <UserStatus>{getEventLabel(Number(user.grade?.next_grade_required_tastings))}</UserStatus>
                       </div>
                     </Flex>
+                    <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px 8px 2px', borderRadius: '0.3rem'}}>
                     <Progress 
-                      percent={40}
+                      percent={(user.visited_tastings/user.grade?.next_grade_required_tastings)}
                       percentPosition={{align: 'start', type: 'inner'}}
                       size={['100%', 30]}
                       strokeColor="#E7014C"
                       format={(percent) => <div style={{paddingLeft: 5}}>{percent}%</div>}
                     />
+                   </div>
                    </div>
                   </Flex>
                 <ButtonWrapper>

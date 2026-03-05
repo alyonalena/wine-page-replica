@@ -156,7 +156,7 @@ const DrawerLink = styled.a`
 
 const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const launchParams = useLaunchParams()
+  const launchParams = /*useLaunchParams()*/{}
   const navigate = useNavigate()
   const navItems = [
     { label: 'Дегустации', href: '/events'},
@@ -183,7 +183,7 @@ const Header = () => {
       <MainHeader>
         <LeftSection onClick={() => navigate('/')}>
           <Flex align={"center"} gap={8}>
-            <Avatar alt="SX" shape="square" src={LogoImage} style={{ width: "52px", height: "52px" }} />
+            <Avatar alt="SX" shape="square" src={LogoImage} style={{ width: "52px", height: "52px", borderRadius: '0.3rem' }} />
             <Col flex="auto" style={{ textAlign: "left" }}>
                 <Typography.Title level={3} style={{ margin: 0, color: "black", lineHeight: 1.2}}>SX Wine</Typography.Title>
                 <Typography.Text style={{ fontSize: '0.9em'}}>Champagne Lovers Club</Typography.Text>

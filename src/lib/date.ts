@@ -40,3 +40,24 @@ export const formatDateTime = (date?: string, time?: string | null): string => {
   return `${day} ${monthName} ${year} ${timeStr}`
 }
 
+
+const EVENTS = {
+  _1: 'дегустация',
+  _2: 'дегустации',
+  _3: 'дегустаций',
+}
+
+export const getEventLabel = (number) => {
+
+  const lastNumber = number < 0 ? number : number % 10
+  let ending = ''  
+  if (lastNumber == 2 || lastNumber == 3 || lastNumber == 4) { 
+    ending = EVENTS._2 
+  } else if (lastNumber == 1) {
+    ending = EVENTS._1
+  } else {
+    ending = EVENTS._3
+  }
+
+  return `${number} ${ending}`
+}

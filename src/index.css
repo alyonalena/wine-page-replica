@@ -176,10 +176,10 @@ body {
 
 .ant-progress-body {
   border-radius: 16px !important;
-  background: rgba(231, 1, 76, 0.7);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .ant-progress-track {
   border-radius: 16px !important;
-  opacity: 1 !important;
+  opacity: 0.9 !important;
 }
