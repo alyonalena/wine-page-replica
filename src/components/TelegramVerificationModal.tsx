@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import styled from 'styled-components'
-import { Button, Input } from 'antd'
+import { Button, Input, Spin } from 'antd'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
 import NotificationModal from './NotificationModal'
@@ -58,10 +58,11 @@ const ConfirmButton = styled(Button)`
 
 const TelegramVerificationModal = () => {
   // null = checking, true = show, false = hide
-  const [isVisible, setIsVisible] = useState<boolean | null>(null);
-  const [key, setKey] = useState('');
-  const telegramId = useTelegramId();
-  const queryClient = useQueryClient();
+  const [isVisible, setIsVisible] = useState<boolean | null>(null)
+  const [key, setKey] = useState('')
+  const telegramId = useTelegramId()
+  const queryClient = useQueryClient()
+
   const [notificationModal, setNotificationModal] = useState<{
     isVisible: boolean;
     type: 'success' | 'error' | 'warning' | 'info';
@@ -70,34 +71,16 @@ const TelegramVerificationModal = () => {
     isVisible: false,
     type: 'info',
     content: null,
-  });
-
-  // Fetch all persons to check if user exists
-  const { data: persons, isLoading: isLoadingPersons } = useQuery({
-    queryKey: ['persons'],
-    queryFn: async () => {
-      const response = await fetch(`${getApiBaseUrl()}/persons/`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (!response.ok) {
-        return []
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    },
-  });
+  })
 
   // Check if user exists in persons list
-  const userExists = useMemo(() => {
+ /* const userExists = useMemo(() => {
     if (!persons || isLoadingPersons) return false;
     return persons.some((person: any) => 
       person.telegram_id !== null && person.telegram_id !== undefined && Number(person.telegram_id) === telegramId
     );
   }, [persons, isLoadingPersons, telegramId]);
-
+*/
   // Mutation to bind telegram (verifies user by key)
   const bindTelegramMutation = useMutation({
     mutationFn: async ({ telegramId, key }: { telegramId: number; key: string }) => {
@@ -110,55 +93,59 @@ const TelegramVerificationModal = () => {
           telegram_id: telegramId,
           key: key,
         }),
-      });
+      })
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ detail: 'Ошибка при отправке запроса' }));
-        throw new Error(errorData.detail || 'Ошибка при отправке запроса');
+        const errorData = await response.json().catch(() => ({ detail: 'Ошибка при отправке запроса' }))
+        throw new Error(errorData.detail || 'Ошибка при отправке запроса')
       }
-      return response.json();
+      return response.json()
     },
     onSuccess: async () => {
       setNotificationModal({
         isVisible: true,
         type: 'success',
         content: 'Успешная верификация! Добро пожаловать!',
-      });
-      setIsVisible(false);
-      // Invalidate and refetch persons to update the list,
-      // so on next app open the user will be found in the list.
-      await queryClient.invalidateQueries({ queryKey: ['persons'] });
+      })
+      setIsVisible(false)
     },
     onError: (error: any) => {
       setNotificationModal({
         isVisible: true,
         type: 'error',
         content: error.message || 'Неверный ключ. Пожалуйста, попробуйте снова.',
-      });
+      })
     },
-  });
+  })
+
+  const { data: authResult, isLoading: isLoadingValidation, isError: isErrorValidation } = useQuery({
+    queryKey: ['auth'],
+    queryFn: async () => {
+      const response = await fetch(`${getApiBaseUrl()}/auth/is_valid_user/?telegram_id=${telegramId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
 
   useEffect(() => {
-    // While loading persons list, don't show the modal yet
-    if (isLoadingPersons) {
-      setIsVisible(null);
-      return;
-    }
 
-    // If we failed to load persons for some reason, don't block the app
-    if (!persons) {
-      setIsVisible(false);
-      return;
-    }
-
-    // Every time the app opens we check the persons list:
-    // - if the current Telegram user exists there -> no modal
-    // - otherwise -> show verification modal with key input
-    if (userExists) {
-      setIsVisible(false);
+console.info(authResult)
+    if (authResult == "OK") {
+      setIsVisible(false)
     } else {
-      setIsVisible(true);
+      if (isLoadingValidation) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
     }
-  }, [persons, isLoadingPersons, userExists]);
+  }, [authResult, isLoadingValidation])
 
   const handleConfirm = () => {
     if (!key.trim()) {
@@ -170,16 +157,17 @@ const TelegramVerificationModal = () => {
       return;
     }
     bindTelegramMutation.mutate({ telegramId, key });
-  };
+  }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleConfirm();
     }
-  };
+  }
 
-  // Don't render anything while we are still checking
-  if (isVisible === null || !isVisible) return null;
+  if (isVisible === null || !isVisible) {
+    return null
+  }
 
   return (
     <>
@@ -213,8 +201,8 @@ const TelegramVerificationModal = () => {
         </ModalContent>
       </ModalOverlay>
     </>
-  );
-};
+  )
+}
 
-export default TelegramVerificationModal;
+export default TelegramVerificationModal
 

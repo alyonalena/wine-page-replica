@@ -199,11 +199,10 @@ const WinesPage = () => {
     e.stopPropagation()
     
     mutation.mutate({
-      wineId: wineId,
-      telegramId: telegramId,
+      wineId,
+      telegramId,
     })
   }
-
 
   const { data: wines, isLoading, isError } = useQuery({
     queryKey: ['wines'],

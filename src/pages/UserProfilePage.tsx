@@ -18,9 +18,7 @@ import cardImage from '../pics/main/card.png'
 import { formatDateTime, getEventLabel } from '../lib/date'
 import { getApiBaseUrl } from '../lib/api'
 
-
 import arrowRight from '../pics/actions/arrow-right.svg'
-
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -165,40 +163,36 @@ const UserProfilePage = () => {
   const launchParams = /*useLaunchParams()*/ {}
   const navigate = useNavigate()
 
-  const { data: persons, isLoading: isLoadingPerson, isError: isErrorPerson } = useQuery({
-    queryKey: ['persons'],
+
+  const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useQuery({
+    queryKey: ['user', telegramId],
     queryFn: async () => {
-      const response = await fetch(`${getApiBaseUrl()}/persons`, {
+      const response = await fetch(`${getApiBaseUrl()}/persons/?telegram_id=${telegramId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       })
+
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        return {
+          fullName: 'Пользователь',
+          status: 'Гость',
+          initials: 'U',
+        }
       }
-      return response.json()
+
+      return response.json().then(userList => {
+        const currentUser = userList[0]
+        return {
+          fullName: `${currentUser.firstname || ''} ${currentUser.lastname || ''}`.trim() || currentUser.nickname || 'Пользователь',
+          status: currentUser.grade?.name || 'Гость',
+          initials: `${currentUser.firstname?.[0] || ''}${currentUser.lastname?.[0] || ''}`.toUpperCase() || currentUser.nickname?.[0]?.toUpperCase() || 'U',
+          ...currentUser
+        }
+      })
     },
   })
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [])
-
-  // Find the current user by telegram_id
-  const currentUser = persons?.find((person: any) => person.telegram_id === telegramId)
-
-  // Prepare user data from API or use defaults
-  const user = currentUser ? {
-    fullName: `${currentUser.firstname || ''} ${currentUser.lastname || ''}`.trim() || currentUser.nickname || 'Пользователь',
-    status: currentUser.grade?.name || 'Гость',
-    initials: `${currentUser.firstname?.[0] || ''}${currentUser.lastname?.[0] || ''}`.toUpperCase() || currentUser.nickname?.[0]?.toUpperCase() || 'U',
-    ...currentUser
-  } : {
-    fullName: 'Пользователь',
-    status: 'Гость',
-    initials: 'U',
-  }
 
   const { data: favoriteWines, isLoading: isLoadingWines, isError: isErrorWines } = useQuery({
     queryKey: ['wines', 'interested', telegramId],
@@ -234,8 +228,13 @@ const UserProfilePage = () => {
 
   const tabItems = [
     {
-      key: 'wines',
-      label: 'Ваша коллекция вин',
+      key: 'status',
+      label: 'Статус',
+      children: isLoadingWines ? (<></>): (<></>)
+    },
+    {
+      key: 'requests',
+      label: 'Запросы',
       children: isLoadingWines ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
           <Spin />
@@ -244,6 +243,7 @@ const UserProfilePage = () => {
         <Typography.Text type="danger">Ошибка при загрузке коллекции вин</Typography.Text>
       ) : (
         <>
+          <Typography.Title level={4}>Вина</Typography.Title>
           <List
             itemLayout="horizontal"
             dataSource={favoriteWines || []}
@@ -255,24 +255,68 @@ const UserProfilePage = () => {
               <List.Item.Meta
                   avatar={ wine.image ? (
                     <Avatar
-                        size={50} 
+                        size={50}
                         src={wine.image.replace('http', 'https')}
                         style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
                       />
                     ): (
                       <Avatar 
                         style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
-                        size={50} 
+                        size={50}
                         src={bottle}/>
                     )}
-                  title={<>
-                    <div>{wine.name}</div>
-                    <div>{wine.producer.name}</div>
-                    {wine.aging ? <div style={{color: "#E7014C"}}>{wine.aging} г.</div>: (wine.aging_caption ? <div style={{color: "#E7014C"}}>{`${wine.aging_caption}`}</div>: '')}
-                    {}
-                  </>}
+                  title={
+                    <>
+                      <div>{wine.name}</div>
+                      <div>{wine.producer.name}</div>
+                      {wine.aging ? <div style={{color: "#E7014C"}}>{wine.aging} г.</div>: (wine.aging_caption ? <div style={{color: "#E7014C"}}>{`${wine.aging_caption}`}</div>: '')}
+                    </>
+                  }
                   description={`${wine.color?.name} • ${wine.sugar?.name} • ${wine.volume} л.`}
                   />
+              </List.Item>
+            )}
+          />
+          <Typography.Title level={4}>Дегустации</Typography.Title>
+          <List
+            itemLayout="horizontal"
+            dataSource={attendedEvents || []}
+            renderItem={(event: any) => (
+              <List.Item
+                extra={<Avatar src={arrowRight} size={30}/>}
+                onClick = {() => navigate(`/event/${event.id}`, {state: { from: 'profile', context: 'profile' }})}
+              >
+                <List.Item.Meta
+                  avatar={event.image ? (
+                    <Avatar
+                        size={50} 
+                        src={event.image.replace('http', 'https')}
+                        style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                      />
+                    ): (
+                      <Avatar 
+                        style={{backgroundColor: '#E7014C', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
+                        size={50} 
+                        src={cheers}/>
+                    )}
+                  title={
+                    <>
+                      {event.name}&nbsp;
+                      {
+                        new Date(event.date) < new Date() ? (
+                          <Tag color="success" icon={<CheckCircleOutlined/>} />) : (
+                          <Tag color="processing" icon={<ClockCircleOutlined/>} />
+                      )}
+                    </>
+                  }
+                  description={
+                    <>
+                      <div style={{color: "black"}}>{event.city?.name}</div>
+                      <div style={{color: "#E7014C"}}>{formatDateTime(event.date, event.time)}</div>
+                      <div>{event.place} {event.address ? `• ${event.address}` : ''}</div>
+                    </>
+                  }
+                />
               </List.Item>
             )}
           />
@@ -281,7 +325,7 @@ const UserProfilePage = () => {
     },
     {
       key: 'events',
-      label: 'Ваши дегустации',
+      label: 'Дегустации',
       children: isLoadingEvents ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
           <Spin />
@@ -296,7 +340,7 @@ const UserProfilePage = () => {
             renderItem={(event: any) => (
               <List.Item
                 extra={<Avatar src={arrowRight} size={30}/>}
-                onClick = {() => navigate(`/event/${event.id}`, {state: {from: 'profile', context: 'profile'}})}
+                onClick = {() => navigate(`/event/${event.id}`, {state: { from: 'profile', context: 'profile' }})}
               >
                 <List.Item.Meta                 
                   avatar={event.image ? (
@@ -311,14 +355,16 @@ const UserProfilePage = () => {
                         size={50} 
                         src={cheers}/>
                     )}
-                  title={<>
-                    {event.name}&nbsp;
-                    {
-                      new Date(event.date) < new Date() ? (
-                        <Tag color="success" icon={<CheckCircleOutlined/>} />) : (
-                        <Tag color="processing" icon={<ClockCircleOutlined/>} />
-                    )}
-                  </>}
+                  title={
+                    <>
+                      {event.name}&nbsp;
+                      {
+                        new Date(event.date) < new Date() ? (
+                          <Tag color="success" icon={<CheckCircleOutlined/>} />) : (
+                          <Tag color="processing" icon={<ClockCircleOutlined/>} />
+                      )}
+                    </>
+                  }
                   description={
                     <>
                       <div style={{color: "black"}}>{event.city?.name}</div>
@@ -335,19 +381,21 @@ const UserProfilePage = () => {
     },
   ]
 
+  console.info(Number(user?.visited_tastings))
+  console.info(Number(user?.grade?.next_grade_required_tastings))
+
   return (
     <PageWrapper>
       <Header />
       <main>
         <Container>
-            {isLoadingPerson ? (
+            {isLoadingUser ? (
               <Flex style={{ alignItems: 'center', gap: 24, width: '100%' }}>
                 <Spin />
                 <Typography.Text>Загрузка профиля...</Typography.Text>
               </Flex>
             ) : (
-              <>     
-                
+              <>
                 <Flex 
                   style={{ 
                     width: '100%', 
@@ -367,7 +415,8 @@ const UserProfilePage = () => {
                   vertical
                 >
                   <div style={{ flexGrow: 1, width: '100%', textAlign: 'right'}}>
-                    <Typography.Title level={3} style={{ margin: 0, color: "white", lineHeight: 1.1}}>{user.fullName}</Typography.Title>
+                    <Typography.Title level={3} style={{ margin: 0, color: "white", lineHeight: 1.1}}>{user?.fullName}</Typography.Title>
+                    <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>{user.grade?.name}</Typography.Title>
                   </div>
                   <div
                     style={{ 
@@ -379,25 +428,26 @@ const UserProfilePage = () => {
                       flexDirection: 'column'
                     }}
                   >
-                    <Flex justify='space-between' style={{ paddingBottom: '4px'}}>
+                    <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px 8px 2px', borderRadius: '0.3rem'}}>
+                      <Progress 
+                        percent={((Number(user?.visited_tastings)/Number(user?.grade?.next_grade_required_tastings)))*100}
+                        percentPosition={{align: 'start', type: 'inner'}}
+                        size={['100%', 30]}
+                        strokeColor="#E7014C"
+                        format={(percent) => <div style={{paddingLeft: 5}}>{percent}%</div>}
+                      />
+                    </div>
+                    <Flex justify='space-between' style={{ padding: '4px 0'}}>
                       <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem'}}>
                         <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>{user.grade?.name}</Typography.Title>
-                        <UserStatus>{getEventLabel(Number(user.visited_tastings))}</UserStatus>
+                        <UserStatus>{getEventLabel(Number(user?.visited_tastings))}</UserStatus>
                       </div>
                       <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem', textAlign: 'right'}}>
                         <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>{user.grade?.next_grade_name}</Typography.Title>
-                        <UserStatus>{getEventLabel(Number(user.grade?.next_grade_required_tastings))}</UserStatus>
+                        <UserStatus>{getEventLabel(Number(user?.grade?.next_grade_required_tastings))}</UserStatus>
                       </div>
                     </Flex>
-                    <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px 8px 2px', borderRadius: '0.3rem'}}>
-                    <Progress 
-                      percent={(user.visited_tastings/user.grade?.next_grade_required_tastings)}
-                      percentPosition={{align: 'start', type: 'inner'}}
-                      size={['100%', 30]}
-                      strokeColor="#E7014C"
-                      format={(percent) => <div style={{paddingLeft: 5}}>{percent}%</div>}
-                    />
-                   </div>
+
                    </div>
                   </Flex>
                 <ButtonWrapper>
@@ -407,11 +457,11 @@ const UserProfilePage = () => {
                     </BackButton>
                   </ButtonWrapper>
                   <ButtonWrapper>
-                  <BackButton size="large" onClick={() => navigate('/wines')}>
-                  <Avatar size={35} src={wineIcon} style={{ border: '1px solid #606060'}}/>
-                    Выбрать вино
-                  </BackButton>
-                </ButtonWrapper>
+                    <BackButton size="large" onClick={() => navigate('/wines')}>
+                    <Avatar size={35} src={wineIcon} style={{ border: '1px solid #606060'}}/>
+                      Выбрать вино
+                    </BackButton>
+                  </ButtonWrapper>
               </>
             )}
           <StyledTabs items={tabItems} defaultActiveKey={state?.from || 'wines'} />
