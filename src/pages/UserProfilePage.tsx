@@ -67,43 +67,6 @@ const BackButton = styled(Button)`
   background: rgba(0,0,0,0.8);
 `
 
-const AvatarWrapper = styled.div`
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #E5E5E5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-`
-
-const ProductInfo = styled.div`
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 3px;
-  border: 1px solid ${theme.colors.border};
-  text-decoration: none;
-  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
-  margin: 0 0 8px;
-`
-
-const PageHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  flex-wrap: wrap;  
-  line-height: 0.9;
-`
-
-const PageTitle = styled.div`
-  animation: slideUp 0.4s ease;
-  color: ${theme.colors.foreground};
-  font-size: 1.4rem;
-  padding: 0 8px;
-`
-
 const UserStatus = styled.span`
   font-size: 11px;
   color: ${theme.colors.primary};
@@ -136,24 +99,39 @@ const StyledTabs = styled(Tabs)`
   }
 `
 
-const Name = styled.span`
-  font-weight: bold;
-  font-size: 1.3rem;
-  margin: 0 0 16px 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+const GradeBlock = styled.div`
+  font-size: 12px;
+  color: white;
+  background: ${theme.colors.primary};
+  padding:16px;
+  border-radius: 0.3rem;
+  margin-bottom: 8px;
 `
 
-const DrawerLogo = styled.div`
-  font-size: 12px;
-  color: ${theme.colors.muted};
-  
-  span {
-    color: ${theme.colors.primary};
-    font-weight: bold;
-  }
+const GoldenBlock = styled.div`
+  background: white;
+  color: white;
+  padding: 8px 8px;
+  margin-bottom: 8px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 2rem;
+  text-align: center;
+`
+
+const Name = styled.div`
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin: 0 0 0 0;
+  color: white;
+`
+
+const NameCentered = styled.div`
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin: 0 0 0 0;
+  color: white;
+  width: 100%;
+  text-align: center;
 `
 
 const UserProfilePage = () => {
@@ -210,6 +188,22 @@ const UserProfilePage = () => {
     },
   })
 
+  const { data: subscribtions, isLoading: isGradeLoading } = useQuery({
+    queryKey: ['grades'],
+    queryFn: async () => {
+      const response = await fetch(`${getApiBaseUrl()}/subscriptions/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
+
   const { data: attendedEvents, isLoading: isLoadingEvents, isError: isErrorEvents } = useQuery({
     queryKey: ['events', 'interested', telegramId],
     queryFn: async () => {
@@ -226,58 +220,61 @@ const UserProfilePage = () => {
     },
   })
 
+  const getFeaturesInfo = () => {
+    const sbscr = subscribtions?.find((sbscr => user.subscription === sbscr.id))
+    return (      
+      <>
+        <GradeBlock>
+            <NameCentered>{user.grade.name}</NameCentered>
+            {
+              !user.is_gold_member && (
+                <>
+                  <NameCentered>&</NameCentered>
+                  <GoldenBlock>
+                  <NameCentered>Подписка SX Prime</NameCentered>
+                    {`${sbscr.duration} мес. от ${user.subscription_starts_at}`}
+                  </GoldenBlock>
+                </>
+              )
+            }            
+            <br/>
+            <div>ВАМ ДОСТУПНО:</div>
+            <br/>
+            {sbscr.features.map(ft => <div>{`— ${ft.name}`}</div>)}
+            <br/>
+        </GradeBlock>
+      </>
+    )
+  }
+
   const tabItems = [
     {
       key: 'status',
-      label: 'Статус',
-      children: isLoadingWines ? (<></>): (<></>)
-    },
-    {
-      key: 'requests',
-      label: 'Запросы',
-      children: isLoadingWines ? (
+      label: 'Для Вас',
+      children: isLoadingUser ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
           <Spin />
         </Flex>
-      ) : isErrorWines ? (
-        <Typography.Text type="danger">Ошибка при загрузке коллекции вин</Typography.Text>
+      ) : isErrorUser ? (
+        <Typography.Text type="danger">Ошибка при загрузке информации</Typography.Text>
       ) : (
         <>
-          <Typography.Title level={4}>Вина</Typography.Title>
-          <List
-            itemLayout="horizontal"
-            dataSource={favoriteWines || []}
-            renderItem={(wine: any) => (
-              <List.Item              
-                extra={<Avatar src={arrowRight} size={30}/>}
-                onClick={() => navigate(`/wine/${wine.id}`, {state: {from: 'profile', context: 'profile'}})}
-              >
-              <List.Item.Meta
-                  avatar={ wine.image ? (
-                    <Avatar
-                        size={50}
-                        src={wine.image.replace('http', 'https')}
-                        style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
-                      />
-                    ): (
-                      <Avatar 
-                        style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
-                        size={50}
-                        src={bottle}/>
-                    )}
-                  title={
-                    <>
-                      <div>{wine.name}</div>
-                      <div>{wine.producer.name}</div>
-                      {wine.aging ? <div style={{color: "#E7014C"}}>{wine.aging} г.</div>: (wine.aging_caption ? <div style={{color: "#E7014C"}}>{`${wine.aging_caption}`}</div>: '')}
-                    </>
-                  }
-                  description={`${wine.color?.name} • ${wine.sugar?.name} • ${wine.volume} л.`}
-                  />
-              </List.Item>
-            )}
-          />
-          <Typography.Title level={4}>Дегустации</Typography.Title>
+          {getFeaturesInfo()}
+        </>
+      )
+    },
+    {
+      key: 'events',
+      label: 'Дегустации',
+      children: isLoadingEvents ? (
+        <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
+          <Spin />
+        </Flex>
+      ) : isErrorEvents ? (
+        <Typography.Text type="danger">Ошибка при загрузке дегустаций</Typography.Text>
+      ) : (
+        <>
+          <Typography.Text type={'secondary'}>Дегустации с Вашим участием:</Typography.Text>
           <List
             itemLayout="horizontal"
             dataSource={attendedEvents || []}
@@ -286,7 +283,7 @@ const UserProfilePage = () => {
                 extra={<Avatar src={arrowRight} size={30}/>}
                 onClick = {() => navigate(`/event/${event.id}`, {state: { from: 'profile', context: 'profile' }})}
               >
-                <List.Item.Meta
+                <List.Item.Meta                 
                   avatar={event.image ? (
                     <Avatar
                         size={50} 
@@ -324,16 +321,51 @@ const UserProfilePage = () => {
       ),
     },
     {
-      key: 'events',
-      label: 'Дегустации',
-      children: isLoadingEvents ? (
+      key: 'requests',
+      label: 'Пожелания',
+      children: isLoadingWines ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
           <Spin />
         </Flex>
-      ) : isErrorEvents ? (
-        <Typography.Text type="danger">Ошибка при загрузке дегустаций</Typography.Text>
+      ) : isErrorWines ? (
+        <Typography.Text type="danger">Ошибка при загрузке коллекции вин</Typography.Text>
       ) : (
         <>
+          <Typography.Text type={'secondary'}>Вина, которыми Вы интересовались:</Typography.Text>
+          <List
+            itemLayout="horizontal"
+            dataSource={favoriteWines || []}
+            renderItem={(wine: any) => (
+              <List.Item              
+                extra={<Avatar src={arrowRight} size={30}/>}
+                onClick={() => navigate(`/wine/${wine.id}`, {state: {from: 'profile', context: 'profile'}})}
+              >
+              <List.Item.Meta
+                  avatar={ wine.image ? (
+                    <Avatar
+                        size={50}
+                        src={wine.image.replace('http', 'https')}
+                        style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                      />
+                    ): (
+                      <Avatar 
+                        style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
+                        size={50}
+                        src={bottle}/>
+                    )}
+                  title={
+                    <>
+                      <div>{wine.name}</div>
+                      <div>{wine.producer.name}</div>
+                      {wine.aging ? <div style={{color: "#E7014C"}}>{wine.aging} г.</div>: (wine.aging_caption ? <div style={{color: "#E7014C"}}>{`${wine.aging_caption}`}</div>: '')}
+                    </>
+                  }
+                  description={`${wine.color?.name} • ${wine.sugar?.name} • ${wine.volume} л.`}
+                  />
+              </List.Item>
+            )}
+          />
+          <Typography.Text type={'secondary'}>Дегустации, которыми Вы интересовались:</Typography.Text>
           <List
             itemLayout="horizontal"
             dataSource={attendedEvents || []}
@@ -342,7 +374,7 @@ const UserProfilePage = () => {
                 extra={<Avatar src={arrowRight} size={30}/>}
                 onClick = {() => navigate(`/event/${event.id}`, {state: { from: 'profile', context: 'profile' }})}
               >
-                <List.Item.Meta                 
+                <List.Item.Meta
                   avatar={event.image ? (
                     <Avatar
                         size={50} 
