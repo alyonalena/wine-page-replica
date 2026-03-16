@@ -118,13 +118,6 @@ const GoldenBlock = styled.div`
   text-align: center;
 `
 
-const Name = styled.div`
-  font-weight: bold;
-  font-size: 1.3rem;
-  margin: 0 0 0 0;
-  color: white;
-`
-
 const NameCentered = styled.div`
   font-weight: bold;
   font-size: 1.3rem;
@@ -221,18 +214,18 @@ const UserProfilePage = () => {
   })
 
   const getFeaturesInfo = () => {
-    const sbscr = subscribtions?.find((sbscr => user.subscription === sbscr.id))
+    const sbscr = subscribtions?.find((sbscr => user.subscription === sbscr.id)) || {}
     return (      
       <>
         <GradeBlock>
-            <NameCentered>{user.grade.name}</NameCentered>
+            <NameCentered>{user?.grade?.name}</NameCentered>
             {
               !user.is_gold_member && (
                 <>
                   <NameCentered>&</NameCentered>
                   <GoldenBlock>
-                  <NameCentered>Подписка SX Prime</NameCentered>
-                    {`${sbscr.duration} мес. от ${user.subscription_starts_at}`}
+                  <NameCentered>Подписка {sbscr?.name}</NameCentered>
+                    {`${sbscr?.duration} мес. от ${user?.subscription_starts_at}`}
                   </GoldenBlock>
                 </>
               )
@@ -240,7 +233,7 @@ const UserProfilePage = () => {
             <br/>
             <div>ВАМ ДОСТУПНО:</div>
             <br/>
-            {sbscr.features.map(ft => <div>{`— ${ft.name}`}</div>)}
+            {sbscr.features?.map(ft => <div>{`— ${ft.name}`}</div>)}
             <br/>
         </GradeBlock>
       </>

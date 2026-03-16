@@ -16,6 +16,7 @@ import ProducersPage from "./pages/ProducersPage"
 import EventDetailPage from "./pages/EventDetailPage"
 import ProducerDetailPage from "./pages/ProducerDetailPage"
 import ClubRulesPage from './pages/ClubRules'
+import SubscriptionPage from './pages/SubscriptionPage'
 import TelegramVerificationModal from './components/TelegramVerificationModal'
 
 const queryClient = new QueryClient()
@@ -55,6 +56,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/wines" element={<WinesPage />} />
             <Route path="/events" element={<EventsPage />} />
+            <Route path="/subscription" element={<SubscriptionPage />} />
             <Route path="/wine/:id" element={<WineDetailPage />} />
             <Route path="/profile" element={<UserProfilePage />} />
             <Route path="/team" element={<TeamPage />} />

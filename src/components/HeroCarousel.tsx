@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { theme } from '../styles/theme'
 import winesImage from '../pics/main/wines.png'
 import eventsImage from '../pics/main/events.png'
+import subscriptionImage from '../pics/main/subscription.png'
 
 const CarouselSection = styled.section`
   max-width: 1280px;
@@ -119,6 +120,22 @@ const HeroCarousel = () => {
                 <div>
                   <PromoTitle>Коллекция вин</PromoTitle>
                   <PromoSubtitle>Познакомьтесь с нашей коллекцией вин</PromoSubtitle>
+                </div>
+              </PromoBlock2>
+              <PromoSubtitle></PromoSubtitle>
+          </PromoCard>
+          <PromoCard to={`/subscription`}
+            style={{ 
+              backgroundImage: `url(${subscriptionImage})`, 
+              backgroundSize: '43% auto', 
+              backgroundPosition: 'top right', 
+              backgroundRepeat: 'no-repeat', 
+            }}
+          >
+              <PromoBlock2>
+                <div>
+                  <PromoTitle>Подписка</PromoTitle>
+                  <PromoSubtitle>Получите уникальные и выгодные возможности!</PromoSubtitle>
                 </div>
               </PromoBlock2>
               <PromoSubtitle></PromoSubtitle>
