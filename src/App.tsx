@@ -50,7 +50,6 @@ const App = () => (
       >
         <Toaster />
         <Sonner />
-        <TelegramVerificationModal />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />

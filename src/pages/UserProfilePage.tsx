@@ -135,7 +135,7 @@ const UserProfilePage = () => {
   const navigate = useNavigate()
 
 
-  const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useQuery({
+  /*const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useQuery({
     queryKey: ['user', telegramId],
     queryFn: async () => {
       const response = await fetch(`${getApiBaseUrl()}/persons/?telegram_id=${telegramId}`, {
@@ -163,7 +163,22 @@ const UserProfilePage = () => {
         }
       })
     },
-  })
+  })*/
+
+  const isLoadingUser = false 
+  const isErrorUser = false
+  const user = {
+    fullName: "Елена Фликема",
+    is_gold_member: true,
+    grade: {
+      name: 'Друг SX Wine',
+      duration: 1,    
+      next_grade_required_tastings: 5,  
+      next_grade_name: 'Эверест'
+    },
+    subscription_starts_at: '2026-03-10',
+    visited_tastings: 2,
+  }
 
   const { data: favoriteWines, isLoading: isLoadingWines, isError: isErrorWines } = useQuery({
     queryKey: ['wines', 'interested', telegramId],
@@ -214,18 +229,27 @@ const UserProfilePage = () => {
   })
 
   const getFeaturesInfo = () => {
-    const sbscr = subscribtions?.find((sbscr => user.subscription === sbscr.id)) || {}
+    const sbscr = /*subscribtions?.find((sbscr => user.subscription === sbscr.id)) || {}*/ {
+      name: 'Астрал(месяц)',
+      duration: 1,
+      features: [
+        { name: 'Бесплатная бутылка раз в 2 месяца'},
+        { name: 'Доступ к консьерж-боту'},
+        { name: 'Закрытая вечеринка'},
+        { name: 'Предпродажа мест'}
+      ]
+    }
     return (      
       <>
         <GradeBlock>
             <NameCentered>{user?.grade?.name}</NameCentered>
             {
-              !user.is_gold_member && (
+              user.is_gold_member && (
                 <>
                   <NameCentered>&</NameCentered>
                   <GoldenBlock>
                   <NameCentered>Подписка {sbscr?.name}</NameCentered>
-                    {`${sbscr?.duration} мес. от ${user?.subscription_starts_at}`}
+                    {`${sbscr?.duration} мес. от ${user?.subscription_starts_at || '2026-03-10'}`}
                   </GoldenBlock>
                 </>
               )
@@ -406,8 +430,7 @@ const UserProfilePage = () => {
     },
   ]
 
-  console.info(Number(user?.visited_tastings))
-  console.info(Number(user?.grade?.next_grade_required_tastings))
+
 
   return (
     <PageWrapper>

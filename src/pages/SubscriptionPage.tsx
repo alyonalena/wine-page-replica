@@ -112,7 +112,7 @@ const GradeBlock = styled.div`
 const SubscriptionPage = () => {
   const telegramId = useTelegramId()
 
-  const { data: subscriptions, isLoading, isError } = useQuery({
+  /*const { data: subscriptions, isLoading, isError } = useQuery({
     queryKey: ['subscriptions'],
     queryFn: async () => {
       const response = await fetch(`${getApiBaseUrl()}/subscriptions/`, {
@@ -126,8 +126,43 @@ const SubscriptionPage = () => {
       }
       return response.json()
     },
-  })
-  console.info(subscriptions)
+  })*/
+  //console.info(subscriptions)
+  const isError = false
+  const isLoading = false
+
+  const subscriptions = [
+        {
+            name: 'Астрал(месяц)',
+            duration: 1,
+            price: 7500,
+            features: [
+                { name: 'Бесплатная бутылка раз в 2 месяца'},
+                { name: 'Доступ к консьерж-боту'},
+                { name: 'Закрытая вечеринка'},
+                { name: 'Предпродажа мест'}
+            ]
+        },
+        {
+            name: 'Астрал(год)',
+            duration: 12,
+            price: 72000,
+            features: [
+                { name: 'Бесплатная бутылка раз в 2 месяца'},
+                { name: 'Доступ к консьерж-боту'},
+                { name: 'Закрытая вечеринка'},
+                { name: 'Предпродажа мест'}
+            ]
+        },
+        {
+            name: 'Бесплатная',
+            duration: 12,
+            price: 0,
+            features: [
+                { name: 'Доступ к консьерж-боту'},
+            ]
+        },
+    ]
 
   const getContent = () => {
     if (isError) {
