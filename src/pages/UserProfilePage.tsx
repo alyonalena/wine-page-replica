@@ -206,7 +206,7 @@ const UserProfilePage = () => {
   const { data: userEvents, isLoading: isUserEventaLoading } = useQuery({
     queryKey: ['userEvents'],
     queryFn: async () => {
-      const response = await fetch(`${getApiBaseUrl()}/events/?telegram_id=${telegramId}`, {
+      const response = await fetch(`${getApiBaseUrl()}/events/?participant_telegram_id=${telegramId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ const UserProfilePage = () => {
     return (
       <GradeBlock>        
         { 
-          grades.map((grade, i) => <>
+          grades?.map((grade, i) => <>
             <GoldenBlock>
               <NameCentered>{grade.name}</NameCentered>
               <strong>{getEventLabel(Number(grade.required_tastings))}</strong>
