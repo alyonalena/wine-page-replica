@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
-import { useTelegramId } from '../hooks/useTelegramId'
+import { useTelegramId, useUserInfo } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
 import { getApiBaseUrl } from '../lib/api'
 import { formatDateTime } from '../lib/date'
@@ -147,7 +147,8 @@ const GoldenBlock = styled.div`
 `
 
 const EventsPage = () => {
-  const telegramId = useTelegramId();
+  const telegramId = useTelegramId()
+  const { isSXPrime } = useUserInfo()
   const [notificationModal, setNotificationModal] = useState<{
     isVisible: boolean;
     type: 'success' | 'error' | 'warning' | 'info';
@@ -270,7 +271,7 @@ const EventsPage = () => {
                   </div>
                   <Flex 
                       vertical
-                      style={{ height: '100%',textAlign: 'left' }}
+                      style={{ height: '100%', textAlign: 'left', flexGrow: 1 }}
                     >
                       <div>
                         { event.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }
@@ -285,7 +286,7 @@ const EventsPage = () => {
                       </div>
                   </Flex>
                 </Flex>
-                { new Date(event.date) > new Date() && 
+                { new Date(event.date) > new Date() && ((event.is_prime && isSXPrime) || !event.is_prime) &&
                     (
                       <AddToCartButtonWrapper>                        
                         <AddToCartButton size="large" type="primary" onClick={(e) => handleAddToCart(e, event.id)}>

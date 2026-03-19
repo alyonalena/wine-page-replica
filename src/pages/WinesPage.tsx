@@ -6,7 +6,7 @@ import { useQuery, useMutation } from '@tanstack/react-query'
 
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
-import { useTelegramId } from '../hooks/useTelegramId'
+import { useTelegramId, useUserInfo } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
 import { getApiBaseUrl } from '../lib/api'
 import backIcon from '../pics/logo.png'
@@ -158,7 +158,8 @@ const GoldenBlock = styled.div`
 
 
 const WinesPage = () => {
-  const telegramId = useTelegramId();
+  const telegramId = useTelegramId()
+  const { isSXPrime } = useUserInfo()
   const [notificationModal, setNotificationModal] = useState<{
     isVisible: boolean;
     type: 'success' | 'error' | 'warning' | 'info';
@@ -299,7 +300,7 @@ const WinesPage = () => {
                     </div>
                     <Flex 
                         vertical
-                        style={{ height: '100%', textAlign: 'left' }}
+                        style={{ height: '100%', textAlign: 'left', flexGrow: 1}}
                       >
                         { wine?.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }   
                         <ProducerName>{wine?.producer?.name}</ProducerName>
@@ -308,11 +309,13 @@ const WinesPage = () => {
                         <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
                     </Flex> 
                   </Flex>
-                  <AddToCartButtonWrapper>
-                    <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, wine.id)}>
-                      Хочу это вино <Avatar shape='square' src={glass}/>
-                    </AddToCartButton>
-                  </AddToCartButtonWrapper>
+                  {((wine.is_prime && isSXPrime) || !wine.is_prime) && (
+                    <AddToCartButtonWrapper>
+                      <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, wine.id)}>
+                        Хочу это вино <Avatar shape='square' src={glass}/>
+                      </AddToCartButton>
+                    </AddToCartButtonWrapper>
+                  )}
               </ProductCard>
             ))}
           </ProductsGrid>

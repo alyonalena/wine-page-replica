@@ -5,7 +5,7 @@ import { useParams, Link, useNavigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
-import { useTelegramId } from '../hooks/useTelegramId'
+import { useTelegramId, useUserInfo } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
 import { getApiBaseUrl } from '../lib/api'
 import { formatDateTime } from '../lib/date'
@@ -172,9 +172,14 @@ const GoldenBlock = styled.div`
   text-align: center;
 `
 
+const TabLabel = styled.span`
+  font-size: 11px;
+  color: ${theme.colors.muted};
+`
 
 const EventDetailPage = () => {
   const { id } = useParams()
+  const { isSXPrime } = useUserInfo()
   const navigate = useNavigate()
   const { state } = useLocation()
 
@@ -296,7 +301,7 @@ const EventDetailPage = () => {
     return [
       {
         key: 'set',
-        label: 'Винный сет',
+        label: <TabLabel>Винный сет</TabLabel>,
         children: (
           <>
             <TotalBlock>Всего позиций: {selectedEvent?.wine_list?.length || 0}</TotalBlock>
@@ -336,7 +341,7 @@ const EventDetailPage = () => {
       },
       {
         key: 'description',
-        label: 'Описание',
+        label: <TabLabel>Описание</TabLabel>,
         children: (
           <div>
             {selectedEvent.description || '...'}
@@ -345,7 +350,7 @@ const EventDetailPage = () => {
       },
       {
         key: 'members',
-        label: 'Участники',
+        label: <TabLabel>Участники</TabLabel>,
         children: isLoadingPersons ? (
           <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
             <Spin />
@@ -420,10 +425,11 @@ const EventDetailPage = () => {
                   </div>
                   <Flex 
                       vertical
-                      style={{ height: '100%',textAlign: 'left' }}
+                      style={{ height: '100%', textAlign: 'left', flexGrow: 1 }}
                     >
                       <div>
-                        { selectedEvent.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }
+                      {((selectedEvent.is_prime && isSXPrime) || !selectedEvent.is_prime) && 
+                      (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }
                         <b>{selectedEvent.city.name}</b><br/>
                         <ImportantInfo>
                           {formatDateTime(selectedEvent.date, selectedEvent.time || '19:00')}

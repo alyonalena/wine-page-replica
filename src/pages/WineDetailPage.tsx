@@ -5,7 +5,7 @@ import { useParams, Link, useNavigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
-import { useTelegramId } from '../hooks/useTelegramId'
+import { useTelegramId, useUserInfo } from '../hooks/useTelegramId'
 import NotificationModal from '../components/NotificationModal'
 import { getApiBaseUrl } from '../lib/api'
 import backIcon from '../pics/actions/wines.png'
@@ -189,8 +189,14 @@ const GoldenBlock = styled.div`
   text-align: center;
 `
 
+const TabLabel = styled.span`
+  font-size: 11px;
+  color: ${theme.colors.muted};
+`
+
 const WineDetailPage = () => {
   const { id } = useParams()
+  const { isSXPrime } = useUserInfo()
   const navigate = useNavigate()
   const { state } = useLocation()
 
@@ -298,7 +304,7 @@ const WineDetailPage = () => {
     return [
       {
         key: 'specs',
-        label: 'Характеристики',
+        label: <TabLabel>Характеристики</TabLabel>,
         children: (
           <SpecsGrid>
             <SpecItem key={'grape_variety'}>
@@ -375,7 +381,7 @@ const WineDetailPage = () => {
         />
           <ProductInfo>
             <Flex vertical style={{ width: '100%', padding: '8px 16px 16px'}} align={'start'}>
-                <ProductName>{selectedWine?.name}</ProductName>               
+                <ProductName>{selectedWine.name}</ProductName>               
                
                   <Flex style={{ width: '100%', padding: ''}} align={'center'} gap={16}>
                     <div style={{ padding: 0, margin: 0, width: 140}}>
@@ -394,21 +400,23 @@ const WineDetailPage = () => {
                     </div>
                     <Flex 
                         vertical
-                        style={{ height: '100%', textAlign: 'left' }}
+                        style={{ height: '100%', textAlign: 'left', flexGrow: 1 }}
                       >
                         { selectedWine.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null } 
-                        <ProducerName>{selectedWine?.producer?.name}</ProducerName>
-                        <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: (selectedWine?.aging_caption ? `${selectedWine.aging_caption}`: '')}</ImportantInfo>
+                        <ProducerName>{selectedWine.producer?.name}</ProducerName>
+                        <ImportantInfo>{selectedWine.aging ? `${selectedWine.aging} г.`: (selectedWine.aging_caption ? `${selectedWine.aging_caption}`: '')}</ImportantInfo>
                         <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume} л.</Typography.Text>   
                         <Typography.Text type='secondary'>{selectedWine.country?.name} • {selectedWine.region?.name}</Typography.Text>                              
                     </Flex> 
                   </Flex>
               </Flex>
-            <AddToCartButtonWrapper>
-              <AddToCartButton size="large" type="primary" onClick={(e) => handleAddToCart(e, selectedWine.id)}>
-                Хочу это вино <Avatar shape='square' src={glass}/>
-              </AddToCartButton>
-            </AddToCartButtonWrapper>
+              {((selectedWine.is_prime && isSXPrime) || !selectedWine.is_prime) && (
+                <AddToCartButtonWrapper>
+                  <AddToCartButton size="large" type="primary" onClick={(e) => handleAddToCart(e, selectedWine.id)}>
+                    Хочу это вино <Avatar shape='square' src={glass}/>
+                  </AddToCartButton>
+                </AddToCartButtonWrapper>
+              )}
           </ProductInfo>
           {
             selectedWine.description ? (

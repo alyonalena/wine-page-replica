@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
-import { useTelegramId } from '../hooks/useTelegramId'
+import { useTelegramId, useUserInfo } from '../hooks/useTelegramId'
 import backIcon from '../pics/logo.png'
 import bottle from '../pics/actions/pink.png'
 import cheers from '../pics/actions/cheers.svg'
@@ -134,41 +134,12 @@ const NameCentered = styled.div`
 
 const UserProfilePage = () => {
   const telegramId = useTelegramId()
+  const { user, isSXPrime, isLoadingUser, isErrorUser } = useUserInfo()
   const { state } = useLocation()
 
   const launchParams = /*useLaunchParams()*/ {}
   const navigate = useNavigate()
 
-
-  const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useQuery({
-    queryKey: ['user', telegramId],
-    queryFn: async () => {
-      const response = await fetch(`${getApiBaseUrl()}/persons/?telegram_id=${telegramId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      if (!response.ok) {
-        return {
-          fullName: 'Пользователь',
-          status: 'Гость',
-          initials: 'U',
-        }
-      }
-
-      return response.json().then(userList => {
-        const currentUser = userList[0]
-        return {
-          fullName: `${currentUser.firstname || ''} ${currentUser.lastname || ''}`.trim() || currentUser.nickname || 'Пользователь',
-          status: currentUser.grade?.name || 'Гость',
-          initials: `${currentUser.firstname?.[0] || ''}${currentUser.lastname?.[0] || ''}`.toUpperCase() || currentUser.nickname?.[0]?.toUpperCase() || 'U',
-          ...currentUser
-        }
-      })
-    },
-  })
 
   const { data: favoriteWines, isLoading: isLoadingWines, isError: isErrorWines } = useQuery({
     queryKey: ['wines', 'interested', telegramId],
