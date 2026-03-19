@@ -3,7 +3,7 @@ import { Avatar, Button, Typography, Flex, Spin, Select, Space } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useQuery, useMutation } from '@tanstack/react-query'
-
+import NotificationModal from '../components/NotificationModal'
 import Header from '../components/Header'
 import { theme } from '../styles/theme'
 import { useTelegramId } from '../hooks/useTelegramId'
@@ -85,7 +85,7 @@ const ProductsGrid = styled.div`
 const GoldenBlock = styled.div`
   background: white;
   color: white;
-  padding: 8px 8px;
+  padding: 24px 8px;
   margin-bottom: 8px;
   background: rgba(0,0,0,0.2);
   border-radius: 2rem;
@@ -109,10 +109,86 @@ const GradeBlock = styled.div`
   border-radius: 0.3rem;
 `
 
+const AddToCartButton = styled(Button)`
+  margin: 0 8px 8px 8px;
+  height: 40px;
+  box-shadow: 2px 5px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem;
+  width: 100%;
+  color: black;
+  background: white;
+`
+
+const AddToCartButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
 const SubscriptionPage = () => {
   const telegramId = useTelegramId()
 
-  /*const { data: subscriptions, isLoading, isError } = useQuery({
+  const [notificationModal, setNotificationModal] = useState<{
+    isVisible: boolean;
+    type: 'success' | 'error' | 'warning' | 'info';
+    content: React.ReactNode;
+    icon?: React.ReactNode;
+  }>({
+    isVisible: false,
+    type: 'info',
+    content: null,
+  });
+
+  const showSuccessNotification = () => {
+    setNotificationModal({
+      isVisible: true,
+      type: 'success',
+      content: <>Спасибо за интерес!<br/><br/>SX Wine свяжется с Вамим в ближайшее время</>,
+      //icon: <Avatar src={glass} style={{backgroundColor: '#E7014C', padding: '10px'}} size={70}/>,
+    });
+  };
+
+  const mutation = useMutation({
+    mutationFn: async ({ id, telegramId }: { id: number; telegramId: number }) => {
+      const response = await fetch(`${getApiBaseUrl()}/notifications/subscription-interest/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          subscription_id: id,
+          telegram_id: telegramId,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+    onSuccess: (data) => {
+      console.log('Wine interest notification sent successfully:', data)
+      showSuccessNotification()
+    },
+    onError: (error) => {
+      console.error('Error sending wine interest notification:', error)
+      setNotificationModal({
+        isVisible: true,
+        type: 'error',
+        content: 'Произошла ошибка при отправке запроса. Попробуйте позже.',
+      })
+    },
+  })
+
+  const handleAddToCart = (e: React.MouseEvent, id: number) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    mutation.mutate({
+      id,
+      telegramId,
+    })
+  }
+
+  const { data: subscriptions, isLoading, isError } = useQuery({
     queryKey: ['subscriptions'],
     queryFn: async () => {
       const response = await fetch(`${getApiBaseUrl()}/subscriptions/`, {
@@ -126,43 +202,7 @@ const SubscriptionPage = () => {
       }
       return response.json()
     },
-  })*/
-  //console.info(subscriptions)
-  const isError = false
-  const isLoading = false
-
-  const subscriptions = [
-        {
-            name: 'Астрал(месяц)',
-            duration: 1,
-            price: 7500,
-            features: [
-                { name: 'Бесплатная бутылка раз в 2 месяца'},
-                { name: 'Доступ к консьерж-боту'},
-                { name: 'Закрытая вечеринка'},
-                { name: 'Предпродажа мест'}
-            ]
-        },
-        {
-            name: 'Астрал(год)',
-            duration: 12,
-            price: 72000,
-            features: [
-                { name: 'Бесплатная бутылка раз в 2 месяца'},
-                { name: 'Доступ к консьерж-боту'},
-                { name: 'Закрытая вечеринка'},
-                { name: 'Предпродажа мест'}
-            ]
-        },
-        {
-            name: 'Бесплатная',
-            duration: 12,
-            price: 0,
-            features: [
-                { name: 'Доступ к консьерж-боту'},
-            ]
-        },
-    ]
+  })
 
   const getContent = () => {
     if (isError) {
@@ -185,21 +225,31 @@ const SubscriptionPage = () => {
             <PageTitle>
                 Подписки
             </PageTitle>
-          </PageHeader>  
-
-          <ProductsGrid>
-  
+          </PageHeader>
+          <NotificationModal
+            isVisible={notificationModal.isVisible}
+            onClose={() => setNotificationModal({ ...notificationModal, isVisible: false })}
+            type={notificationModal.type}
+            content={notificationModal.content}
+            icon={notificationModal.icon}
+          />
+          <ProductsGrid>  
             {subscriptions.map((sbscr) => (
                 <GradeBlock>
                     <GoldenBlock>
                     <NameCentered>Подписка {sbscr.name}</NameCentered>
-                    <strong>{`${sbscr?.price} рублей за ${sbscr?.duration} мес.`}</strong>
+                    {sbscr?.price > 0 ? <strong>{`${sbscr?.price} рублей за ${sbscr?.duration} мес.`}</strong> : null}
                     </GoldenBlock>
                     <br/>
                     <div>ВАМ ДОСТУПНО:</div>
                     <br/>
                     {sbscr.features?.map(ft => <div>{`— ${ft.name}`}</div>)}
                     <br/>
+                    <AddToCartButtonWrapper>
+                    <AddToCartButton  onClick={(e) => handleAddToCart(e, sbscr.id)}>
+                      Хочу подписку
+                    </AddToCartButton>
+                  </AddToCartButtonWrapper>
                 </GradeBlock>
             ))}
           </ProductsGrid>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Avatar, Button, Tabs, List, Flex, Space, Typography, Spin } from 'antd'
+import { Avatar, Button, Tabs, List, Flex, Space, Typography, Spin, Tooltip } from 'antd'
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Header from '../components/Header'
@@ -124,7 +124,7 @@ const TabsSection = styled.div`
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
   font-weight: bold;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -156,6 +156,22 @@ const TotalBlock = styled.div`
   color: ${theme.colors.muted};
   font-weight: 0.9rem;
 `
+
+const GoldenBlock = styled.div`
+  background: white;
+  color: white;
+  padding:0 16px;
+  margin-bottom: 8px;
+  background: #B9013D;
+  color: black;
+  border-radius: 0.3rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: white;
+  text-align: center;
+`
+
 
 const EventDetailPage = () => {
   const { id } = useParams()
@@ -392,6 +408,7 @@ const EventDetailPage = () => {
             <ProductInfo>
               <Flex style={{ width: '100%', padding: '8px 16px'}} align={'center'}>
                 <ProductName>{selectedEvent.name}</ProductName>
+
                 </Flex> 
                 <Flex style={{ width: '100%', padding: '0 16px 24px'}} align={'center'} gap={16}>
                   <div style={{ padding: 0, margin: 0, width: 140}}>
@@ -406,6 +423,7 @@ const EventDetailPage = () => {
                       style={{ height: '100%',textAlign: 'left' }}
                     >
                       <div>
+                        { selectedEvent.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }
                         <b>{selectedEvent.city.name}</b><br/>
                         <ImportantInfo>
                           {formatDateTime(selectedEvent.date, selectedEvent.time || '19:00')}

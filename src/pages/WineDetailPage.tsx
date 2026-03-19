@@ -174,6 +174,21 @@ const ImportantInfo = styled.span`
   font-weight: bold;
 `
 
+const GoldenBlock = styled.div`
+  background: white;
+  color: white;
+  padding:0 16px;
+  margin-bottom: 8px;
+  background: #B9013D;
+  color: black;
+  border-radius: 0.3rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: white;
+  text-align: center;
+`
+
 const WineDetailPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -360,7 +375,8 @@ const WineDetailPage = () => {
         />
           <ProductInfo>
             <Flex vertical style={{ width: '100%', padding: '8px 16px 16px'}} align={'start'}>
-                <ProductName>{selectedWine?.name}</ProductName>                  
+                <ProductName>{selectedWine?.name}</ProductName>               
+               
                   <Flex style={{ width: '100%', padding: ''}} align={'center'} gap={16}>
                     <div style={{ padding: 0, margin: 0, width: 140}}>
                         {selectedWine?.image ? (
@@ -380,6 +396,7 @@ const WineDetailPage = () => {
                         vertical
                         style={{ height: '100%', textAlign: 'left' }}
                       >
+                        { selectedWine.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null } 
                         <ProducerName>{selectedWine?.producer?.name}</ProducerName>
                         <ImportantInfo>{selectedWine?.aging ? `${selectedWine.aging} г.`: (selectedWine?.aging_caption ? `${selectedWine.aging_caption}`: '')}</ImportantInfo>
                         <Typography.Text type='secondary'>{selectedWine.color?.name} • {selectedWine.sugar?.name} • {selectedWine.volume} л.</Typography.Text>   

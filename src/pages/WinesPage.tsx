@@ -141,6 +141,22 @@ const AddToCartButtonWrapper = styled.div`
   justify-content: center;
 `
 
+const GoldenBlock = styled.div`
+  background: white;
+  color: white;
+  padding:0 16px;
+  margin-bottom: 8px;
+  background: #B9013D;
+  color: black;
+  border-radius: 0.3rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: white;
+  text-align: center;
+`
+
+
 const WinesPage = () => {
   const telegramId = useTelegramId();
   const [notificationModal, setNotificationModal] = useState<{
@@ -264,7 +280,8 @@ const WinesPage = () => {
   
             {wines.map((wine) => (
                 <ProductCard key={wine.id} to={`/wine/${wine.id}`}>                  
-                  <ProductName>{wine?.name}</ProductName>                  
+                  <ProductName>{wine?.name}</ProductName>     
+             
                   <Flex style={{ width: '100%', padding: '16px '}} align={'center'} gap={16}>
                     <div style={{ padding: 0, margin: 0, width: 130}}>
                         {wine?.image ? (
@@ -284,6 +301,7 @@ const WinesPage = () => {
                         vertical
                         style={{ height: '100%', textAlign: 'left' }}
                       >
+                        { wine?.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }   
                         <ProducerName>{wine?.producer?.name}</ProducerName>
                         <ImportantInfo>{wine?.aging ? `${wine.aging} г.`: (wine?.aging_caption ? `${wine.aging_caption}`: '')}</ImportantInfo>
                         <ImportantInfo></ImportantInfo><Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume} л.</Typography.Text>   

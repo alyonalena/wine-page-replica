@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Tabs, List, Avatar, Tag, Button, Typography, Spin, Flex, Progress } from 'antd'
-import { CheckCircleOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { CheckCircleOutlined, ClockCircleOutlined, CaretDownOutlined } from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
 import { useLaunchParams } from '@telegram-apps/sdk-react'
 import { useNavigate, useLocation } from 'react-router-dom'
@@ -72,6 +72,11 @@ const UserStatus = styled.span`
   color: ${theme.colors.primary};
 `
 
+const TabLabel = styled.span`
+  font-size: 11px;
+  color: ${theme.colors.muted};
+`
+
 const StyledTabs = styled(Tabs)`
   margin: 8px;
   .ant-tabs-nav {
@@ -111,7 +116,7 @@ const GradeBlock = styled.div`
 const GoldenBlock = styled.div`
   background: white;
   color: white;
-  padding: 8px 8px;
+  padding: 24px 8px;
   margin-bottom: 8px;
   background: rgba(0,0,0,0.2);
   border-radius: 2rem;
@@ -135,7 +140,7 @@ const UserProfilePage = () => {
   const navigate = useNavigate()
 
 
-  /*const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useQuery({
+  const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useQuery({
     queryKey: ['user', telegramId],
     queryFn: async () => {
       const response = await fetch(`${getApiBaseUrl()}/persons/?telegram_id=${telegramId}`, {
@@ -163,22 +168,7 @@ const UserProfilePage = () => {
         }
       })
     },
-  })*/
-
-  const isLoadingUser = false 
-  const isErrorUser = false
-  const user = {
-    fullName: "Елена Фликема",
-    is_gold_member: true,
-    grade: {
-      name: 'Друг SX Wine',
-      duration: 1,    
-      next_grade_required_tastings: 5,  
-      next_grade_name: 'Эверест'
-    },
-    subscription_starts_at: '2026-03-10',
-    visited_tastings: 2,
-  }
+  })
 
   const { data: favoriteWines, isLoading: isLoadingWines, isError: isErrorWines } = useQuery({
     queryKey: ['wines', 'interested', telegramId],
@@ -196,10 +186,27 @@ const UserProfilePage = () => {
     },
   })
 
-  const { data: subscribtions, isLoading: isGradeLoading } = useQuery({
+  
+  const { data: grades, isLoading: isGradeLoading } = useQuery({
     queryKey: ['grades'],
     queryFn: async () => {
-      const response = await fetch(`${getApiBaseUrl()}/subscriptions/`, {
+      const response = await fetch(`${getApiBaseUrl()}/grades/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
+
+  const { data: userEvents, isLoading: isUserEventaLoading } = useQuery({
+    queryKey: ['userEvents'],
+    queryFn: async () => {
+      const response = await fetch(`${getApiBaseUrl()}/events/?telegram_id=${telegramId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -229,45 +236,74 @@ const UserProfilePage = () => {
   })
 
   const getFeaturesInfo = () => {
-    const sbscr = /*subscribtions?.find((sbscr => user.subscription === sbscr.id)) || {}*/ {
-      name: 'Астрал(месяц)',
-      duration: 1,
-      features: [
-        { name: 'Бесплатная бутылка раз в 2 месяца'},
-        { name: 'Доступ к консьерж-боту'},
-        { name: 'Закрытая вечеринка'},
-        { name: 'Предпродажа мест'}
-      ]
-    }
-    return (      
-      <>
-        <GradeBlock>
-            <NameCentered>{user?.grade?.name}</NameCentered>
-            {
-              user.is_gold_member && (
+    if (user?.subscription) {
+      return (      
+        <>
+          <GradeBlock>
+            <GoldenBlock>
+            <NameCentered>Подписка {user?.subscription?.name}</NameCentered>
+              {`${user?.subscription?.duration} мес. от ${user?.subscription_starts_at || '2026-03-10'}`}
+            </GoldenBlock>
+          <br/>
+          <div>ВАМ ДОСТУПНО:</div>
+          <br/>
+          {user?.subscription?.features?.map(ft => <div>{`— ${ft.name}`}</div>)}
+          <br/>
+          </GradeBlock>
+        </>
+      )
+    } else {
+      return null
+    }   
+  }
+
+  const getGradeInfo = () => {
+    return (
+      <GradeBlock>        
+        { 
+          grades.map((grade, i) => <>
+            <GoldenBlock>
+              <NameCentered>{grade.name}</NameCentered>
+              <strong>{getEventLabel(Number(grade.required_tastings))}</strong>
+              {user.grade.id === grade.id ? (
                 <>
-                  <NameCentered>&</NameCentered>
-                  <GoldenBlock>
-                  <NameCentered>Подписка {sbscr?.name}</NameCentered>
-                    {`${sbscr?.duration} мес. от ${user?.subscription_starts_at || '2026-03-10'}`}
-                  </GoldenBlock>
+                  <div>
+                  <br/><hr/><br/>
+                  {grade?.description}
+                  <br/><br/><hr/><br/>
+                  Вы уже посетили: {
+                    userEvents?.map(ue => {
+                      return ue.image ? (
+                        <Avatar
+                          key={ue.id}
+                          size={30} 
+                          src={ue.image.replace('http', 'https')}
+                          style={{boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                      />) : (
+                        <Avatar
+                          key={ue.id}
+                          size={30} 
+                          src={cheers}
+                          style={{backgroundColor: '#E7014C', padding: '10px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}}
+                      />)
+                    })
+                  }
+                </div>  
                 </>
-              )
-            }            
-            <br/>
-            <div>ВАМ ДОСТУПНО:</div>
-            <br/>
-            {sbscr.features?.map(ft => <div>{`— ${ft.name}`}</div>)}
-            <br/>
-        </GradeBlock>
-      </>
+              ) : null}
+           
+            </GoldenBlock>
+            {i < grades.length-1 ? (<NameCentered><CaretDownOutlined/></NameCentered>) : null}
+          </>) 
+        }
+      </GradeBlock>
     )
   }
 
   const tabItems = [
     {
       key: 'status',
-      label: 'Для Вас',
+      label: <TabLabel>Подписка & Грейд</TabLabel>,
       children: isLoadingUser ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
           <Spin />
@@ -277,12 +313,13 @@ const UserProfilePage = () => {
       ) : (
         <>
           {getFeaturesInfo()}
+          {getGradeInfo()}
         </>
       )
     },
     {
       key: 'events',
-      label: 'Дегустации',
+      label: <TabLabel>Дегустации</TabLabel>,
       children: isLoadingEvents ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
           <Spin />
@@ -292,9 +329,10 @@ const UserProfilePage = () => {
       ) : (
         <>
           <Typography.Text type={'secondary'}>Дегустации с Вашим участием:</Typography.Text>
+          <br/><br/>
           <List
             itemLayout="horizontal"
-            dataSource={attendedEvents || []}
+            dataSource={userEvents || []}
             renderItem={(event: any) => (
               <List.Item
                 extra={<Avatar src={arrowRight} size={30}/>}
@@ -339,7 +377,7 @@ const UserProfilePage = () => {
     },
     {
       key: 'requests',
-      label: 'Пожелания',
+      label: <TabLabel>История запросов</TabLabel>,
       children: isLoadingWines ? (
         <Flex style={{ alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
           <Spin />
@@ -348,7 +386,8 @@ const UserProfilePage = () => {
         <Typography.Text type="danger">Ошибка при загрузке коллекции вин</Typography.Text>
       ) : (
         <>
-          <Typography.Text type={'secondary'}>Вина, которыми Вы интересовались:</Typography.Text>
+          <Typography.Text type={'secondary'}>Вы интересовались винами:</Typography.Text>
+          <br/><br/>
           <List
             itemLayout="horizontal"
             dataSource={favoriteWines || []}
@@ -382,7 +421,9 @@ const UserProfilePage = () => {
               </List.Item>
             )}
           />
-          <Typography.Text type={'secondary'}>Дегустации, которыми Вы интересовались:</Typography.Text>
+          <br/><hr/><br/>
+          <Typography.Text type={'secondary'}>Вы интересовались дегустациями:</Typography.Text>
+          <br/><br/>
           <List
             itemLayout="horizontal"
             dataSource={attendedEvents || []}
@@ -495,7 +536,6 @@ const UserProfilePage = () => {
                         <UserStatus>{getEventLabel(Number(user?.grade?.next_grade_required_tastings))}</UserStatus>
                       </div>
                     </Flex>
-
                    </div>
                   </Flex>
                 <ButtonWrapper>

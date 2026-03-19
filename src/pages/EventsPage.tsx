@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Typography, Button, Space, Flex, Spin, Avatar } from 'antd'
+import { Typography, Button, Space, Flex, Spin, Avatar, Tag } from 'antd'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -114,7 +114,7 @@ const AddToCartButtonWrapper = styled.div`
 const ProductName = styled.span`
   color: ${theme.colors.foreground};
   font-weight: bold;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   margin: 8px 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -129,6 +129,21 @@ const ImportantInfo = styled.span`
   margin: 0 0 16px;
   overflow: hidden;
   font-weight: bold;
+`
+
+const GoldenBlock = styled.div`
+  background: white;
+  color: white;
+  padding:0 16px;
+  margin-bottom: 8px;
+  background: #B9013D;
+  color: black;
+  border-radius: 0.3rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: white;
+  text-align: center;
 `
 
 const EventsPage = () => {
@@ -241,8 +256,9 @@ const EventsPage = () => {
           <ProductsGrid>  
             {events.sort((a, b) => { if (new Date(a.date) < new Date(b.date)) return 1; return -1; }).map((event) => (
               <ProductCard key={event.id} to={`/event/${event.id}`}>
-                <Flex style={{ width: '100%', padding: '0 16px'}} align={'center'}>
+                <Flex vertical style={{ width: '100%', padding: '0 16px'}} align={'center'}>
                   <ProductName>{event.name}</ProductName>
+                 
                 </Flex> 
                 <Flex style={{ width: '100%', padding: '0 16px 16px'}} align={'center'} gap={16}>
                   <div style={{ padding: 0, margin: 0, minWidth: 130}}>
@@ -256,21 +272,22 @@ const EventsPage = () => {
                       vertical
                       style={{ height: '100%',textAlign: 'left' }}
                     >
-                      <div>        
+                      <div>
+                        { event.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }
                           <b>{event.city.name}</b><br/>
                           <ImportantInfo>
                             {formatDateTime(event.date, event.time || '19:00')}
                           </ImportantInfo><br/><br/> 
-                          
+
                           <Space style={{ gap:4, lineHeight: '0.9' }}>
                             <Typography.Text type='secondary'>{event.place} • {event.address}</Typography.Text>
                           </Space>
                       </div>
-                  </Flex>                  
+                  </Flex>
                 </Flex>
                 { new Date(event.date) > new Date() && 
                     (
-                      <AddToCartButtonWrapper>
+                      <AddToCartButtonWrapper>                        
                         <AddToCartButton size="large" type="primary" onClick={(e) => handleAddToCart(e, event.id)}>
                           Хочу на эту дегустацию <Avatar src={cheers}/>
                         </AddToCartButton>
