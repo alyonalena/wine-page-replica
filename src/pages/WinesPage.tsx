@@ -281,6 +281,7 @@ const WinesPage = () => {
                 <Space vertical style={{ width: '100%', marginBottom: '16px'}}>
                 <Select 
                   style={{ width: '100%'}}
+                  placeholder={'Выбрать производителя'}
                   allowClear
                   options={producers?.map((item) => ({...item, value: item.id, label: item.name})) || []}
                   onChange={(value) => { setProducerId(value)}}

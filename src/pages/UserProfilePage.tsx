@@ -213,7 +213,7 @@ const UserProfilePage = () => {
           <GradeBlock>
             <GoldenBlock>
             <NameCentered>Подписка {user?.subscription?.name}</NameCentered>
-              {`${user?.subscription?.duration} мес. от ${user?.subscription_starts_at || '2026-03-10'}`}
+              {(user?.subscription?.price > 0) && `${user?.subscription?.duration} мес. от ${formatDateTime(user?.subscription_starts_at || new Date())}`}
             </GoldenBlock>
           {user?.subscription?.features?.lenght > 0 && ( 
             <>
