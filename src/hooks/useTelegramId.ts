@@ -53,8 +53,8 @@ export const useUserInfo = () => {
     },
   })
 
-  const isSXPrime = user && user.grade.price > 0
-  //const 
+  const isSXPrime = user && (user.subscription.price > 0)
+
   return { user, isSXPrime, isLoadingUser, isErrorUser }
 }
 

@@ -215,11 +215,15 @@ const UserProfilePage = () => {
             <NameCentered>Подписка {user?.subscription?.name}</NameCentered>
               {`${user?.subscription?.duration} мес. от ${user?.subscription_starts_at || '2026-03-10'}`}
             </GoldenBlock>
-          <br/>
-          <div>ВАМ ДОСТУПНО:</div>
-          <br/>
-          {user?.subscription?.features?.map(ft => <div>{`— ${ft.name}`}</div>)}
-          <br/>
+          {user?.subscription?.features?.lenght > 0 && ( 
+            <>
+              <br/>
+              <div>ВАМ ДОСТУПНО</div>
+              <br/>
+              {user?.subscription?.features?.map(ft => <div>{`— ${ft.name}`}</div>)}
+              <br/>
+            </>
+          )}
           </GradeBlock>
         </>
       )

@@ -241,10 +241,14 @@ const SubscriptionPage = () => {
                     {sbscr?.price > 0 ? <strong>{`${sbscr?.price} рублей за ${sbscr?.duration} мес.`}</strong> : null}
                     </GoldenBlock>
                     <br/>
-                    <div>ВАМ ДОСТУПНО:</div>
-                    <br/>
-                    {sbscr.features?.map(ft => <div>{`— ${ft.name}`}</div>)}
-                    <br/>
+                    { sbscr.features?.length > 0 && (
+                        <>
+                            <div>ВАМ ДОСТУПНО:</div>
+                            <br/>
+                            {sbscr.features?.map(ft => <div>{`— ${ft.name}`}</div>)}
+                            <br/>
+                        </>
+                    )}
                     <AddToCartButtonWrapper>
                     <AddToCartButton  onClick={(e) => handleAddToCart(e, sbscr.id)}>
                       Хочу подписку

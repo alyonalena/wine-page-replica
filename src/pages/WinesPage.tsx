@@ -160,6 +160,7 @@ const GoldenBlock = styled.div`
 const WinesPage = () => {
   const telegramId = useTelegramId()
   const { isSXPrime } = useUserInfo()
+  const [ producerId, setProducerId ] = useState(null)
   const [notificationModal, setNotificationModal] = useState<{
     isVisible: boolean;
     type: 'success' | 'error' | 'warning' | 'info';
@@ -222,9 +223,9 @@ const WinesPage = () => {
   }
 
   const { data: wines, isLoading, isError } = useQuery({
-    queryKey: ['wines'],
+    queryKey: ['wines', producerId],
     queryFn: async () => {
-      const response = await fetch(`${getApiBaseUrl()}/wines/`, {
+      const response = await fetch(`${getApiBaseUrl()}/wines/?producer_id=${producerId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -236,7 +237,22 @@ const WinesPage = () => {
       return response.json()
     },
   })
-  console.info(wines)
+
+  const { data: producers, isLoading: isLoadingProducers, isError: isErrorProducers } = useQuery({
+    queryKey: ['producers'],
+    queryFn: async () => {
+      const response = await fetch(`${getApiBaseUrl()}/producers/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+  })
 
   const getContent = () => {
     if (isError) {
@@ -246,14 +262,7 @@ const WinesPage = () => {
         </Flex>
       )
     }
-    if (isLoading) {
-      return (
-        <Flex style={{ alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100%'}}>
-          <Spin/>
-        </Flex>
-      )
-    } else {
-      return (
+    return (
         <Container>
           <NotificationModal
             isVisible={notificationModal.isVisible}
@@ -265,60 +274,69 @@ const WinesPage = () => {
           <PageHeader>
             <div>
               <PageTitle>Коллекция вин</PageTitle>
-              <ResultsCount>Всего собрано: {wines.length}</ResultsCount>
             </div>
-          </PageHeader>  
-          <Space vertical style={{ width: '100%', marginBottom: '16px'}}>
-            <Select 
-              style={{ width: '100%'}}
-              defaultValue={-1} 
-              options={[{ value: -1, label: 'Все производители'}, {value: 1, label: 'Krug'}]}
-              onChange={(value) => { console.info(value) }}
-            />
-          </Space>
-
-          <ProductsGrid>
-  
-            {wines.map((wine) => (
-                <ProductCard key={wine.id} to={`/wine/${wine.id}`}>                  
-                  <ProductName>{wine?.name}</ProductName>     
-             
-                  <Flex style={{ width: '100%', padding: '16px '}} align={'center'} gap={16}>
-                    <div style={{ padding: 0, margin: 0, width: 130}}>
-                        {wine?.image ? (
-                          <Avatar
-                              size={130} 
-                              src={wine.image.replace('http', 'https')}
-                              style={{ boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }}
-                              />
-                          ): (
-                            <Avatar 
-                              style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} 
-                              size={130} 
-                              src={bottle}/>
-                          )}
-                    </div>
-                    <Flex 
-                        vertical
-                        style={{ height: '100%', textAlign: 'left', flexGrow: 1}}
-                      >
-                        { wine?.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }   
-                        <ProducerName>{wine?.producer?.name}</ProducerName>
-                        <ImportantInfo>{wine?.aging ? `${wine.aging} г.`: (wine?.aging_caption ? `${wine.aging_caption}`: '')}</ImportantInfo>
-                        <ImportantInfo></ImportantInfo><Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume} л.</Typography.Text>   
-                        <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
-                    </Flex> 
-                  </Flex>
-                  {((wine.is_prime && isSXPrime) || !wine.is_prime) && (
-                    <AddToCartButtonWrapper>
-                      <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, wine.id)}>
-                        Хочу это вино <Avatar shape='square' src={glass}/>
-                      </AddToCartButton>
-                    </AddToCartButtonWrapper>
-                  )}
-              </ProductCard>
-            ))}
-          </ProductsGrid>
+          </PageHeader> 
+          {
+              !isLoadingProducers && !isErrorProducers && (
+                <Space vertical style={{ width: '100%', marginBottom: '16px'}}>
+                <Select 
+                  style={{ width: '100%'}}
+                  allowClear
+                  options={producers?.map((item) => ({...item, value: item.id, label: item.name})) || []}
+                  onChange={(value) => { setProducerId(value)}}
+                />
+              </Space>
+              )
+          }
+          <ResultsCount>Всего собрано: {wines?.length}</ResultsCount>
+          <br/><br/>
+          { isLoading ? (
+              <Flex style={{ alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100%'}}>
+              <Spin/>
+            </Flex>
+          ) : (
+            <ProductsGrid>  
+                {wines.map((wine) => (
+                    <ProductCard key={wine.id} to={`/wine/${wine.id}`}> 
+                      <ProductName>{wine?.name}</ProductName>     
+                
+                      <Flex style={{ width: '100%', padding: '16px '}} align={'center'} gap={16}>
+                        <div style={{ padding: 0, margin: 0, width: 130}}>
+                            {wine?.image ? (
+                              <Avatar
+                                  size={130} 
+                                  src={wine.image.replace('http', 'https')}
+                                  style={{ boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }}
+                                  />
+                              ): (
+                                <Avatar 
+                                  style={{backgroundColor: '#F5F5F5', padding: '10px', boxShadow: '2px 5px 8px rgba(0, 0, 0, 0.1)' }} 
+                                  size={130} 
+                                  src={bottle}/>
+                              )}
+                        </div>
+                        <Flex 
+                            vertical
+                            style={{ height: '100%', textAlign: 'left', flexGrow: 1}}
+                          >
+                            { wine?.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }   
+                            <ProducerName>{wine?.producer?.name}</ProducerName>
+                            <ImportantInfo>{wine?.aging ? `${wine.aging} г.`: (wine?.aging_caption ? `${wine.aging_caption}`: '')}</ImportantInfo>
+                            <ImportantInfo></ImportantInfo><Typography.Text type='secondary'>{wine.color?.name} • {wine.sugar?.name} • {wine.volume} л.</Typography.Text>   
+                            <Typography.Text type='secondary'>{wine.country?.name} • {wine.region?.name}</Typography.Text>                              
+                        </Flex> 
+                      </Flex>
+                      {((wine.is_prime && isSXPrime) || !wine.is_prime) && (
+                        <AddToCartButtonWrapper>
+                          <AddToCartButton type="primary" onClick={(e) => handleAddToCart(e, wine.id)}>
+                            Хочу это вино <Avatar shape='square' src={glass}/>
+                          </AddToCartButton>
+                        </AddToCartButtonWrapper>
+                      )}
+                  </ProductCard>
+                ))}
+              </ProductsGrid>)
+            }
           <BottomButtonWrapper>
             <BackButton size="large" onClick={() => window.location.href = '/'}>
             <Avatar size={35} src={backIcon} style={{ border: '1px solid #606060'}}/>
@@ -327,7 +345,6 @@ const WinesPage = () => {
           </BottomButtonWrapper>
         </Container>
       )
-    }
   }
 
   return (

@@ -11,6 +11,7 @@ import { getApiBaseUrl } from '../lib/api'
 import { formatDateTime } from '../lib/date'
 import cheers from '../pics/actions/cheers.svg'
 import backIcon from '../pics/actions/events.png'
+import subcrIcon from '../pics/actions/subscr.png'
 import bottle from '../pics/actions/pink.png'
 import backtoLKIcon from '../pics/actions/back.svg'
 import arrowRight from '../pics/actions/arrow-right.svg'
@@ -93,6 +94,12 @@ const AddToCartButtonWrapper = styled.div`
   justify-content: center;
 `
 
+const ButtonWrapper = styled.div`
+  z-index: 100;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+`
 
 const TabsSection = styled.div`
   margin: 24px 8px 0;
@@ -167,7 +174,7 @@ const GoldenBlock = styled.div`
   border-radius: 0.3rem;
   text-align: center;
   font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: white;
   text-align: center;
 `
@@ -358,23 +365,41 @@ const EventDetailPage = () => {
         ) : (
           <>
             <TotalBlock>Всего участников: {selectedEvent?.participants?.length || 0}</TotalBlock>
-            {selectedEvent?.participants && selectedEvent?.participants.length > 0 ? (
+            {isSXPrime && selectedEvent?.participants && (selectedEvent?.participants.length > 0) ? (
               selectedEvent?.participants.map((memberId: any) => {
                 const member = allPersons.find(({ id }) => id == memberId) || {firstname: 'Неизвестный пользователь'}
                 const initials = `${member.firstname?.[0] || ''}${member.lastname?.[0] || ''}`.toUpperCase() || member.nickname?.[0]?.toUpperCase() || 'U'
                 return (
-                  <div>
+                  <Flex align='center'>
                     <Avatar 
                       key={member.id} 
                       style={{backgroundColor: '#E7014C', padding: '15px', margin: '15px', boxShadow: '0 5px 8px rgba(0, 0, 0, 0.1)'}} 
                       size={30}
                     >
                       {initials}
-                    </Avatar>&nbsp;&nbsp;{member.firstname}&nbsp;{member.lastname}
-                  </div>
+                    </Avatar>
+                    <div>
+                      {member.firstname}&nbsp;{member.lastname}
+                      {(member.subscription.price > 0) && (<div style={{ width: 90}}><GoldenBlock>SX Prime</GoldenBlock></div>)}
+                    </div>
+                  </Flex>
                 )
               })
             ) : ''}
+            {!isSXPrime && (
+              <>
+                <br/>
+                <Typography.Text type={'secondary'}>Полный список участников доступен только пользователям с подпиской</Typography.Text>
+                <br/><br/>
+                <ButtonWrapper>
+                  <BackButton size="small" onClick={() => navigate('/subscription')}>
+                  <Avatar size={35} src={subcrIcon} style={{ border: '1px solid #606060'}}/>
+                    Выбрать подписку
+                  </BackButton>
+                </ButtonWrapper>
+                <br/>
+              </>
+            )}
           </>
         ),
       },
@@ -428,8 +453,7 @@ const EventDetailPage = () => {
                       style={{ height: '100%', textAlign: 'left', flexGrow: 1 }}
                     >
                       <div>
-                      {((selectedEvent.is_prime && isSXPrime) || !selectedEvent.is_prime) && 
-                      (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }
+                        { selectedEvent.is_prime? (<GoldenBlock>SX Prime Only</GoldenBlock>) : null }
                         <b>{selectedEvent.city.name}</b><br/>
                         <ImportantInfo>
                           {formatDateTime(selectedEvent.date, selectedEvent.time || '19:00')}
@@ -442,8 +466,7 @@ const EventDetailPage = () => {
                   </Flex> 
                 </Flex>
                 <ButtonsSection>
-                    { new Date(selectedEvent.date) > new Date() && 
-                      (
+                    { (new Date(selectedEvent.date) > new Date()) && ((selectedEvent.is_prime && isSXPrime) || !selectedEvent.is_prime) && (
                         <AddToCartButtonWrapper>
                           <AddToCartButton type="primary" size="large" onClick={(e) => handleAddToCart(e)}>
                             Хочу на эту дегустацию <Avatar src={cheers}/>

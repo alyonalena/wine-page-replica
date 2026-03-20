@@ -135,7 +135,6 @@ const TelegramVerificationModal = () => {
 
   useEffect(() => {
 
-console.info(authResult)
     if (authResult == "OK") {
       setIsVisible(false)
     } else {
