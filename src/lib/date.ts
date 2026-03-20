@@ -40,6 +40,24 @@ export const formatDateTime = (date?: string, time?: string | null): string => {
   return `${day} ${monthName} ${year} ${timeStr}`
 }
 
+export const formatDate = (date?: string): string => {
+  if (!date) return ''
+
+  const m = moment(date)
+
+  if (!m.isValid()) {
+    // Fallback to raw values if parsing fails
+    return date
+  }
+
+  const day = m.date()
+  const monthIndex = m.month() // 0-11
+  const year = m.year()
+  const monthName = MONTHS_RU[monthIndex] ?? ''
+
+  return `${day} ${monthName} ${year}`
+}
+
 
 const EVENTS = {
   _1: 'дегустация',

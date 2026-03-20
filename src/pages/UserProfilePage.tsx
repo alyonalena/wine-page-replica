@@ -15,7 +15,7 @@ import cheers from '../pics/actions/cheers.svg'
 import wineIcon from '../pics/actions/wines.png'
 import eventIcon from '../pics/actions/events.png'
 import cardImage from '../pics/main/card.png'
-import { formatDateTime, getEventLabel } from '../lib/date'
+import { formatDateTime, formatDate, getEventLabel } from '../lib/date'
 import { getApiBaseUrl } from '../lib/api'
 
 import arrowRight from '../pics/actions/arrow-right.svg'
@@ -213,7 +213,7 @@ const UserProfilePage = () => {
           <GradeBlock>
             <GoldenBlock>
             <NameCentered>Подписка {user?.subscription?.name}</NameCentered>
-              {(user?.subscription?.price > 0) && `${user?.subscription?.duration} мес. от ${formatDateTime(user?.subscription_starts_at || new Date())}`}
+              {(user?.subscription?.price > 0) && `${user?.subscription?.duration} мес. от ${formatDate(user?.subscription_starts_at || new Date())}`}
             </GoldenBlock>
           {user?.subscription?.features?.lenght > 0 && ( 
             <>
