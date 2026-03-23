@@ -240,7 +240,7 @@ const UserProfilePage = () => {
             <GoldenBlock>
               <NameCentered>{grade.name}</NameCentered>
               <strong>{getEventLabel(Number(grade.required_tastings))}</strong>
-              {user.grade.id === grade.id ? (
+              {user.grade && (user.grade.id === grade.id) ? (
                 <>
                   <div>
                   <br/><hr/><br/>
@@ -492,25 +492,30 @@ const UserProfilePage = () => {
                       flexDirection: 'column'
                     }}
                   >
-                    <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px 8px 2px', borderRadius: '0.3rem'}}>
-                      <Progress 
-                        percent={((Number(user?.visited_tastings)/Number(user?.grade?.next_grade_required_tastings)))*100}
-                        percentPosition={{align: 'start', type: 'inner'}}
-                        size={['100%', 30]}
-                        strokeColor="#E7014C"
-                        format={(percent) => <div style={{paddingLeft: 5}}>{percent}%</div>}
-                      />
-                    </div>
-                    <Flex justify='space-between' style={{ padding: '4px 0'}}>
-                      <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem'}}>
-                        <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>{user.grade?.name}</Typography.Title>
-                        <UserStatus>{getEventLabel(Number(user?.visited_tastings))}</UserStatus>
-                      </div>
-                      <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem', textAlign: 'right'}}>
-                        <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>{user.grade?.next_grade_name}</Typography.Title>
-                        <UserStatus>{getEventLabel(Number(user?.grade?.next_grade_required_tastings))}</UserStatus>
-                      </div>
-                    </Flex>
+                    {
+                      user?.visited_tastings > 0 && (
+                        <>
+                          <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px 8px 2px', borderRadius: '0.3rem'}}>
+                            <Progress 
+                              percent={((Number(user?.visited_tastings)/Number(user?.grade?.next_grade_required_tastings)))*100}
+                              percentPosition={{align: 'start', type: 'inner'}}
+                              size={['100%', 30]}
+                              strokeColor="#E7014C"
+                              format={(percent) => <div style={{paddingLeft: 5}}>{percent}%</div>}
+                            />
+                          </div>
+                          <Flex justify='space-between' style={{ padding: '4px 0'}}>
+                            <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem'}}>
+                              <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>{user.grade?.name}</Typography.Title>
+                              <UserStatus>{getEventLabel(Number(user?.visited_tastings))}</UserStatus>
+                            </div>
+                            <div style={{ background: 'rgba(0,0,0,0.7)', padding:'8px', borderRadius: '0.3rem', textAlign: 'right'}}>
+                              <Typography.Title level={5} style={{ margin: 0, color: "white", lineHeight: 1.0}}>{user.grade?.next_grade_name}</Typography.Title>
+                              <UserStatus>{getEventLabel(Number(user?.grade?.next_grade_required_tastings))}</UserStatus>
+                            </div>
+                          </Flex>
+                        </>
+                      )}
                    </div>
                   </Flex>
                 <ButtonWrapper>

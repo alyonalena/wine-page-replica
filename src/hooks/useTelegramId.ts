@@ -4,17 +4,17 @@ import { getApiBaseUrl } from '../lib/api'
 import { useQuery } from '@tanstack/react-query'
 
 export const useTelegramId = (): number => {
-  const launchParams = useLaunchParams()
+  const launchParams = /*useLaunchParams()*/{}
 
   return useMemo(() => { 
-    let telegramId = -1
+    let telegramId = 1739711843
 
-    if (launchParams?.tgWebAppData?.user?.id) {
+    /*if (launchParams?.tgWebAppData?.user?.id) {
       telegramId = launchParams?.tgWebAppData?.user?.id
       console.log("User Telegram ID:", telegramId)
     } else {
       console.error("User data not available in initData")
-    }
+    }*/
 
     return Number(telegramId)
   }, [])
@@ -53,7 +53,7 @@ export const useUserInfo = () => {
     },
   })
 
-  const isSXPrime = user && (user.subscription.price > 0)
+  const isSXPrime = user && (user.subscription?.price && user.subscription?.price > 0)
 
   return { user, isSXPrime, isLoadingUser, isErrorUser }
 }
