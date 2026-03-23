@@ -225,7 +225,7 @@ const WinesPage = () => {
   const { data: wines, isLoading, isError } = useQuery({
     queryKey: ['wines', producerId],
     queryFn: async () => {
-      const response = await fetch(`${getApiBaseUrl()}/wines/?producer_id=${producerId}`, {
+      const response = await fetch(producerId ? `${getApiBaseUrl()}/wines/?producer_id=${producerId}` : `${getApiBaseUrl()}/wines/`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
