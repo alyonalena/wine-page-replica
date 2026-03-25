@@ -78,117 +78,7 @@ const ConfirmButton = styled(Button)`
 
 const queryClient = new QueryClient()
 
-const App = () => {
-  const [isVisible, setIsVisible] = useState<boolean | null>(null)
-  const [key, setKey] = useState('')
-  const telegramId = useTelegramId()
-
-  const [notificationModal, setNotificationModal] = useState<{
-    isVisible: boolean;
-    type: 'success' | 'error' | 'warning' | 'info';
-    content: React.ReactNode;
-  }>({
-    isVisible: false,
-    type: 'info',
-    content: null,
-  })
-
-  // Check if user exists in persons list
- /* const userExists = useMemo(() => {
-    if (!persons || isLoadingPersons) return false;
-    return persons.some((person: any) => 
-      person.telegram_id !== null && person.telegram_id !== undefined && Number(person.telegram_id) === telegramId
-    );
-  }, [persons, isLoadingPersons, telegramId]);
-*/
-  // Mutation to bind telegram (verifies user by key)
-  const bindTelegramMutation = useMutation({
-    mutationFn: async ({ telegramId, key }: { telegramId: number; key: string }) => {
-      const response = await fetch(`${getApiBaseUrl()}/auth/bind-telegram/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          telegram_id: telegramId,
-          key: key,
-        }),
-      })
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ detail: 'Ошибка при отправке запроса' }))
-        throw new Error(errorData.detail || 'Ошибка при отправке запроса')
-      }
-      return response.json()
-    },
-    onSuccess: async () => {
-      setNotificationModal({
-        isVisible: true,
-        type: 'success',
-        content: 'Успешная верификация! Добро пожаловать!',
-      })
-      setIsVisible(false)
-    },
-    onError: (error: any) => {
-      setNotificationModal({
-        isVisible: true,
-        type: 'error',
-        content: error.message || 'Неверный ключ. Пожалуйста, попробуйте снова.',
-      })
-    },
-  })
-
-  const { data: authResult, isLoading: isLoadingValidation, isError: isErrorValidation } = useQuery({
-    queryKey: ['auth'],
-    queryFn: async () => {
-      const response = await fetch(`${getApiBaseUrl()}/auth/is_valid_user/?telegram_id=${telegramId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      return response.json()
-    },
-  })
-
-  useEffect(() => {
-
-    if (authResult == "OK") {
-      setIsVisible(false)
-    } else {
-      if (isLoadingValidation) {
-        setIsVisible(false)
-      } else {
-        setIsVisible(true)
-      }
-    }
-  }, [authResult, isLoadingValidation])
-
-  const handleConfirm = () => {
-    if (!key.trim()) {
-      setNotificationModal({
-        isVisible: true,
-        type: 'warning',
-        content: 'Пожалуйста, введите ключ',
-      });
-      return;
-    }
-    bindTelegramMutation.mutate({ telegramId, key });
-  }
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleConfirm();
-    }
-  }
-
-  if (isVisible === null || !isVisible) {
-    return null
-  }
-
-  return (
+const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <ConfigProvider
@@ -218,41 +108,10 @@ const App = () => {
       >
         <Toaster />
         <Sonner />
-        <>
-          <NotificationModal
-            isVisible={notificationModal.isVisible}
-            onClose={() => setNotificationModal({ ...notificationModal, isVisible: false })}
-            type={notificationModal.type}
-            content={notificationModal.content}
-            duration={3000}
-          />
-          <ModalOverlay>
-            <ModalContent>
-              <ModalTitle>Верификация пользователя</ModalTitle>
-              <ModalText>
-                Для доступа к приложению необходимо ввести ключ, предоставленный администратором.
-              </ModalText>
-              <StyledInput
-                placeholder="Введите ключ"
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-                onKeyPress={handleKeyPress}
-                disabled={bindTelegramMutation.isPending}
-              />
-              <ConfirmButton
-                type="primary"
-                onClick={handleConfirm}
-                loading={bindTelegramMutation.isPending}
-              >
-                Подтвердить
-              </ConfirmButton>
-            </ModalContent>
-          </ModalOverlay>
-        </>
-        { authResult == "OK" && (
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
+        <TelegramVerificationModal />
+       <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
               <Route path="/wines" element={<WinesPage />} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/subscription" element={<SubscriptionPage />} />
@@ -265,12 +124,11 @@ const App = () => {
               <Route path="/producer/:id" element={<ProducerDetailPage />} />
               <Route path="/rules" element={<ClubRulesPage />} />
               <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter> 
-        )}     
+          </Routes>
+        </BrowserRouter>    
       </ConfigProvider>
     </TooltipProvider>
   </QueryClientProvider>
-)}
+)
 
 export default App
