@@ -17,6 +17,7 @@ const PageWrapper = styled.div`
   min-height: 100vh;
   background: #ffffff;
 `
+
 const Container = styled.div`
   animation: slideUp 0.4s ease;
   max-width: 1280px;
@@ -156,7 +157,6 @@ const GoldenBlock = styled.div`
   text-align: center;
 `
 
-
 const WinesPage = () => {
   const telegramId = useTelegramId()
   const { isSXPrime } = useUserInfo()
@@ -170,7 +170,7 @@ const WinesPage = () => {
     isVisible: false,
     type: 'info',
     content: null,
-  });
+  })
 
   const showSuccessNotification = () => {
     setNotificationModal({
@@ -178,8 +178,8 @@ const WinesPage = () => {
       type: 'success',
       content: <>Спасибо за интерес!<br/><br/>SX Wine свяжется с Вамим в ближайшее время</>,
       icon: <Avatar src={glass} style={{backgroundColor: '#E7014C', padding: '10px'}} size={70}/>,
-    });
-  };
+    })
+  }
 
   const mutation = useMutation({
     mutationFn: async ({ wineId, telegramId }: { wineId: number; telegramId: number }) => {

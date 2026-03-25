@@ -61,7 +61,6 @@ const TelegramVerificationModal = () => {
   const [isVisible, setIsVisible] = useState<boolean | null>(null)
   const [key, setKey] = useState('')
   const telegramId = useTelegramId()
-  const queryClient = useQueryClient()
 
   const [notificationModal, setNotificationModal] = useState<{
     isVisible: boolean;

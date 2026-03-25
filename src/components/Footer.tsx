@@ -1,23 +1,29 @@
-import styled from 'styled-components';
-import { Input, Button } from 'antd';
+import styled from 'styled-components'
+import { useState } from 'react'
+import { Input, Button, Avatar } from 'antd'
 import {
   InstagramOutlined,
-} from '@ant-design/icons';
-import { theme } from '../styles/theme';
-import { useNavigate } from 'react-router-dom'
+} from '@ant-design/icons'
+
+import backIcon from '../pics/logo.png'
+import { theme } from '../styles/theme'
+import NotificationModal from '../components/NotificationModal'
+import { getApiBaseUrl } from '../lib/api'
+import { useMutation } from '@tanstack/react-query'
+import { useTelegramId } from '../hooks/useTelegramId'
 
 const FooterWrapper = styled.footer`
   background: ${theme.colors.foreground};
   color: white;
   padding: 16px 0 ;
   margin-top: 48px;
-`;
+`
 
 const FooterContainer = styled.div`
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 20px;
-`;
+`
 
 const FooterGrid = styled.div`
   display: grid;
@@ -36,35 +42,14 @@ const FooterGrid = styled.div`
   @media (max-width: ${theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
   }
-`;
-
-const FooterColumn = styled.div``;
-
-const FooterLogo = styled.div`
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  
-  span {
-    opacity: 0.7;
-  }
-`;
+`
 
 const FooterText = styled.p`
   font-size: 14px;
   opacity: 0.7;
   line-height: 1.6;
   margin: 0 0 16px;
-`;
-
-const FooterTitle = styled.h4`
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0 0 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-`;
-
+`
 
 const NewsletterForm = styled.div`
   display: flex;
@@ -84,13 +69,13 @@ const NewsletterForm = styled.div`
       border-color: ${theme.colors.primary};
     }
   }
-`;
+`
 
 const SocialLinks = styled.div`
   display: flex;
   gap: 12px;
   margin: 0 0 16px;
-`;
+`
 
 const SocialIcon = styled.a`
   width: 40px;
@@ -110,7 +95,7 @@ const SocialIcon = styled.a`
   .anticon {
     font-size: 18px;
   }
-`;
+`
 
 const FooterBottom = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -120,17 +105,91 @@ const FooterBottom = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
-`;
+`
 
 
 const Footer = () => {
-  const navigate = useNavigate()
+  const telegramId = useTelegramId()
+  const [notificationModal, setNotificationModal] = useState<{
+    isVisible: boolean;
+    type: 'success' | 'error' | 'warning' | 'info';
+    content: React.ReactNode;
+    icon?: React.ReactNode;
+  }>({
+    isVisible: false,
+    type: 'info',
+    content: null,
+  })
+
+  const [ email, setEmail ] = useState('')
+
+  const showSuccessNotification = () => {
+    setNotificationModal({
+      isVisible: true,
+      type: 'success',
+      content: <>Спасибо за интерес!<br/><br/>Вы будете получать новости на указанный адрес!</>,
+      icon: <Avatar src={backIcon} style={{backgroundColor: '#E7014C', padding: '10px'}} size={70}/>,
+    });
+  };
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`${getApiBaseUrl()}/notifications/subscribe-interest/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          telegram_id: telegramId,
+          email
+        }),
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+    onSuccess: (data) => {
+      console.log('Wine interest notification sent successfully:', data)
+      showSuccessNotification()
+    },
+    onError: (error) => {
+      console.error('Error sending wine interest notification:', error)
+      setNotificationModal({
+        isVisible: true,
+        type: 'error',
+        content: 'Произошла ошибка при отправке запроса. Попробуйте позже.',
+      })
+    },
+  })
+  
+  const onSaveEmail = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (validate(email)) {      
+      mutation.mutate()
+    } else {
+      setNotificationModal({
+        isVisible: true,
+        type: 'error',
+        content: <>Введите корректный адрес</>,
+        icon: <Avatar src={backIcon} style={{backgroundColor: '#E7014C', padding: '10px'}} size={70}/>,
+      })
+    } 
+  }
 
   return (
     <FooterWrapper>
+      <NotificationModal
+        isVisible={notificationModal.isVisible}
+        onClose={() => setNotificationModal({ ...notificationModal, isVisible: false })}
+        type={notificationModal.type}
+        content={notificationModal.content}
+        icon={notificationModal.icon}
+      />
       <FooterContainer>
         <FooterGrid>   
-          <FooterColumn>
+          <div>
             <SocialLinks>
               <SocialIcon href="https://www.instagram.com/sx_wine"><InstagramOutlined /></SocialIcon>
             </SocialLinks>
@@ -138,10 +197,10 @@ const Footer = () => {
               Получайте информацию о новинках, акциях и эксклюзивных предложениях
             </FooterText>
             <NewsletterForm>
-              <Input placeholder="Ваш email" />
-              <Button type="primary">Подписаться</Button>
+              <Input placeholder="Ваш email" value={email} onChange={(e) => setEmail(e.target.value) }/>
+              <Button type="primary" onClick={onSaveEmail}>Подписаться</Button>
             </NewsletterForm>            
-          </FooterColumn>
+          </div>
         </FooterGrid>        
         <FooterBottom>
           <FooterText>
@@ -150,7 +209,7 @@ const Footer = () => {
         </FooterBottom>
       </FooterContainer>
     </FooterWrapper>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer
