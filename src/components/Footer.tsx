@@ -166,7 +166,9 @@ const Footer = () => {
   const onSaveEmail = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    if (validate(email)) {      
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+    if (emailPattern.test(email)) {      
       mutation.mutate()
     } else {
       setNotificationModal({

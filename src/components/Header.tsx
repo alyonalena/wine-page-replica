@@ -46,7 +46,6 @@ const LocationSelect = styled.div`
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  
   &:hover {
     color: ${theme.colors.primary};
   }
@@ -77,16 +76,15 @@ const ActionItem = styled.div`
   cursor: pointer;
   color: ${theme.colors.foreground};
   font-size: 12px;
-  
   .anticon {
     font-size: 22px;
-  }
-  
+  }  
   &:hover {
     color: ${theme.colors.primary};
   }
-  
-`;const DrawerContent = styled.div`
+`
+
+const DrawerContent = styled.div`
   padding: 0;
 `
 
@@ -102,7 +100,6 @@ const DrawerLogo = styled.div`
   font-size: 20px;
   font-weight: 700;
   color: ${theme.colors.primary};
-  
   span {
     color: ${theme.colors.foreground};
   }
@@ -120,8 +117,7 @@ const DrawerNavItem = styled(Link)<{ $isSpecial?: boolean }>`
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
-  transition: ${theme.transitions.default};
-  
+  transition: ${theme.transitions.default};  
   &:hover {
     background: ${theme.colors.lightBg};
     color: ${theme.colors.primary};
@@ -147,17 +143,16 @@ const DrawerLink = styled.a`
   color: ${theme.colors.foreground};
   text-decoration: none;
   font-size: 14px;
-  
   &:hover {
     color: ${theme.colors.primary};
   }
 `
 
-
 const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const launchParams = /*useLaunchParams()*/ {}
   const navigate = useNavigate()
+
   const navItems = [
     { label: 'Дегустации', href: '/events'},
     { label: 'Коллекция вин', href: '/wines' },
@@ -179,7 +174,6 @@ const Header = () => {
           </div>
         </TopBarContainer>
       </TopBar>
-      
       <MainHeader>
         <LeftSection onClick={() => navigate('/')}>
           <Flex align={"center"} gap={8}>
@@ -208,7 +202,6 @@ const Header = () => {
           </ActionItem>
         </Flex>
       </MainHeader>
-      
       <Drawer
         placement="left"
         open={drawerOpen}
@@ -222,7 +215,6 @@ const Header = () => {
             <DrawerLogo>SX<span>Wine</span></DrawerLogo>
             <CloseButton icon={<CloseOutlined />} onClick={() => setDrawerOpen(false)} />
           </DrawerHeader>
-          
           <DrawerSection>
           <DrawerSectionTitle>У нас в клубе</DrawerSectionTitle>
               {navItems.map((item) => (
@@ -271,3 +263,4 @@ const Header = () => {
 }
 
 export default Header
+
