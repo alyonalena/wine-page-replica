@@ -18,63 +18,6 @@ import ProducerDetailPage from "./pages/ProducerDetailPage"
 import ClubRulesPage from './pages/ClubRules'
 import SubscriptionPage from './pages/SubscriptionPage'
 import TelegramVerificationModal from './components/TelegramVerificationModal'
-import { useState, useEffect, useMemo } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import styled from 'styled-components'
-import { Button, Input, Spin } from 'antd'
-import { theme } from './styles/theme'
-import { useTelegramId } from './hooks/useTelegramId'
-import NotificationModal from './components/NotificationModal'
-import { getApiBaseUrl } from './lib/api'
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-`;
-
-const ModalContent = styled.div`
-  background: white;
-  border-radius: 16px;
-  padding: 48px;
-  max-width: 480px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-`;
-
-const ModalTitle = styled.h2`
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0 0 16px;
-  color: ${theme.colors.foreground};
-`;
-
-const ModalText = styled.p`
-  font-size: 15px;
-  color: ${theme.colors.muted};
-  margin: 0 0 24px;
-  line-height: 1.6;
-`;
-
-const StyledInput = styled(Input)`
-  margin-bottom: 24px;
-  height: 48px;
-  font-size: 16px;
-`;
-
-const ConfirmButton = styled(Button)`
-  width: 100%;
-  height: 52px;
-  font-size: 16px;
-  font-weight: 500;
-  border-radius: 8px;
-`;
 
 const queryClient = new QueryClient()
 

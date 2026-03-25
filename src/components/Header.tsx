@@ -150,7 +150,7 @@ const DrawerLink = styled.a`
 
 const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const launchParams = /*useLaunchParams()*/ {}
+  const launchParams = useLaunchParams()
   const navigate = useNavigate()
 
   const navItems = [
